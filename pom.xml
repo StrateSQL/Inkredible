@@ -11,18 +11,59 @@
 		<maven.compiler.target>11</maven.compiler.target>
 	</properties>
 	<dependencies>
+		<!-- JUnit 5 -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit 5 API -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit 5 Engine (for test execution) -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit Platform Commons (required for JUnit 5) -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-commons</artifactId>
+			<version>1.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JUnit Platform Engine (required for JUnit 5) -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-engine</artifactId>
+			<version>1.10.0</version>
+			<scope>test</scope>
+		</dependency>
+
+
 		<!-- Apache HttpClient -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.14</version> <!-- Use the latest version -->
+			<version>4.5.14</version> 
 		</dependency>
-		
+
 		<!-- Slf4j (Logging Implementation) -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>2.0.9</version> <!-- Use the latest version -->
+			<version>2.0.9</version> 
 		</dependency>
 
 		<!-- Logback (Logging Implementation) -->
@@ -43,6 +84,42 @@
 			<artifactId>javafx-fxml</artifactId>
 			<version>13</version>
 		</dependency>
+
+		<!-- Jackson Core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.15.0</version> 
+		</dependency>
+
+		<!-- Jackson Databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.15.2</version> 
+		</dependency>
+
+		<!-- Jackson Annotations -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.15.2</version> 
+		</dependency>
+
+    <!-- Java Persistence API (JPA) -->
+    <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>javax.persistence-api</artifactId>
+        <version>2.2</version> 
+    </dependency>
+    
+     <!-- Java Validation API (JSR 380) -->
+    <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>2.0.1.Final</version> 
+    </dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
@@ -53,6 +130,11 @@
 				<configuration>
 					<release>11</release>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.1.2</version>
 			</plugin>
 			<plugin>
 				<groupId>org.openjfx</groupId>

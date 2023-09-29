@@ -1,6 +1,5 @@
 package com.capstone.printify.connector;
 
-public class PrintifyCatalog {
-
+public class PrintifyShop {
 
 }
