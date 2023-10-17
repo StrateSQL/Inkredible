@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="connection.url">jdbc:sqlserver://printify-server.database.windows.net:1433;database=printify-db</property>
+    <property name="connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
+    <property name="connection.username">CloudSAb911e847</property>
+    <property name="connection.password">Printify2023</property>
+    <mapping class="com.printifyproject.datamodel.BlueprintPrintProviderColor"/>
+    <mapping class="com.printifyproject.datamodel.BlueprintPrintProviderSize"/>
+    <mapping class="com.printifyproject.datamodel.BlueprintPrintProvider"/>
+    <mapping class="com.printifyproject.datamodel.Blueprint"/>
+    <mapping class="com.printifyproject.datamodel.Color"/>
+    <mapping class="com.printifyproject.datamodel.Design"/>
+    <mapping class="com.printifyproject.datamodel.PrintProvider"/>
+    <mapping class="com.printifyproject.datamodel.PrintSpecColor"/>
+    <mapping class="com.printifyproject.datamodel.PrintSpecSize"/>
+    <mapping class="com.printifyproject.datamodel.PrintSpec"/>
+    <mapping class="com.printifyproject.datamodel.Product"/>
+    <mapping class="com.printifyproject.datamodel.Size"/>
+
+  </session-factory>
+</hibernate-configuration>
