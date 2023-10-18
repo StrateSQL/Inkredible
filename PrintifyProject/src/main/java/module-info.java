@@ -11,6 +11,7 @@ module com.printifyproject.printifyproject {
     requires okhttp3;
     requires java.persistence;
     requires annotations;
+    requires javafx.graphics;
 
 
     opens com.printifyproject.printifyproject to javafx.fxml;

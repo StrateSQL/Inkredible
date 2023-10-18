@@ -5,106 +5,64 @@ import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.Objects;
 
-@Entity
-@Table(name = "BlueprintPrintProviders", schema = "dbo", catalog = "printify-db")
-public class BlueprintPrintProvider {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "BlueprintPrintProviderId", nullable = false)
-    private int blueprintPrintProviderId;
-    @Basic
-    @Column(name = "BlueprintId", nullable = true)
-    private Integer blueprintId;
-    @Basic
-    @Column(name = "PrintProviderId", nullable = true)
-    private Integer printProviderId;
-    @OneToMany(mappedBy = "blueprintPrintProvidersByBlueprintPrintProviderId")
-    private Collection<BlueprintPrintProviderColor> blueprintPrintProviderColorsByBlueprintPrintProviderId;
-    @OneToMany(mappedBy = "blueprintPrintProvidersByBlueprintPrintProviderId")
-    private Collection<BlueprintPrintProviderSize> blueprintPrintProviderSizesByBlueprintPrintProviderId;
-    @ManyToOne
-    @JoinColumn(name = "BlueprintId", referencedColumnName = "BlueprintId")
-    private Blueprint blueprintsByBlueprintId;
-    @ManyToOne
-    @JoinColumn(name = "PrintProviderId", referencedColumnName = "PrintProviderId")
-    private PrintProvider printProvidersByPrintProviderId;
-    @OneToMany(mappedBy = "blueprintPrintProvidersByBlueprintPrintProviderId")
-    private Collection<PrintSpec> printSpecsByBlueprintPrintProviderId;
 
-    public int getBlueprintPrintProviderId() {
+@Entity
+@Table(name = "BlueprintPrintProviders")
+public class BlueprintPrintProvider {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BlueprintPrintProviderId")
+    private long blueprintPrintProviderId;
+
+    private Blueprint blueprint;
+
+    private PrintProvider printProvider;
+
+    private Collection<Color> availableColors;
+
+    private Collection<Size> availableSizes;
+
+    //Constructor for hibernate
+    public BlueprintPrintProvider() { }
+
+    public long getBlueprintPrintProviderId() {
         return blueprintPrintProviderId;
     }
 
-    public void setBlueprintPrintProviderId(int blueprintPrintProviderId) {
+    public void setBlueprintPrintProviderId(long blueprintPrintProviderId) {
         this.blueprintPrintProviderId = blueprintPrintProviderId;
     }
 
-    public Integer getBlueprintId() {
-        return blueprintId;
+    public Blueprint getBlueprint() {
+        return blueprint;
     }
 
-    public void setBlueprintId(Integer blueprintId) {
-        this.blueprintId = blueprintId;
+    public void setBlueprint(Blueprint blueprint) {
+        this.blueprint = blueprint;
     }
 
-    public Integer getPrintProviderId() {
-        return printProviderId;
+    public PrintProvider getPrintProvider() {
+        return printProvider;
     }
 
-    public void setPrintProviderId(Integer printProviderId) {
-        this.printProviderId = printProviderId;
+    public void setPrintProvider(PrintProvider printProvider) {
+        this.printProvider = printProvider;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BlueprintPrintProvider that = (BlueprintPrintProvider) o;
-        return blueprintPrintProviderId == that.blueprintPrintProviderId && Objects.equals(blueprintId, that.blueprintId) && Objects.equals(printProviderId, that.printProviderId);
+    public Collection<Color> getAvailableColors() {
+        return availableColors;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(blueprintPrintProviderId, blueprintId, printProviderId);
+    public void setAvailableColors(Collection<Color> availableColors) {
+        this.availableColors = availableColors;
     }
 
-    public Collection<BlueprintPrintProviderColor> getBlueprintPrintProviderColorsByBlueprintPrintProviderId() {
-        return blueprintPrintProviderColorsByBlueprintPrintProviderId;
+    public Collection<Size> getAvailableSizes() {
+        return availableSizes;
     }
 
-    public void setBlueprintPrintProviderColorsByBlueprintPrintProviderId(Collection<BlueprintPrintProviderColor> blueprintPrintProviderColorsByBlueprintPrintProviderId) {
-        this.blueprintPrintProviderColorsByBlueprintPrintProviderId = blueprintPrintProviderColorsByBlueprintPrintProviderId;
+    public void setAvailableSizes(Collection<Size> availableSizes) {
+        this.availableSizes = availableSizes;
     }
 
-    public Collection<BlueprintPrintProviderSize> getBlueprintPrintProviderSizesByBlueprintPrintProviderId() {
-        return blueprintPrintProviderSizesByBlueprintPrintProviderId;
-    }
-
-    public void setBlueprintPrintProviderSizesByBlueprintPrintProviderId(Collection<BlueprintPrintProviderSize> blueprintPrintProviderSizesByBlueprintPrintProviderId) {
-        this.blueprintPrintProviderSizesByBlueprintPrintProviderId = blueprintPrintProviderSizesByBlueprintPrintProviderId;
-    }
-
-    public Blueprint getBlueprintsByBlueprintId() {
-        return blueprintsByBlueprintId;
-    }
-
-    public void setBlueprintsByBlueprintId(Blueprint blueprintsByBlueprintId) {
-        this.blueprintsByBlueprintId = blueprintsByBlueprintId;
-    }
-
-    public PrintProvider getPrintProvidersByPrintProviderId() {
-        return printProvidersByPrintProviderId;
-    }
-
-    public void setPrintProvidersByPrintProviderId(PrintProvider printProvidersByPrintProviderId) {
-        this.printProvidersByPrintProviderId = printProvidersByPrintProviderId;
-    }
-
-    public Collection<PrintSpec> getPrintSpecsByBlueprintPrintProviderId() {
-        return printSpecsByBlueprintPrintProviderId;
-    }
-
-    public void setPrintSpecsByBlueprintPrintProviderId(Collection<PrintSpec> printSpecsByBlueprintPrintProviderId) {
-        this.printSpecsByBlueprintPrintProviderId = printSpecsByBlueprintPrintProviderId;
-    }
 }

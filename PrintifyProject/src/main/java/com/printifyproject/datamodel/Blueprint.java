@@ -6,43 +6,46 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Blueprints", schema = "dbo", catalog = "printify-db")
+@Table(name = "Blueprints")
 public class Blueprint {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "BlueprintId", nullable = false)
-    private int blueprintId;
-    @Basic
-    @Column(name = "BlueprintKey", nullable = true)
-    private Integer blueprintKey;
-    @Basic
-    @Column(name = "Title", nullable = true, length = 2147483647)
-    private String title;
-    @Basic
-    @Column(name = "Model", nullable = true, length = 2147483647)
-    private String model;
-    @Basic
-    @Column(name = "Brand", nullable = true, length = 2147483647)
-    private String brand;
-    @Basic
-    @Column(name = "Description", nullable = true, length = 2147483647)
-    private String description;
-    @OneToMany(mappedBy = "blueprintsByBlueprintId")
-    private Collection<BlueprintPrintProvider> blueprintPrintProvidersByBlueprintId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "BlueprintId")
+    private long blueprintId;
 
-    public int getBlueprintId() {
+    @Column(name = "BlueprintKey")
+    private int blueprintKey;
+
+    @Column(name = "Title")
+    private String title;
+
+    @Column(name = "Model")
+    private String model;
+
+    @Column(name = "Brand")
+    private String brand;
+
+    @Column(name = "Description")
+    private String description;
+
+    private Collection<String> imageList;
+
+    //Constructor for hibernate
+    public Blueprint() { }
+
+    public long getBlueprintId() {
         return blueprintId;
     }
 
-    public void setBlueprintId(int blueprintId) {
+    public void setBlueprintId(long blueprintId) {
         this.blueprintId = blueprintId;
     }
 
-    public Integer getBlueprintKey() {
+    public int getBlueprintKey() {
         return blueprintKey;
     }
 
-    public void setBlueprintKey(Integer blueprintKey) {
+    public void setBlueprintKey(int blueprintKey) {
         this.blueprintKey = blueprintKey;
     }
 
@@ -78,24 +81,12 @@ public class Blueprint {
         this.description = description;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Blueprint blueprint = (Blueprint) o;
-        return blueprintId == blueprint.blueprintId && Objects.equals(blueprintKey, blueprint.blueprintKey) && Objects.equals(title, blueprint.title) && Objects.equals(model, blueprint.model) && Objects.equals(brand, blueprint.brand) && Objects.equals(description, blueprint.description);
+    public Collection<String> getImageList() {
+        return imageList;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(blueprintId, blueprintKey, title, model, brand, description);
-    }
-
-    public Collection<BlueprintPrintProvider> getBlueprintPrintProvidersByBlueprintId() {
-        return blueprintPrintProvidersByBlueprintId;
-    }
-
-    public void setBlueprintPrintProvidersByBlueprintId(Collection<BlueprintPrintProvider> blueprintPrintProvidersByBlueprintId) {
-        this.blueprintPrintProvidersByBlueprintId = blueprintPrintProvidersByBlueprintId;
+    public void setImageList(Collection<String> imageList) {
+        this.imageList = imageList;
     }
 }
+

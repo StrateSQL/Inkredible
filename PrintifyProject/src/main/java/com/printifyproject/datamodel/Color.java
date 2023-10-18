@@ -6,28 +6,28 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "Colors", schema = "dbo", catalog = "printify-db")
+@Table(name = "Colors")
 public class Color {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "ColorId", nullable = false)
-    private int colorId;
-    @Basic
-    @Column(name = "Color", nullable = true, length = 2147483647)
-    private String color;
-    @Basic
-    @Column(name = "Hex", nullable = true, length = 10)
-    private String hex;
-    @OneToMany(mappedBy = "colorsByColorId")
-    private Collection<BlueprintPrintProviderColor> blueprintPrintProviderColorsByColorId;
-    @OneToMany(mappedBy = "colorsByColorId")
-    private Collection<PrintSpecColor> printSpecColorsByColorId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ColorId")
+    private long colorId;
 
-    public int getColorId() {
+    @Column(name = "Color")
+    private String color;
+
+    @Column(name = "Hex")
+    private String hex;
+
+    //Constructor for hibernate
+    public Color() {
+    }
+
+    public long getColorId() {
         return colorId;
     }
 
-    public void setColorId(int colorId) {
+    public void setColorId(long colorId) {
         this.colorId = colorId;
     }
 
@@ -45,34 +45,5 @@ public class Color {
 
     public void setHex(String hex) {
         this.hex = hex;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Color color1 = (Color) o;
-        return colorId == color1.colorId && Objects.equals(color, color1.color) && Objects.equals(hex, color1.hex);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(colorId, color, hex);
-    }
-
-    public Collection<BlueprintPrintProviderColor> getBlueprintPrintProviderColorsByColorId() {
-        return blueprintPrintProviderColorsByColorId;
-    }
-
-    public void setBlueprintPrintProviderColorsByColorId(Collection<BlueprintPrintProviderColor> blueprintPrintProviderColorsByColorId) {
-        this.blueprintPrintProviderColorsByColorId = blueprintPrintProviderColorsByColorId;
-    }
-
-    public Collection<PrintSpecColor> getPrintSpecColorsByColorId() {
-        return printSpecColorsByColorId;
-    }
-
-    public void setPrintSpecColorsByColorId(Collection<PrintSpecColor> printSpecColorsByColorId) {
-        this.printSpecColorsByColorId = printSpecColorsByColorId;
     }
 }
