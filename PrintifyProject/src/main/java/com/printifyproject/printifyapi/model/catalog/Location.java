@@ -2,7 +2,7 @@ package com.printifyproject.printifyapi.model.catalog;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.Email;
+import jakarta.validation.constraints.Email;
 
 public class Location {
     @JsonProperty("address1")

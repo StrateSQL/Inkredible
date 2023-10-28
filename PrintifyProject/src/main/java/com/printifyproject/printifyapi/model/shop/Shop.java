@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 public class Shop {
     private static final Logger logger = LoggerFactory.getLogger(Shop.class);
