@@ -1,19 +1,22 @@
 package com.printifyproject.printifyapi.model.shop;
 
-import com.printifyproject.printifyapi.connector.ApiShop;
+import com.printifyproject.printifyapi.api.ApiShop;
+import com.printifyproject.printifyapi.shop.Shop;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ShopTest {
     List<Shop> shops;
 
     @BeforeEach
     void setUp() {
-        Logger logger = LoggerFactory.getLogger(Shop.class);
+        Logger logger = LogManager.getLogger();
         var apiShop = new ApiShop(logger);
         shops = apiShop.getShops();
     }

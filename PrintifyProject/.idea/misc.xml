@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
@@ -10,6 +11,13 @@
   <component name="PWA">
     <option name="enabled" value="true" />
     <option name="wasEnabledAtLeastOnce" value="true" />
+  </component>
+  <component name="ProjectResources">
+    <resource url="https://www.springframework.org/schema/beans" location="$PROJECT_DIR$" />
+    <resource url="https://www.springframework.org/schema/context" location="$PROJECT_DIR$" />
+    <resource url="https://www.springframework.org/schema/p" location="$PROJECT_DIR$" />
+    <resource url="https://www.springframework.org/schema/tx" location="$PROJECT_DIR$" />
+    <resource url="https://www.w3.org/2001/XMLSchema-instance" location="$PROJECT_DIR$" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_18" default="true" project-jdk-name="18" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />

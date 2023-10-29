@@ -1,10 +1,11 @@
 package com.printifyproject.printifyapi.connector;
 
-import com.printifyproject.printifyapi.model.shop.Shop;
+import com.printifyproject.printifyapi.api.ApiShop;
+import com.printifyproject.printifyapi.shop.Shop;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ class ApiShopTest {
 
     @BeforeEach
     void setUp() {
-        Logger logger = LoggerFactory.getLogger(ApiShop.class);
+        Logger logger = LogManager.getLogger();
         apiShop = new ApiShop(logger);
     }
 
