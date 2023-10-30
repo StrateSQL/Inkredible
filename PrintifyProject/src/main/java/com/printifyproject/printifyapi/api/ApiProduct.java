@@ -1,6 +1,7 @@
 package com.printifyproject.printifyapi.api;
 
 import com.printifyproject.printifyapi.product.Product;
+import com.printifyproject.printifyapi.product.ProductSet;
 import org.jetbrains.annotations.Nullable;
 import org.apache.logging.log4j.Logger;
 
@@ -17,15 +18,15 @@ public class ApiProduct {
         return apiConnector.getObject(endpoint, Product.class);
     }
 
-    public Product getProducts(int shopId) {
+    public ProductSet getProducts(int shopId) {
         return getProducts(shopId, 10, null);
     }
 
-    public Product getProducts(int shopId, @Nullable Integer limit){
+    public ProductSet getProducts(int shopId, @Nullable Integer limit){
         return getProducts(shopId, limit, null);
     }
 
-    public Product getProducts(int shopId, @Nullable Integer limit, @Nullable Integer page) {
+    public ProductSet getProducts(int shopId, @Nullable Integer limit, @Nullable Integer page) {
         if (limit != null && limit > 100) {
             throw new IllegalArgumentException("Limit cannot be more than 100.");
         }
@@ -45,7 +46,7 @@ public class ApiProduct {
             }
         }
 
-        return apiConnector.getObject(endpoint, Product.class);
+        return apiConnector.getObject(endpoint, ProductSet.class);
     }
 
 }
