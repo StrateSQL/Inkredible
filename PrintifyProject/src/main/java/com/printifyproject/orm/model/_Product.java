@@ -3,16 +3,16 @@ package com.printifyproject.orm.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 @Entity
-public class Product {
+public class _Product {
 
     @Id
     private Integer id;
     private String name;
 
-    public Product() {
+    public _Product() {
     }
 
-    public Product(Integer id, String name) {
+    public _Product(Integer id, String name) {
         this.id = id;
         this.name = name;
     }

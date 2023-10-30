@@ -1,6 +1,6 @@
 package com.printifyproject.orm.dao;
 
-import com.printifyproject.orm.model.ProductEntity;
+import com.printifyproject.orm.model.PrintSpecSizeEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
@@ -9,36 +9,36 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class ProductDao {
+public class PrintSpecSizeDao {
 
     @PersistenceContext
     private EntityManager em;
 
     @Transactional
-    public void persist(ProductEntity entity) {
+    public void persist(PrintSpecSizeEntity entity) {
         em.persist(entity);
     }
 
-    public ProductEntity findById(int id) {
-        return em.find(ProductEntity.class, id);
+    public PrintSpecSizeEntity findById(int id) {
+        return em.find(PrintSpecSizeEntity.class, id);
     }
 
-    public List<ProductEntity> findAll() {
-        return em.createQuery("SELECT p FROM ProductEntity p", ProductEntity.class).getResultList();
+    public List<PrintSpecSizeEntity> findAll() {
+        return em.createQuery("SELECT p FROM PrintSpecSizeEntity p", PrintSpecSizeEntity.class).getResultList();
     }
 
     @Transactional
-    public void remove(ProductEntity entity) {
+    public void remove(PrintSpecSizeEntity entity) {
         em.remove(em.contains(entity) ? entity : em.merge(entity));
     }
 
     @Transactional
-    public ProductEntity update(ProductEntity entity) {
+    public PrintSpecSizeEntity update(PrintSpecSizeEntity entity) {
         return em.merge(entity);
     }
 
     public long count() {
-        return em.createQuery("SELECT COUNT(p) FROM ProductEntity p", Long.class).getSingleResult();
+        return em.createQuery("SELECT COUNT(p) FROM PrintSpecSizeEntity p", Long.class).getSingleResult();
     }
 
     public boolean existsById(int id) {
@@ -46,5 +46,5 @@ public class ProductDao {
     }
 
     // Optionally, you can add more specific methods as needed:
-    // e.g. findByDesignId, findByPrintSpecId, findByIsPublished, etc.
+    // e.g. findByPrintSpecId, findBySizeId, etc.
 }

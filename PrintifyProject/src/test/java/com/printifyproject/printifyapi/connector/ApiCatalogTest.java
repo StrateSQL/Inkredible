@@ -1,22 +1,22 @@
 package com.printifyproject.printifyapi.connector;
 
-import com.printifyproject.printifyapi.model.catalog.Blueprint;
-import com.printifyproject.printifyapi.model.catalog.PrintProvider;
+import com.printifyproject.printifyapi.api.ApiCatalog;
+import com.printifyproject.printifyapi.catalog.PrintProvider;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ApiCatalogTest {
     ApiCatalog apiCatalog;
 
     @BeforeEach
     void setUp() {
-        Logger logger = LoggerFactory.getLogger(ApiCatalog.class);
+        Logger logger = LogManager.getLogger();
         apiCatalog = new ApiCatalog(logger);
     }
 
