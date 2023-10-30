@@ -1,7 +1,7 @@
 package com.printifyproject.printifyapi.connector;
 
 import com.printifyproject.printifyapi.api.ApiConnector;
-import com.printifyproject.printifyapi.catalog.PrintProvider;
+import com.printifyproject.printifyapi.catalog.*;
 import com.printifyproject.printifyapi.shop.Shop;
 import okhttp3.Request;
 import org.apache.logging.log4j.LogManager;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,17 +29,17 @@ class ApiConnectorTest {
 
     @Test
     void sendRequest() {
-        /* Test 1: Create request to Printify's base URL */
-        Request baseRequest = apiConnector.createRequest("");
-        assertEquals(404, apiConnector.sendRequest(baseRequest).code());
-
-        /* Test 2: Create unauthenticated request to retrieve blueprints from catalog */
+        /* Create & send unauthenticated request to retrieve blueprints from catalog */
         Request unauthenticatedRequest = new Request.Builder()
                 .url(BASE_URL + BLUEPRINTS_URL)
                 .build();
         assertEquals(401, apiConnector.sendRequest(unauthenticatedRequest).code());
 
-        /* Test 3: Create request to retrieve blueprints from catalog */
+        /* Create & send request to Printify's base URL */
+        Request baseRequest = apiConnector.createRequest("");
+        assertEquals(404, apiConnector.sendRequest(baseRequest).code());
+
+        /* Create & send request to retrieve blueprints from catalog */
         Request blueprintsRequest = apiConnector.createRequest(BLUEPRINTS_URL);
         assertEquals(200, apiConnector.sendRequest(blueprintsRequest).code());
     }
@@ -61,12 +62,16 @@ class ApiConnectorTest {
 
     @Test
     void getObject() {
-        //Get the Object shop
+        //Get the array of shops,
         Shop[] shops = apiConnector.getObject(SHOPS_URL, Shop[].class);
-        Shop shop = shops[0];
-        System.out.println(shop.getShopId() + shop.getTitle() + shop.getSalesChannel());
+        assertEquals(1, shops.length);  //Only 1 shop to get
 
-//        apiConnector.getObject(BLUEPRINTS_URL, PrintProvider[].class);
+        Shop capstoneShop = shops[0];
+        assertEquals(11996530, capstoneShop.getShopId());
+        assertEquals("Capstone", capstoneShop.getTitle());
+        assertEquals("disconnected", capstoneShop.getSalesChannel());
+
+
     }
 
     @Test
@@ -80,7 +85,8 @@ class ApiConnectorTest {
 
         List<PrintProvider> printProviders = apiConnector.getList("catalog/print_providers.json", PrintProvider.class);
         assertEquals("AVMM", printProviders.get(0).getTitle());
-//        apiConnector.getList(BLUEPRINTS_URL, Blueprint.class);
+
+
     }
 
     @AfterEach
