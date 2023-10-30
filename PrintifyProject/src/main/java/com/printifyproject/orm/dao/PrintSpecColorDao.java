@@ -4,7 +4,6 @@ import com.printifyproject.orm.model.PrintSpecColorEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,39 +11,65 @@ import java.util.List;
 public class PrintSpecColorDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    @Transactional
-    public void persist(PrintSpecColorEntity entity) {
-        em.persist(entity);
+    public PrintSpecColorEntity create(PrintSpecColorEntity entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
+    public List<PrintSpecColorEntity> createAll(List<PrintSpecColorEntity> entities) {
+        for (PrintSpecColorEntity entity : entities) {
+            entityManager.persist(entity);
+        }
+        return entities;
     }
 
     public PrintSpecColorEntity findById(int id) {
-        return em.find(PrintSpecColorEntity.class, id);
+        return entityManager.find(PrintSpecColorEntity.class, id);
     }
 
+    // Assuming the key attribute here refers to `printSpecId`.
+    public PrintSpecColorEntity findByKey(String key) {
+        try {
+            return entityManager.createQuery("FROM PrintSpecColorEntity WHERE printSpecId = :key", PrintSpecColorEntity.class)
+                    .setParameter("key", Integer.valueOf(key))
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public List<PrintSpecColorEntity> findAll() {
-        return em.createQuery("SELECT p FROM PrintSpecColorEntity p", PrintSpecColorEntity.class).getResultList();
+        return entityManager.createQuery("FROM PrintSpecColorEntity").getResultList();
     }
 
-    @Transactional
-    public void remove(PrintSpecColorEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    @Transactional
     public PrintSpecColorEntity update(PrintSpecColorEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
     }
 
-    public long count() {
-        return em.createQuery("SELECT COUNT(p) FROM PrintSpecColorEntity p", Long.class).getSingleResult();
+    public void deleteById(int id) {
+        PrintSpecColorEntity entity = findById(id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public void delete(PrintSpecColorEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public boolean existsById(int id) {
-        return findById(id) != null;
+        PrintSpecColorEntity entity = findById(id);
+        return entity != null;
     }
 
-    // Optionally, you can add more specific methods as needed:
-    // e.g. findByPrintSpecId, findByColorId, etc.
+    public boolean exists(PrintSpecColorEntity entity) {
+        return entityManager.contains(entity);
+    }
+
+    public long count() {
+        return (long) entityManager.createQuery("SELECT COUNT(e) FROM PrintSpecColorEntity e").getSingleResult();
+    }
 }

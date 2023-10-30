@@ -4,7 +4,6 @@ import com.printifyproject.orm.model.DesignEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,39 +11,60 @@ import java.util.List;
 public class DesignDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    @Transactional
-    public void persist(DesignEntity entity) {
-        em.persist(entity);
+    public DesignEntity create(DesignEntity entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
+    public List<DesignEntity> createAll(List<DesignEntity> entities) {
+        for (DesignEntity entity : entities) {
+            entityManager.persist(entity);
+        }
+        return entities;
     }
 
     public DesignEntity findById(int id) {
-        return em.find(DesignEntity.class, id);
+        return entityManager.find(DesignEntity.class, id);
     }
 
+    public DesignEntity findByKey(String key) {
+        return entityManager.createQuery("FROM DesignEntity WHERE title = :key", DesignEntity.class)
+                .setParameter("key", key)
+                .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
     public List<DesignEntity> findAll() {
-        return em.createQuery("SELECT d FROM DesignEntity d", DesignEntity.class).getResultList();
+        return entityManager.createQuery("FROM DesignEntity").getResultList();
     }
 
-    @Transactional
-    public void remove(DesignEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    @Transactional
     public DesignEntity update(DesignEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
     }
 
-    public long count() {
-        return em.createQuery("SELECT COUNT(d) FROM DesignEntity d", Long.class).getSingleResult();
+    public void deleteById(int id) {
+        DesignEntity entity = findById(id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public void delete(DesignEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public boolean existsById(int id) {
-        return findById(id) != null;
+        DesignEntity entity = findById(id);
+        return entity != null;
     }
 
-    // Optionally, add more specific methods as needed:
-    // e.g. findByDesignTitle, findDesignsByDescription, etc.
+    public boolean exists(DesignEntity entity) {
+        return entityManager.contains(entity);
+    }
+
+    public long count() {
+        return (long) entityManager.createQuery("SELECT COUNT(e) FROM DesignEntity e").getSingleResult();
+    }
 }

@@ -4,7 +4,6 @@ import com.printifyproject.orm.model.PrintProviderEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,39 +11,64 @@ import java.util.List;
 public class PrintProviderDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    @Transactional
-    public void persist(PrintProviderEntity entity) {
-        em.persist(entity);
+    public PrintProviderEntity create(PrintProviderEntity entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
+    public List<PrintProviderEntity> createAll(List<PrintProviderEntity> entities) {
+        for (PrintProviderEntity entity : entities) {
+            entityManager.persist(entity);
+        }
+        return entities;
     }
 
     public PrintProviderEntity findById(int id) {
-        return em.find(PrintProviderEntity.class, id);
+        return entityManager.find(PrintProviderEntity.class, id);
     }
 
+    public PrintProviderEntity findByKey(String key) {
+        try {
+            return entityManager.createQuery("FROM PrintProviderEntity WHERE printProviderKey = :key", PrintProviderEntity.class)
+                    .setParameter("key", Integer.valueOf(key))
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public List<PrintProviderEntity> findAll() {
-        return em.createQuery("SELECT p FROM PrintProviderEntity p", PrintProviderEntity.class).getResultList();
+        return entityManager.createQuery("FROM PrintProviderEntity").getResultList();
     }
 
-    @Transactional
-    public void remove(PrintProviderEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    @Transactional
     public PrintProviderEntity update(PrintProviderEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
     }
 
-    public long count() {
-        return em.createQuery("SELECT COUNT(p) FROM PrintProviderEntity p", Long.class).getSingleResult();
+    public void deleteById(int id) {
+        PrintProviderEntity entity = findById(id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public void delete(PrintProviderEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public boolean existsById(int id) {
-        return findById(id) != null;
+        PrintProviderEntity entity = findById(id);
+        return entity != null;
     }
 
-    // Optionally, add more specific methods as needed:
-    // e.g. findByName, findByRegion, findByCountry, etc.
+    public boolean exists(PrintProviderEntity entity) {
+        return entityManager.contains(entity);
+    }
+
+    public long count() {
+        return (long) entityManager.createQuery("SELECT COUNT(e) FROM PrintProviderEntity e").getSingleResult();
+    }
 }

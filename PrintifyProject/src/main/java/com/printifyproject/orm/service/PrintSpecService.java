@@ -1,7 +1,7 @@
 package com.printifyproject.orm.service;
 
-import com.printifyproject.orm.dao.ColorDao;
-import com.printifyproject.orm.model.ColorEntity;
+import com.printifyproject.orm.dao.PrintSpecDao;
+import com.printifyproject.orm.model.PrintSpecEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,40 +10,40 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ColorService {
+public class PrintSpecService {
 
     @Autowired
-    private ColorDao dao;
+    private PrintSpecDao dao;
 
-    public ColorEntity create(ColorEntity entity) {
+    public PrintSpecEntity create(PrintSpecEntity entity) {
         return dao.create(entity);
     }
 
-    public List<ColorEntity> createAll(List<ColorEntity> entities) {
+    public List<PrintSpecEntity> createAll(List<PrintSpecEntity> entities) {
         return dao.createAll(entities);
     }
 
-    public ColorEntity findById(int id) {
+    public PrintSpecEntity findById(int id) {
         return dao.findById(id);
     }
 
-    public ColorEntity findByKey(String key) {
+    public PrintSpecEntity findByKey(String key) {
         return dao.findByKey(key);
     }
 
-    public List<ColorEntity> findAll() {
+    public List<PrintSpecEntity> findAll() {
         return dao.findAll();
     }
 
-    public ColorEntity update(ColorEntity entity) {
+    public PrintSpecEntity update(PrintSpecEntity entity) {
         return dao.update(entity);
     }
 
-    public ColorEntity merge(ColorEntity entity) {
+    public PrintSpecEntity merge(PrintSpecEntity entity) {
         return dao.update(entity);
     }
 
-    public List<ColorEntity> mergeAll(List<ColorEntity> entities) {
+    public List<PrintSpecEntity> mergeAll(List<PrintSpecEntity> entities) {
         for (int i = 0; i < entities.size(); i++) {
             entities.set(i, dao.update(entities.get(i)));
         }
@@ -54,7 +54,7 @@ public class ColorService {
         dao.deleteById(id);
     }
 
-    public void delete(ColorEntity entity) {
+    public void delete(PrintSpecEntity entity) {
         dao.delete(entity);
     }
 
@@ -62,7 +62,7 @@ public class ColorService {
         return dao.existsById(id);
     }
 
-    public boolean exists(ColorEntity entity) {
+    public boolean exists(PrintSpecEntity entity) {
         return dao.exists(entity);
     }
 

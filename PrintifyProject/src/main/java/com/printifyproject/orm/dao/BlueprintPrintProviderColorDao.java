@@ -13,8 +13,14 @@ public class BlueprintPrintProviderColorDao {
     @PersistenceContext
     private EntityManager em;
 
-    public void persist(BlueprintPrintProviderColorEntity entity) {
+    public BlueprintPrintProviderColorEntity persist(BlueprintPrintProviderColorEntity entity) {
         em.persist(entity);
+        return entity;
+    }
+
+    public List<BlueprintPrintProviderColorEntity> persistAll(List<BlueprintPrintProviderColorEntity> entities) {
+        entities.forEach(this::persist);
+        return entities;
     }
 
     public BlueprintPrintProviderColorEntity findById(int id) {
@@ -25,12 +31,32 @@ public class BlueprintPrintProviderColorDao {
         return em.createQuery("SELECT e FROM BlueprintPrintProviderColorEntity e", BlueprintPrintProviderColorEntity.class).getResultList();
     }
 
-    public void remove(BlueprintPrintProviderColorEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
+    public BlueprintPrintProviderColorEntity update(BlueprintPrintProviderColorEntity entity) {
+        return em.merge(entity);
     }
 
-    public void update(BlueprintPrintProviderColorEntity entity) {
-        em.merge(entity);
+    public BlueprintPrintProviderColorEntity merge(BlueprintPrintProviderColorEntity entity) {
+        if (exists(entity)) {
+            return update(entity);
+        } else {
+            return persist(entity);
+        }
+    }
+
+    public List<BlueprintPrintProviderColorEntity> mergeAll(List<BlueprintPrintProviderColorEntity> entities) {
+        entities.forEach(this::merge);
+        return entities;
+    }
+
+    public void removeById(int id) {
+        BlueprintPrintProviderColorEntity entity = findById(id);
+        if (entity != null) {
+            em.remove(entity);
+        }
+    }
+
+    public void remove(BlueprintPrintProviderColorEntity entity) {
+        em.remove(em.contains(entity) ? entity : em.merge(entity));
     }
 
     public long count() {
@@ -41,13 +67,7 @@ public class BlueprintPrintProviderColorDao {
         return findById(id) != null;
     }
 
-    // Assuming you're searching by a String field for simplicity. Adjust as needed.
-    public List<BlueprintPrintProviderColorEntity> findByField(String fieldName, String value) {
-        return em.createQuery("SELECT e FROM BlueprintPrintProviderColorEntity e WHERE e." + fieldName + " = :value", BlueprintPrintProviderColorEntity.class)
-                .setParameter("value", value)
-                .getResultList();
-    }
-
-    public BlueprintPrintProviderColorDao() {
+    public boolean exists(BlueprintPrintProviderColorEntity entity) {
+        return em.contains(entity);
     }
 }

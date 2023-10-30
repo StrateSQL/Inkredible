@@ -3,8 +3,8 @@ package com.printifyproject.orm.dao;
 import com.printifyproject.orm.model.ProductEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,39 +12,62 @@ import java.util.List;
 public class ProductDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    @Transactional
-    public void persist(ProductEntity entity) {
-        em.persist(entity);
+    public ProductEntity create(ProductEntity entity) {
+        entityManager.persist(entity);
+        return entity;
+    }
+
+    public List<ProductEntity> createAll(List<ProductEntity> entities) {
+        for (ProductEntity entity : entities) {
+            entityManager.persist(entity);
+        }
+        return entities;
     }
 
     public ProductEntity findById(int id) {
-        return em.find(ProductEntity.class, id);
+        return entityManager.find(ProductEntity.class, id);
     }
 
+    public ProductEntity findByKey(String key) {
+        TypedQuery<ProductEntity> query = entityManager.createQuery(
+                "SELECT p FROM ProductEntity p WHERE p.productKey = :key",
+                ProductEntity.class);
+        query.setParameter("key", key);
+        return query.getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
     public List<ProductEntity> findAll() {
-        return em.createQuery("SELECT p FROM ProductEntity p", ProductEntity.class).getResultList();
+        return entityManager.createQuery("FROM ProductEntity").getResultList();
     }
 
-    @Transactional
-    public void remove(ProductEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    @Transactional
     public ProductEntity update(ProductEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
     }
 
-    public long count() {
-        return em.createQuery("SELECT COUNT(p) FROM ProductEntity p", Long.class).getSingleResult();
+    public void deleteById(int id) {
+        ProductEntity entity = findById(id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public void delete(ProductEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public boolean existsById(int id) {
-        return findById(id) != null;
+        ProductEntity entity = findById(id);
+        return entity != null;
     }
 
-    // Optionally, you can add more specific methods as needed:
-    // e.g. findByDesignId, findByPrintSpecId, findByIsPublished, etc.
+    public boolean exists(ProductEntity entity) {
+        return entityManager.contains(entity);
+    }
+
+    public long count() {
+        return (long) entityManager.createQuery("SELECT COUNT(p) FROM ProductEntity p").getSingleResult();
+    }
 }

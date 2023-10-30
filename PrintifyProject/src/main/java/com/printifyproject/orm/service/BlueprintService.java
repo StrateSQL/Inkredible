@@ -1,7 +1,7 @@
 package com.printifyproject.orm.service;
 
-import com.printifyproject.orm.dao.ColorDao;
-import com.printifyproject.orm.model.ColorEntity;
+import com.printifyproject.orm.dao.BlueprintDao;
+import com.printifyproject.orm.model.BlueprintEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,40 +10,40 @@ import java.util.List;
 
 @Service
 @Transactional
-public class ColorService {
+public class BlueprintService {
 
     @Autowired
-    private ColorDao dao;
+    private BlueprintDao dao;
 
-    public ColorEntity create(ColorEntity entity) {
+    public BlueprintEntity create(BlueprintEntity entity) {
         return dao.create(entity);
     }
 
-    public List<ColorEntity> createAll(List<ColorEntity> entities) {
+    public List<BlueprintEntity> createAll(List<BlueprintEntity> entities) {
         return dao.createAll(entities);
     }
 
-    public ColorEntity findById(int id) {
+    public BlueprintEntity findById(int id) {
         return dao.findById(id);
     }
 
-    public ColorEntity findByKey(String key) {
+    public BlueprintEntity findByKey(Integer key) {
         return dao.findByKey(key);
     }
 
-    public List<ColorEntity> findAll() {
+    public List<BlueprintEntity> findAll() {
         return dao.findAll();
     }
 
-    public ColorEntity update(ColorEntity entity) {
+    public BlueprintEntity update(BlueprintEntity entity) {
         return dao.update(entity);
     }
 
-    public ColorEntity merge(ColorEntity entity) {
+    public BlueprintEntity merge(BlueprintEntity entity) {
         return dao.update(entity);
     }
 
-    public List<ColorEntity> mergeAll(List<ColorEntity> entities) {
+    public List<BlueprintEntity> mergeAll(List<BlueprintEntity> entities) {
         for (int i = 0; i < entities.size(); i++) {
             entities.set(i, dao.update(entities.get(i)));
         }
@@ -54,7 +54,7 @@ public class ColorService {
         dao.deleteById(id);
     }
 
-    public void delete(ColorEntity entity) {
+    public void delete(BlueprintEntity entity) {
         dao.delete(entity);
     }
 
@@ -62,7 +62,7 @@ public class ColorService {
         return dao.existsById(id);
     }
 
-    public boolean exists(ColorEntity entity) {
+    public boolean exists(BlueprintEntity entity) {
         return dao.exists(entity);
     }
 

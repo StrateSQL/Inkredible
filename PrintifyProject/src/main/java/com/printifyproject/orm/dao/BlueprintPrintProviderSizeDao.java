@@ -4,7 +4,6 @@ import com.printifyproject.orm.model.BlueprintPrintProviderSizeEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,36 +11,59 @@ import java.util.List;
 public class BlueprintPrintProviderSizeDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
-    @Transactional
-    public void persist(BlueprintPrintProviderSizeEntity entity) {
-        em.persist(entity);
+    public BlueprintPrintProviderSizeEntity create(BlueprintPrintProviderSizeEntity entity) {
+        entityManager.persist(entity);
+        return entity;
     }
 
-    public BlueprintPrintProviderSizeEntity findById(int id) {
-        return em.find(BlueprintPrintProviderSizeEntity.class, id);
+    public List<BlueprintPrintProviderSizeEntity> createAll(List<BlueprintPrintProviderSizeEntity> entities) {
+        for (BlueprintPrintProviderSizeEntity entity : entities) {
+            entityManager.persist(entity);
+        }
+        return entities;
     }
 
+    public BlueprintPrintProviderSizeEntity findById(Integer id) {
+        return entityManager.find(BlueprintPrintProviderSizeEntity.class, id);
+    }
+
+    public BlueprintPrintProviderSizeEntity findByKey(String key) {
+        // As there's no "key" column in the entity, this method is left unimplemented.
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
     public List<BlueprintPrintProviderSizeEntity> findAll() {
-        return em.createQuery("SELECT e FROM BlueprintPrintProviderSizeEntity e", BlueprintPrintProviderSizeEntity.class).getResultList();
+        return entityManager.createQuery("FROM BlueprintPrintProviderSizeEntity").getResultList();
     }
 
-    @Transactional
-    public void remove(BlueprintPrintProviderSizeEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    @Transactional
     public BlueprintPrintProviderSizeEntity update(BlueprintPrintProviderSizeEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
+    }
+
+    public void deleteById(Integer id) {
+        BlueprintPrintProviderSizeEntity entity = findById(id);
+        if (entity != null) {
+            entityManager.remove(entity);
+        }
+    }
+
+    public void delete(BlueprintPrintProviderSizeEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+    }
+
+    public boolean existsById(Integer id) {
+        BlueprintPrintProviderSizeEntity entity = findById(id);
+        return entity != null;
+    }
+
+    public boolean exists(BlueprintPrintProviderSizeEntity entity) {
+        return entityManager.contains(entity);
     }
 
     public long count() {
-        return em.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderSizeEntity e", Long.class).getSingleResult();
-    }
-
-    public boolean existsById(int id) {
-        return findById(id) != null;
+        return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderSizeEntity e").getSingleResult();
     }
 }
