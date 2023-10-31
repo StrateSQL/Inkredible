@@ -15,13 +15,10 @@ public class DesignService {
     @Autowired
     private DesignDao dao;
 
-    public DesignEntity create(DesignEntity entity) {
+    public DesignEntity add(DesignEntity entity) {
         return dao.create(entity);
     }
 
-    public List<DesignEntity> createAll(List<DesignEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public DesignEntity findById(int id) {
         return dao.findById(id);

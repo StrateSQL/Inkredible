@@ -15,19 +15,35 @@ public class PrintProviderService {
     @Autowired
     private PrintProviderDao dao;
 
-    public PrintProviderEntity create(PrintProviderEntity entity) {
-        return dao.create(entity);
+    public void add(List<PrintProviderEntity> entities) {
+        for (PrintProviderEntity entity : entities) {
+                add(entity);
+        }
     }
 
-    public List<PrintProviderEntity> createAll(List<PrintProviderEntity> entities) {
-        return dao.createAll(entities);
+    public PrintProviderEntity add(PrintProviderEntity entity) {
+        PrintProviderEntity existingEntity = dao.findByKey(entity.getPrintProviderKey());
+
+        if (existingEntity != null) {
+            copyState(entity, existingEntity);
+            return existingEntity;
+        } else {
+            dao.insert(entity);
+            return entity;
+        }
+    }
+
+    private void copyState(PrintProviderEntity source, PrintProviderEntity target) {
+        target.setName(source.getName());
+        target.setRegion(source.getRegion());
+        target.setCountry(source.getCountry());
     }
 
     public PrintProviderEntity findById(int id) {
         return dao.findById(id);
     }
 
-    public PrintProviderEntity findByKey(String key) {
+    public PrintProviderEntity findByKey(Integer key) {
         return dao.findByKey(key);
     }
 
@@ -36,18 +52,7 @@ public class PrintProviderService {
     }
 
     public PrintProviderEntity update(PrintProviderEntity entity) {
-        return dao.update(entity);
-    }
-
-    public PrintProviderEntity merge(PrintProviderEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<PrintProviderEntity> mergeAll(List<PrintProviderEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
+        return add(entity);
     }
 
     public void delete(int id) {

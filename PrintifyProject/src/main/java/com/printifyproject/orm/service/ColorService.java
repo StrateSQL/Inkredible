@@ -15,13 +15,10 @@ public class ColorService {
     @Autowired
     private ColorDao dao;
 
-    public ColorEntity create(ColorEntity entity) {
+    public ColorEntity add(ColorEntity entity) {
         return dao.create(entity);
     }
 
-    public List<ColorEntity> createAll(List<ColorEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public ColorEntity findById(int id) {
         return dao.findById(id);

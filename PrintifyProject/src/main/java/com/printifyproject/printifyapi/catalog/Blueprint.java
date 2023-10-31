@@ -32,7 +32,7 @@ public class Blueprint {
 
     @NotNull
     @JsonProperty("images")
-    private List<String> Images;
+    private JsonNode Images;
 
     private List<String> ImageList = new ArrayList<>();
 
@@ -79,11 +79,11 @@ public class Blueprint {
         this.Model = model;
     }
 
-    public List<String> getImages() {
+    public JsonNode getImages() {
         return Images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(JsonNode images) {
         this.Images = images;
         //ImageList = convertImagesToList(images);
     }

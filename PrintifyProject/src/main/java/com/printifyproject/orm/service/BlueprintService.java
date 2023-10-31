@@ -15,12 +15,29 @@ public class BlueprintService {
     @Autowired
     private BlueprintDao dao;
 
-    public BlueprintEntity create(BlueprintEntity entity) {
-        return dao.create(entity);
+    public void add(List<BlueprintEntity> entities) {
+        for (BlueprintEntity entity : entities) {
+            add(entity);
+        }
     }
 
-    public List<BlueprintEntity> createAll(List<BlueprintEntity> entities) {
-        return dao.createAll(entities);
+    public BlueprintEntity add(BlueprintEntity entity) {
+        BlueprintEntity existingEntity = dao.findByKey(entity.getBlueprintKey());
+
+        if (existingEntity != null) {
+            copyState(entity, existingEntity);
+            return existingEntity;
+        } else {
+            dao.insert(entity);
+            return entity;
+        }
+    }
+
+    private void copyState(BlueprintEntity source, BlueprintEntity target) {
+        target.setTitle(source.getTitle());
+        target.setModel(source.getModel());
+        target.setBrand(source.getBrand());
+        target.setDescription(source.getDescription());
     }
 
     public BlueprintEntity findById(int id) {
@@ -36,18 +53,7 @@ public class BlueprintService {
     }
 
     public BlueprintEntity update(BlueprintEntity entity) {
-        return dao.update(entity);
-    }
-
-    public BlueprintEntity merge(BlueprintEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<BlueprintEntity> mergeAll(List<BlueprintEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
+        return add(entity);
     }
 
     public void delete(int id) {

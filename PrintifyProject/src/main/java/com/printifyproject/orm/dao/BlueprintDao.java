@@ -13,16 +13,9 @@ public class BlueprintDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public BlueprintEntity create(BlueprintEntity entity) {
+    public BlueprintEntity insert(BlueprintEntity entity) {
         entityManager.persist(entity);
         return entity;
-    }
-
-    public List<BlueprintEntity> createAll(List<BlueprintEntity> entities) {
-        for (BlueprintEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
     }
 
     public BlueprintEntity findById(int id) {
@@ -30,9 +23,13 @@ public class BlueprintDao {
     }
 
     public BlueprintEntity findByKey(Integer key) {
-        return entityManager.createQuery("FROM BlueprintEntity WHERE blueprintKey = :key", BlueprintEntity.class)
-                .setParameter("key", key)
-                .getSingleResult();
+        try {
+            return entityManager.createQuery("FROM BlueprintEntity WHERE blueprintKey = :key", BlueprintEntity.class)
+                    .setParameter("key", key)
+                    .getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     @SuppressWarnings("unchecked")

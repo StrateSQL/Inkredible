@@ -15,13 +15,11 @@ public class BlueprintPrintProviderColorService {
     @Autowired
     private BlueprintPrintProviderColorDao dao;
 
-    public BlueprintPrintProviderColorEntity create(BlueprintPrintProviderColorEntity entity) {
+    public BlueprintPrintProviderColorEntity add(BlueprintPrintProviderColorEntity entity) {
         return dao.persist(entity);
     }
 
-    public List<BlueprintPrintProviderColorEntity> createAll(List<BlueprintPrintProviderColorEntity> entities) {
-        return dao.persistAll(entities);
-    }
+
 
     public BlueprintPrintProviderColorEntity findById(int id) {
         return dao.findById(id);

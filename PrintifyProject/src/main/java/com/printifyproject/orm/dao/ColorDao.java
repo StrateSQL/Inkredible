@@ -18,13 +18,6 @@ public class ColorDao {
         return entity;
     }
 
-    public List<ColorEntity> createAll(List<ColorEntity> entities) {
-        for (ColorEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
-    }
-
     public ColorEntity findById(int id) {
         return entityManager.find(ColorEntity.class, id);
     }
@@ -35,7 +28,6 @@ public class ColorDao {
                 .getSingleResult();
     }
 
-    @SuppressWarnings("unchecked")
     public List<ColorEntity> findAll() {
         return entityManager.createQuery("FROM ColorEntity").getResultList();
     }

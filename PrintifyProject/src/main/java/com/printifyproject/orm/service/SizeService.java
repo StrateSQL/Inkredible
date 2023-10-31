@@ -15,12 +15,8 @@ public class SizeService {
     @Autowired
     private SizeDao dao;
 
-    public SizeEntity create(SizeEntity entity) {
+    public SizeEntity add(SizeEntity entity) {
         return dao.create(entity);
-    }
-
-    public List<SizeEntity> createAll(List<SizeEntity> entities) {
-        return dao.createAll(entities);
     }
 
     public SizeEntity findById(int id) {

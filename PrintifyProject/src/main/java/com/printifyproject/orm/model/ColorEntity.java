@@ -35,6 +35,13 @@ public class ColorEntity {
         return color;
     }
 
+    public ColorEntity() {}
+
+    public ColorEntity(String color, String hex) {
+        this.color = color;
+        this.hex = hex;
+    }
+
     public void setColor(String color) {
         this.color = color;
     }

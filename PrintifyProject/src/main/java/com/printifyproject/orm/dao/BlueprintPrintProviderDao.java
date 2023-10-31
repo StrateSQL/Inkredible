@@ -13,15 +13,12 @@ public class BlueprintPrintProviderDao {
     @PersistenceContext
     private EntityManager em;
 
-    public BlueprintPrintProviderEntity persist(BlueprintPrintProviderEntity entity) {
+    public BlueprintPrintProviderEntity insert(BlueprintPrintProviderEntity entity) {
         em.persist(entity);
         return entity;
     }
 
-    public List<BlueprintPrintProviderEntity> persistAll(List<BlueprintPrintProviderEntity> entities) {
-        entities.forEach(this::persist);
-        return entities;
-    }
+
 
     public BlueprintPrintProviderEntity findById(int id) {
         return em.find(BlueprintPrintProviderEntity.class, id);
@@ -41,7 +38,7 @@ public class BlueprintPrintProviderDao {
         if (existsById(entity.getBlueprintPrintProviderId())) {
             return update(entity);
         } else {
-            return persist(entity);
+            return insert(entity);
         }
     }
 

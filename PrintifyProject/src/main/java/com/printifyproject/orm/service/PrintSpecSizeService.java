@@ -15,13 +15,10 @@ public class PrintSpecSizeService {
     @Autowired
     private PrintSpecSizeDao dao;
 
-    public PrintSpecSizeEntity create(PrintSpecSizeEntity entity) {
+    public PrintSpecSizeEntity add(PrintSpecSizeEntity entity) {
         return dao.create(entity);
     }
 
-    public List<PrintSpecSizeEntity> createAll(List<PrintSpecSizeEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public PrintSpecSizeEntity findById(int id) {
         return dao.findById(id);

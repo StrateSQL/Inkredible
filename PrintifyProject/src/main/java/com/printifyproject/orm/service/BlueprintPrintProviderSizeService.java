@@ -15,13 +15,10 @@ public class BlueprintPrintProviderSizeService {
     @Autowired
     private BlueprintPrintProviderSizeDao dao;
 
-    public BlueprintPrintProviderSizeEntity create(BlueprintPrintProviderSizeEntity entity) {
+    public BlueprintPrintProviderSizeEntity add(BlueprintPrintProviderSizeEntity entity) {
         return dao.create(entity);
     }
 
-    public List<BlueprintPrintProviderSizeEntity> createAll(List<BlueprintPrintProviderSizeEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public BlueprintPrintProviderSizeEntity findById(Integer id) {
         return dao.findById(id);

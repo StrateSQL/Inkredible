@@ -15,13 +15,10 @@ public class PrintSpecColorService {
     @Autowired
     private PrintSpecColorDao dao;
 
-    public PrintSpecColorEntity create(PrintSpecColorEntity entity) {
+    public PrintSpecColorEntity add(PrintSpecColorEntity entity) {
         return dao.create(entity);
     }
 
-    public List<PrintSpecColorEntity> createAll(List<PrintSpecColorEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public PrintSpecColorEntity findById(int id) {
         return dao.findById(id);

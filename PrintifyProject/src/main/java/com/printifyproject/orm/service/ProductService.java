@@ -15,13 +15,10 @@ public class ProductService {
     @Autowired
     private ProductDao dao;
 
-    public ProductEntity create(ProductEntity entity) {
+    public ProductEntity add(ProductEntity entity) {
         return dao.create(entity);
     }
 
-    public List<ProductEntity> createAll(List<ProductEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public ProductEntity findById(int id) {
         return dao.findById(id);

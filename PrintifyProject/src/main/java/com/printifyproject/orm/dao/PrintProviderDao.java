@@ -13,26 +13,19 @@ public class PrintProviderDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public PrintProviderEntity create(PrintProviderEntity entity) {
+    public PrintProviderEntity insert(PrintProviderEntity entity) {
         entityManager.persist(entity);
         return entity;
-    }
-
-    public List<PrintProviderEntity> createAll(List<PrintProviderEntity> entities) {
-        for (PrintProviderEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
     }
 
     public PrintProviderEntity findById(int id) {
         return entityManager.find(PrintProviderEntity.class, id);
     }
 
-    public PrintProviderEntity findByKey(String key) {
+    public PrintProviderEntity findByKey(Integer key) {
         try {
             return entityManager.createQuery("FROM PrintProviderEntity WHERE printProviderKey = :key", PrintProviderEntity.class)
-                    .setParameter("key", Integer.valueOf(key))
+                    .setParameter("key", key)
                     .getSingleResult();
         } catch (Exception e) {
             return null;

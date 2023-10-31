@@ -15,13 +15,10 @@ public class PrintSpecService {
     @Autowired
     private PrintSpecDao dao;
 
-    public PrintSpecEntity create(PrintSpecEntity entity) {
+    public PrintSpecEntity add(PrintSpecEntity entity) {
         return dao.create(entity);
     }
 
-    public List<PrintSpecEntity> createAll(List<PrintSpecEntity> entities) {
-        return dao.createAll(entities);
-    }
 
     public PrintSpecEntity findById(int id) {
         return dao.findById(id);
