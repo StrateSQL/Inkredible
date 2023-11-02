@@ -24,7 +24,7 @@ public class PrintProviderEntity {
     @Basic
     @Column(name = "Country", nullable = true, length = 50)
     private String country;
-    @OneToMany(mappedBy = "printprovidersByPrintProviderId")
+    @OneToMany(mappedBy = "printProvider", cascade = CascadeType.ALL)
     private Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByPrintProviderId;
 
     public int getPrintProviderId() {

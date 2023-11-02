@@ -1,72 +1,68 @@
 package com.printifyproject.orm.dao;
 
+import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.BlueprintPrintProviderEntity;
+import com.printifyproject.orm.model.PrintProviderEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class BlueprintPrintProviderDao {
 
     @PersistenceContext
-    private EntityManager em;
+    private EntityManager entityManager;
 
     public BlueprintPrintProviderEntity insert(BlueprintPrintProviderEntity entity) {
-        em.persist(entity);
+        entityManager.persist(entity);
         return entity;
     }
 
-
-
     public BlueprintPrintProviderEntity findById(int id) {
-        return em.find(BlueprintPrintProviderEntity.class, id);
+        return entityManager.find(BlueprintPrintProviderEntity.class, id);
     }
 
-    // Note: Since there's no key column specified, we will skip the findByKey method
+    public List<BlueprintPrintProviderEntity> findByKeys(
+            BlueprintEntity blueprint, PrintProviderEntity printProvider) {
+        return entityManager.createQuery("SELECT bpp FROM BlueprintPrintProviderEntity bpp " +
+                        "WHERE bpp.blueprint = :blueprint AND bpp.printProvider = :printProvider", BlueprintPrintProviderEntity.class)
+                .setParameter("blueprint", blueprint)
+                .setParameter("printProvider", printProvider)
+                .getResultList();
+    }
 
+    @SuppressWarnings("unchecked")
     public List<BlueprintPrintProviderEntity> findAll() {
-        return em.createQuery("SELECT e FROM BlueprintPrintProviderEntity e", BlueprintPrintProviderEntity.class).getResultList();
+        return entityManager.createQuery("FROM BlueprintPrintProviderEntity").getResultList();
     }
 
     public BlueprintPrintProviderEntity update(BlueprintPrintProviderEntity entity) {
-        return em.merge(entity);
+        return entityManager.merge(entity);
     }
 
-    public BlueprintPrintProviderEntity merge(BlueprintPrintProviderEntity entity) {
-        if (existsById(entity.getBlueprintPrintProviderId())) {
-            return update(entity);
-        } else {
-            return insert(entity);
-        }
-    }
-
-    public List<BlueprintPrintProviderEntity> mergeAll(List<BlueprintPrintProviderEntity> entities) {
-        entities.forEach(this::merge);
-        return entities;
-    }
-
-    public void removeById(int id) {
+    public void deleteById(int id) {
         BlueprintPrintProviderEntity entity = findById(id);
         if (entity != null) {
-            em.remove(entity);
+            entityManager.remove(entity);
         }
     }
 
-    public void remove(BlueprintPrintProviderEntity entity) {
-        em.remove(em.contains(entity) ? entity : em.merge(entity));
-    }
-
-    public long count() {
-        return em.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderEntity e", Long.class).getSingleResult();
+    public void delete(BlueprintPrintProviderEntity entity) {
+        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
     public boolean existsById(int id) {
-        return findById(id) != null;
+        BlueprintPrintProviderEntity entity = findById(id);
+        return entity != null;
     }
 
     public boolean exists(BlueprintPrintProviderEntity entity) {
-        return em.contains(entity);
+        return entityManager.contains(entity);
+    }
+
+    public long count() {
+        return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderEntity e").getSingleResult();
     }
 }

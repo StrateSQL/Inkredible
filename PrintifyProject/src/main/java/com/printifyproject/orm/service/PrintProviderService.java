@@ -2,6 +2,8 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.PrintProviderDao;
 import com.printifyproject.orm.model.PrintProviderEntity;
+import com.printifyproject.printifyapi.catalog.Location;
+import com.printifyproject.printifyapi.catalog.PrintProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -73,5 +75,17 @@ public class PrintProviderService {
 
     public long count() {
         return dao.count();
+    }
+
+    public static PrintProviderEntity transform(PrintProvider printProvider) {
+        var entity = new PrintProviderEntity();
+        Location location = printProvider.getLocation();
+
+        entity.setName(printProvider.getTitle());
+        entity.setPrintProviderKey(printProvider.getPrintProviderKey());
+        entity.setCountry(location.getCountry());
+        entity.setRegion(location.getRegion());
+
+        return entity;
     }
 }

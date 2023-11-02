@@ -2,31 +2,36 @@ package com.printifyproject.printifyapi.loader;
 
 import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.service.BlueprintService;
+import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiCatalog;
 import com.printifyproject.printifyapi.catalog.Blueprint;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BlueprintLoader {
     private static final Logger logger = LogManager.getLogger();
+    private final ServiceHelper serviceHelper;
+    private final BlueprintService blueprintService;
+    public BlueprintLoader() {
+        this.serviceHelper = new ServiceHelper();;
+        this.blueprintService = serviceHelper.getBlueprintService();
+    }
 
-    public static void process() {
-        var apiCatalog = new ApiCatalog(logger);
-        var blueprints = apiCatalog.getBlueprints();
+    public void process() {
+        try (ServiceHelper ignored = serviceHelper) {
+            ApiCatalog apiCatalog = new ApiCatalog(logger);
+            List<Blueprint> blueprints = apiCatalog.getBlueprints();
 
-        List<BlueprintEntity> entities = new ArrayList<>();
+            List<BlueprintEntity> entities = blueprints.stream()
+                    .filter(blueprint -> blueprint.getTitle().toLowerCase().contains("shirt"))
+                    .map(BlueprintLoader::transform)
+                    .collect(Collectors.toList());
 
-        for (var blueprint: blueprints) {
-            if (blueprint.getTitle().toLowerCase().contains("shirt")) {
-                entities.add(transform(blueprint));
-            }
+            blueprintService.add(entities);
         }
-
-        add(entities);
     }
 
     private static BlueprintEntity transform(Blueprint blueprint) {
@@ -39,12 +44,5 @@ public class BlueprintLoader {
         entity.setDescription(blueprint.getDescription());
 
         return entity;
-    }
-
-    private static void add(List<BlueprintEntity> entities) {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-        BlueprintService service = ctx.getBean(BlueprintService.class);
-        service.add(entities);
-        ctx.close();
     }
 }

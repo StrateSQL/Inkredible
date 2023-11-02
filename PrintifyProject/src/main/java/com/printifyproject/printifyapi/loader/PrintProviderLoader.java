@@ -2,31 +2,39 @@ package com.printifyproject.printifyapi.loader;
 
 import com.printifyproject.orm.model.PrintProviderEntity;
 import com.printifyproject.orm.service.PrintProviderService;
+import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiCatalog;
 import com.printifyproject.printifyapi.catalog.Location;
 import com.printifyproject.printifyapi.catalog.PrintProvider;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PrintProviderLoader {
     private static final Logger logger = LogManager.getLogger();
-    public static void process () {
-        var apiCatalog = new ApiCatalog(logger);
-        var printProviders = apiCatalog.getPrintProviders();
 
-        List<PrintProviderEntity> entities = new ArrayList<>();
+    private final ServiceHelper serviceHelper;
+    private final PrintProviderService printProviderService;
 
-        for (var printProvider: printProviders) {
-            if (printProvider.getLocation().getCountry().equals("US")) {
-                entities.add(transform(printProvider));
-            }
+    public PrintProviderLoader() {
+        this.serviceHelper = new ServiceHelper();;
+        this.printProviderService = serviceHelper.getPrintProviderService();
+    }
+
+    public  void process() {
+        try (ServiceHelper ignored = serviceHelper) {
+            ApiCatalog apiCatalog = new ApiCatalog(logger);
+            List<PrintProvider> printProviders = apiCatalog.getPrintProviders();
+
+            List<PrintProviderEntity> entities = printProviders.stream()
+                    .filter(printProvider -> "US".equals(printProvider.getLocation().getCountry()))
+                    .map(PrintProviderLoader::transform)
+                    .collect(Collectors.toList());
+
+            printProviderService.add(entities);
         }
-
-        add(entities);
     }
 
     private static PrintProviderEntity transform(PrintProvider printProvider) {
@@ -39,12 +47,5 @@ public class PrintProviderLoader {
         entity.setRegion(location.getRegion());
 
         return entity;
-    }
-
-    private static void add(List<PrintProviderEntity> entities) {
-        ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring.xml");
-        PrintProviderService service = ctx.getBean(PrintProviderService.class);
-        service.add(entities);
-        ctx.close();
     }
 }

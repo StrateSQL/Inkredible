@@ -27,7 +27,7 @@ public class BlueprintEntity {
     @Basic
     @Column(name = "Description", nullable = true, length = -1)
     private String description;
-    @OneToMany(mappedBy = "blueprintsByBlueprintId")
+    @OneToMany(mappedBy = "blueprint", cascade = CascadeType.ALL)
     private Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByBlueprintId;
 
     public int getBlueprintId() {
