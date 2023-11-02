@@ -33,9 +33,8 @@ public class BlueprintPrintProviderDao {
                 .getResultList();
     }
 
-    @SuppressWarnings("unchecked")
     public List<BlueprintPrintProviderEntity> findAll() {
-        return entityManager.createQuery("FROM BlueprintPrintProviderEntity").getResultList();
+        return entityManager.createQuery("SELECT e FROM BlueprintPrintProviderEntity e", BlueprintPrintProviderEntity.class).getResultList();
     }
 
     public BlueprintPrintProviderEntity update(BlueprintPrintProviderEntity entity) {
@@ -54,15 +53,14 @@ public class BlueprintPrintProviderDao {
     }
 
     public boolean existsById(int id) {
-        BlueprintPrintProviderEntity entity = findById(id);
-        return entity != null;
+        return findById(id) != null;
     }
 
     public boolean exists(BlueprintPrintProviderEntity entity) {
-        return entityManager.contains(entity);
+        return entityManager.contains(entity) || findById(entity.getBlueprintPrintProviderId()) != null;
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderEntity e").getSingleResult();
+        return entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderEntity e", Long.class).getSingleResult();
     }
 }

@@ -2,26 +2,34 @@ package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "colors", schema = "inkcredible", catalog = "")
+@Table(name = "colors", schema = "inkcredible")
 public class ColorEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ColorId", nullable = false)
     private int colorId;
+
     @Basic
     @Column(name = "Color", nullable = true, length = 50)
     private String color;
+
     @Basic
     @Column(name = "Hex", nullable = true, length = 10)
     private String hex;
-    @OneToMany(mappedBy = "colorInBlueprintPrintProvider")
-    private Collection<BlueprintPrintProviderColorEntity> blueprintprintprovidercolorsByColorId;
-    @OneToMany(mappedBy = "colorInPrintSpec")
-    private Collection<PrintSpecColorEntity> printspeccolorsByColorId;
+
+    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BlueprintPrintProviderColorEntity> blueprintPrintProviderColors = new HashSet<>();
+
+    public ColorEntity() {}
+
+    public ColorEntity(String color, String hex) {
+        this.color = color;
+        this.hex = hex;
+    }
 
     public int getColorId() {
         return colorId;
@@ -33,13 +41,6 @@ public class ColorEntity {
 
     public String getColor() {
         return color;
-    }
-
-    public ColorEntity() {}
-
-    public ColorEntity(String color, String hex) {
-        this.color = color;
-        this.hex = hex;
     }
 
     public void setColor(String color) {
@@ -54,32 +55,18 @@ public class ColorEntity {
         this.hex = hex;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ColorEntity that = (ColorEntity) o;
-        return colorId == that.colorId && Objects.equals(color, that.color) && Objects.equals(hex, that.hex);
+    public Set<BlueprintPrintProviderColorEntity> getBlueprintPrintProviderColors() {
+        return blueprintPrintProviderColors;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(colorId, color, hex);
+    public void addBlueprintPrintProviderColor(BlueprintPrintProviderColorEntity blueprintPrintProviderColor) {
+        blueprintPrintProviderColors.add(blueprintPrintProviderColor);
+        blueprintPrintProviderColor.setColor(this);
     }
 
-    public Collection<BlueprintPrintProviderColorEntity> getBlueprintprintprovidercolorsByColorId() {
-        return blueprintprintprovidercolorsByColorId;
-    }
-
-    public void setBlueprintprintprovidercolorsByColorId(Collection<BlueprintPrintProviderColorEntity> blueprintprintprovidercolorsByColorId) {
-        this.blueprintprintprovidercolorsByColorId = blueprintprintprovidercolorsByColorId;
-    }
-
-    public Collection<PrintSpecColorEntity> getPrintspeccolorsByColorId() {
-        return printspeccolorsByColorId;
-    }
-
-    public void setPrintspeccolorsByColorId(Collection<PrintSpecColorEntity> printspeccolorsByColorId) {
-        this.printspeccolorsByColorId = printspeccolorsByColorId;
+    // Method to remove a BlueprintPrintProviderColorEntity
+    public void removeBlueprintPrintProviderColor(BlueprintPrintProviderColorEntity blueprintPrintProviderColor) {
+        blueprintPrintProviderColors.remove(blueprintPrintProviderColor);
+        blueprintPrintProviderColor.setColor(null);
     }
 }

@@ -2,23 +2,22 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.ColorDao;
 import com.printifyproject.orm.model.ColorEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Service
 @Transactional
 public class ColorService {
 
-    @Autowired
-    private ColorDao dao;
+    private final ColorDao dao = new ColorDao(); // In real scenarios, you would inject this.
 
-    public ColorEntity add(ColorEntity entity) {
-        return dao.create(entity);
+    public void add(ColorEntity entity) {
+        dao.insert(entity);
     }
 
+    public void add(List<ColorEntity> entities) {
+        entities.forEach(dao::insert);
+    }
 
     public ColorEntity findById(int id) {
         return dao.findById(id);
@@ -36,18 +35,7 @@ public class ColorService {
         return dao.update(entity);
     }
 
-    public ColorEntity merge(ColorEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<ColorEntity> mergeAll(List<ColorEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
@@ -55,7 +43,7 @@ public class ColorService {
         dao.delete(entity);
     }
 
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
     }
 

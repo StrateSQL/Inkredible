@@ -2,21 +2,20 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.SizeDao;
 import com.printifyproject.orm.model.SizeEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-@Service
 @Transactional
 public class SizeService {
 
-    @Autowired
-    private SizeDao dao;
+    private final SizeDao dao = new SizeDao(); // In real scenarios, you would inject this.
 
-    public SizeEntity add(SizeEntity entity) {
-        return dao.create(entity);
+    public void add(SizeEntity entity) {
+        dao.insert(entity);
+    }
+
+    public void add(List<SizeEntity> entities) {
+        entities.forEach(dao::insert);
     }
 
     public SizeEntity findById(int id) {
@@ -35,18 +34,7 @@ public class SizeService {
         return dao.update(entity);
     }
 
-    public SizeEntity merge(SizeEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<SizeEntity> mergeAll(List<SizeEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
@@ -54,7 +42,7 @@ public class SizeService {
         dao.delete(entity);
     }
 
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
     }
 

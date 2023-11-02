@@ -15,17 +15,18 @@ public class BlueprintPrintProviderSizeService {
     @Autowired
     private BlueprintPrintProviderSizeDao dao;
 
-    public BlueprintPrintProviderSizeEntity add(BlueprintPrintProviderSizeEntity entity) {
-        return dao.create(entity);
+    public void add(BlueprintPrintProviderSizeEntity entity) {
+        dao.insert(entity);
     }
 
+    public void add(List<BlueprintPrintProviderSizeEntity> entities) {
+        for (BlueprintPrintProviderSizeEntity entity : entities) {
+            dao.insert(entity);
+        }
+    }
 
-    public BlueprintPrintProviderSizeEntity findById(Integer id) {
+    public BlueprintPrintProviderSizeEntity findById(int id) {
         return dao.findById(id);
-    }
-
-    public BlueprintPrintProviderSizeEntity findByKey(String key) {
-        return dao.findByKey(key);
     }
 
     public List<BlueprintPrintProviderSizeEntity> findAll() {
@@ -36,18 +37,7 @@ public class BlueprintPrintProviderSizeService {
         return dao.update(entity);
     }
 
-    public BlueprintPrintProviderSizeEntity merge(BlueprintPrintProviderSizeEntity entity) {
-        return dao.update(entity);  // Using update (merge) for both purposes
-    }
-
-    public List<BlueprintPrintProviderSizeEntity> mergeAll(List<BlueprintPrintProviderSizeEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(Integer id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
@@ -55,7 +45,7 @@ public class BlueprintPrintProviderSizeService {
         dao.delete(entity);
     }
 
-    public boolean exists(Integer id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
     }
 

@@ -16,6 +16,7 @@ public class ColorExample {
         List<ColorEntity> colors = new ArrayList<>();
 
         colors.add(new ColorEntity ("Red", "EEEEEE"));
+
         //colorService.createAll(colors);
 
         ctx.close();

@@ -16,13 +16,22 @@ public class BlueprintPrintProviderColorService {
     private BlueprintPrintProviderColorDao dao;
 
     public BlueprintPrintProviderColorEntity add(BlueprintPrintProviderColorEntity entity) {
-        return dao.persist(entity);
+        return dao.insert(entity);
     }
 
-
+    public List<BlueprintPrintProviderColorEntity> add(List<BlueprintPrintProviderColorEntity> entities) {
+        for (BlueprintPrintProviderColorEntity entity : entities) {
+            dao.insert(entity);
+        }
+        return entities;
+    }
 
     public BlueprintPrintProviderColorEntity findById(int id) {
         return dao.findById(id);
+    }
+
+    public BlueprintPrintProviderColorEntity findByKey(int key) {
+        return dao.findByKey(key);
     }
 
     public List<BlueprintPrintProviderColorEntity> findAll() {
@@ -33,20 +42,12 @@ public class BlueprintPrintProviderColorService {
         return dao.update(entity);
     }
 
-    public BlueprintPrintProviderColorEntity merge(BlueprintPrintProviderColorEntity entity) {
-        return dao.merge(entity);
-    }
-
-    public List<BlueprintPrintProviderColorEntity> mergeAll(List<BlueprintPrintProviderColorEntity> entities) {
-        return dao.mergeAll(entities);
-    }
-
     public void deleteById(int id) {
-        dao.removeById(id);
+        dao.deleteById(id);
     }
 
     public void delete(BlueprintPrintProviderColorEntity entity) {
-        dao.remove(entity);
+        dao.delete(entity);
     }
 
     public boolean existsById(int id) {

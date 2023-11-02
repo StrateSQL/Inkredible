@@ -1,73 +1,63 @@
 package com.printifyproject.orm.dao;
 
 import com.printifyproject.orm.model.SizeEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
 public class SizeDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final Map<Integer, SizeEntity> sizeStore = new ConcurrentHashMap<>();
+    private static int idCounter = 0;
 
-    public SizeEntity create(SizeEntity entity) {
-        entityManager.persist(entity);
+    public SizeEntity insert(SizeEntity entity) {
+        int id = idCounter++;
+        entity.setSizeId(id);
+        sizeStore.put(id, entity);
         return entity;
     }
 
-    public List<SizeEntity> createAll(List<SizeEntity> entities) {
-        for (SizeEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
-    }
-
     public SizeEntity findById(int id) {
-        return entityManager.find(SizeEntity.class, id);
+        return sizeStore.get(id);
     }
 
     public SizeEntity findByKey(String key) {
-        TypedQuery<SizeEntity> query = entityManager.createQuery(
-                "SELECT s FROM SizeEntity s WHERE s.size = :key",
-                SizeEntity.class);
-        query.setParameter("key", key);
-        return query.getSingleResult();
+        return sizeStore.values().stream()
+                .filter(sizeEntity -> key.equals(sizeEntity.getSize()))
+                .findFirst()
+                .orElse(null);
     }
 
-    @SuppressWarnings("unchecked")
     public List<SizeEntity> findAll() {
-        return entityManager.createQuery("FROM SizeEntity").getResultList();
+        return new ArrayList<>(sizeStore.values());
     }
 
     public SizeEntity update(SizeEntity entity) {
-        return entityManager.merge(entity);
+        int id = entity.getSizeId();
+        if (sizeStore.containsKey(id)) {
+            sizeStore.put(id, entity);
+            return entity;
+        }
+        return null;
     }
 
     public void deleteById(int id) {
-        SizeEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        sizeStore.remove(id);
     }
 
     public void delete(SizeEntity entity) {
-        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+        sizeStore.values().removeIf(e -> e.getSizeId() == entity.getSizeId());
     }
 
     public boolean existsById(int id) {
-        SizeEntity entity = findById(id);
-        return entity != null;
+        return sizeStore.containsKey(id);
     }
 
     public boolean exists(SizeEntity entity) {
-        return entityManager.contains(entity);
+        return sizeStore.containsValue(entity);
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(s) FROM SizeEntity s").getSingleResult();
+        return sizeStore.size();
     }
 }

@@ -13,37 +13,23 @@ public class BlueprintPrintProviderSizeDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public BlueprintPrintProviderSizeEntity create(BlueprintPrintProviderSizeEntity entity) {
+    public void insert(BlueprintPrintProviderSizeEntity entity) {
         entityManager.persist(entity);
-        return entity;
     }
 
-    public List<BlueprintPrintProviderSizeEntity> createAll(List<BlueprintPrintProviderSizeEntity> entities) {
-        for (BlueprintPrintProviderSizeEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
-    }
-
-    public BlueprintPrintProviderSizeEntity findById(Integer id) {
+    public BlueprintPrintProviderSizeEntity findById(int id) {
         return entityManager.find(BlueprintPrintProviderSizeEntity.class, id);
     }
 
-    public BlueprintPrintProviderSizeEntity findByKey(String key) {
-        // As there's no "key" column in the entity, this method is left unimplemented.
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
     public List<BlueprintPrintProviderSizeEntity> findAll() {
-        return entityManager.createQuery("FROM BlueprintPrintProviderSizeEntity").getResultList();
+        return entityManager.createQuery("SELECT e FROM BlueprintPrintProviderSizeEntity e", BlueprintPrintProviderSizeEntity.class).getResultList();
     }
 
     public BlueprintPrintProviderSizeEntity update(BlueprintPrintProviderSizeEntity entity) {
         return entityManager.merge(entity);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(int id) {
         BlueprintPrintProviderSizeEntity entity = findById(id);
         if (entity != null) {
             entityManager.remove(entity);
@@ -54,16 +40,16 @@ public class BlueprintPrintProviderSizeDao {
         entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
-    public boolean existsById(Integer id) {
+    public boolean existsById(int id) {
         BlueprintPrintProviderSizeEntity entity = findById(id);
         return entity != null;
     }
 
     public boolean exists(BlueprintPrintProviderSizeEntity entity) {
-        return entityManager.contains(entity);
+        return entityManager.contains(entity) || existsById(entity.getBlueprintPrintProviderSizeId());
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderSizeEntity e").getSingleResult();
+        return entityManager.createQuery("SELECT COUNT(e) FROM BlueprintPrintProviderSizeEntity e", Long.class).getSingleResult();
     }
 }

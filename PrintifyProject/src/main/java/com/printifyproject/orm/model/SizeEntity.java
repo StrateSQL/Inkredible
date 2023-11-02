@@ -2,23 +2,29 @@ package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "sizes", schema = "inkcredible", catalog = "")
+@Table(name = "sizes", schema = "inkcredible")
 public class SizeEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SizeId", nullable = false)
     private int sizeId;
+
     @Basic
     @Column(name = "Size", nullable = true, length = 50)
     private String size;
-    @OneToMany(mappedBy = "sizeInBlueprintPrintProvider")
-    private Collection<BlueprintPrintProviderSizeEntity> blueprintprintprovidersizesBySizeId;
-    @OneToMany(mappedBy = "sizeInPrintSpec")
-    private Collection<PrintSpecSizeEntity> printspecsizesBySizeId;
+
+    @OneToMany(mappedBy = "size", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BlueprintPrintProviderSizeEntity> blueprintPrintProviderSizes = new HashSet<>();
+
+    public SizeEntity() {}
+
+    public SizeEntity(String size) {
+        this.size = size;
+    }
 
     public int getSizeId() {
         return sizeId;
@@ -36,32 +42,18 @@ public class SizeEntity {
         this.size = size;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SizeEntity that = (SizeEntity) o;
-        return sizeId == that.sizeId && Objects.equals(size, that.size);
+    public Set<BlueprintPrintProviderSizeEntity> getBlueprintPrintProviderSizes() {
+        return blueprintPrintProviderSizes;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(sizeId, size);
+    public void addBlueprintPrintProviderSize(BlueprintPrintProviderSizeEntity blueprintPrintProviderSize) {
+        blueprintPrintProviderSizes.add(blueprintPrintProviderSize);
+        blueprintPrintProviderSize.setSize(this);
     }
 
-    public Collection<BlueprintPrintProviderSizeEntity> getBlueprintprintprovidersizesBySizeId() {
-        return blueprintprintprovidersizesBySizeId;
-    }
-
-    public void setBlueprintprintprovidersizesBySizeId(Collection<BlueprintPrintProviderSizeEntity> blueprintprintprovidersizesBySizeId) {
-        this.blueprintprintprovidersizesBySizeId = blueprintprintprovidersizesBySizeId;
-    }
-
-    public Collection<PrintSpecSizeEntity> getPrintspecsizesBySizeId() {
-        return printspecsizesBySizeId;
-    }
-
-    public void setPrintspecsizesBySizeId(Collection<PrintSpecSizeEntity> printspecsizesBySizeId) {
-        this.printspecsizesBySizeId = printspecsizesBySizeId;
+    // Method to remove a BlueprintPrintProviderSizeEntity
+    public void removeBlueprintPrintProviderSize(BlueprintPrintProviderSizeEntity blueprintPrintProviderSize) {
+        blueprintPrintProviderSizes.remove(blueprintPrintProviderSize);
+        blueprintPrintProviderSize.setSize(null);
     }
 }

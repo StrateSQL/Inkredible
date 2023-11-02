@@ -2,6 +2,9 @@ package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "blueprintprintproviders", schema = "inkcredible")
 public class BlueprintPrintProviderEntity {
@@ -18,8 +21,12 @@ public class BlueprintPrintProviderEntity {
     @JoinColumn(name = "PrintProviderId")
     private PrintProviderEntity printProvider;
 
+    @OneToMany(mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BlueprintPrintProviderColorEntity> colors = new HashSet<>();
+
     public BlueprintPrintProviderEntity() {
     }
+
     public BlueprintPrintProviderEntity(BlueprintEntity blueprint, PrintProviderEntity printProvider) {
         this.blueprint = blueprint;
         this.printProvider = printProvider;
@@ -47,5 +54,23 @@ public class BlueprintPrintProviderEntity {
 
     public void setPrintProvider(PrintProviderEntity printProvider) {
         this.printProvider = printProvider;
+    }
+
+    public Set<BlueprintPrintProviderColorEntity> getColors() {
+        return colors;
+    }
+
+    public void setColors(Set<BlueprintPrintProviderColorEntity> colors) {
+        this.colors = colors;
+    }
+
+    public void addColor(BlueprintPrintProviderColorEntity colorEntity) {
+        colors.add(colorEntity);
+        colorEntity.setBlueprintPrintProvider(this);
+    }
+
+    public void removeColor(BlueprintPrintProviderColorEntity colorEntity) {
+        colors.remove(colorEntity);
+        colorEntity.setBlueprintPrintProvider(null);
     }
 }

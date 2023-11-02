@@ -1,62 +1,63 @@
 package com.printifyproject.orm.dao;
 
 import com.printifyproject.orm.model.ColorEntity;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
-@Repository
 public class ColorDao {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final Map<Integer, ColorEntity> colorStore = new ConcurrentHashMap<>();
+    private static int idCounter = 0;
 
-    public ColorEntity create(ColorEntity entity) {
-        entityManager.persist(entity);
+    public ColorEntity insert(ColorEntity entity) {
+        int id = idCounter++;
+        entity.setColorId(id);
+        colorStore.put(id, entity);
         return entity;
     }
 
     public ColorEntity findById(int id) {
-        return entityManager.find(ColorEntity.class, id);
+        return colorStore.get(id);
     }
 
     public ColorEntity findByKey(String key) {
-        return entityManager.createQuery("FROM ColorEntity WHERE color = :key", ColorEntity.class)
-                .setParameter("key", key)
-                .getSingleResult();
+        return colorStore.values().stream()
+                .filter(colorEntity -> key.equals(colorEntity.getColor()))
+                .findFirst()
+                .orElse(null);
     }
 
     public List<ColorEntity> findAll() {
-        return entityManager.createQuery("FROM ColorEntity").getResultList();
+        return new ArrayList<>(colorStore.values());
     }
 
     public ColorEntity update(ColorEntity entity) {
-        return entityManager.merge(entity);
+        int id = entity.getColorId();
+        if (colorStore.containsKey(id)) {
+            colorStore.put(id, entity);
+            return entity;
+        }
+        return null;
     }
 
     public void deleteById(int id) {
-        ColorEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        colorStore.remove(id);
     }
 
     public void delete(ColorEntity entity) {
-        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+        colorStore.values().removeIf(e -> e.getColorId() == entity.getColorId());
     }
 
     public boolean existsById(int id) {
-        ColorEntity entity = findById(id);
-        return entity != null;
+        return colorStore.containsKey(id);
     }
 
     public boolean exists(ColorEntity entity) {
-        return entityManager.contains(entity);
+        return colorStore.containsValue(entity);
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM ColorEntity e").getSingleResult();
+        return colorStore.size();
     }
 }
