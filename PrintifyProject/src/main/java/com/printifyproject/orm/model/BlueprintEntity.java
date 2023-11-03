@@ -28,7 +28,7 @@ public class BlueprintEntity {
     @Column(name = "Description", nullable = true, length = -1)
     private String description;
     @OneToMany(mappedBy = "blueprint", cascade = CascadeType.ALL)
-    private Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByBlueprintId;
+    private Collection<BlueprintPrintProviderEntity> blueprintPrintProviders;
 
     public int getBlueprintId() {
         return blueprintId;
@@ -91,11 +91,11 @@ public class BlueprintEntity {
         return Objects.hash(blueprintId, blueprintKey, title, model, brand, description);
     }
 
-    public Collection<BlueprintPrintProviderEntity> getBlueprintprintprovidersByBlueprintId() {
-        return blueprintprintprovidersByBlueprintId;
+    public Collection<BlueprintPrintProviderEntity> getBlueprintPrintProviders() {
+        return blueprintPrintProviders;
     }
 
-    public void setBlueprintprintprovidersByBlueprintId(Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByBlueprintId) {
-        this.blueprintprintprovidersByBlueprintId = blueprintprintprovidersByBlueprintId;
+    public void setBlueprintPrintProviders(Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByBlueprintId) {
+        this.blueprintPrintProviders = blueprintprintprovidersByBlueprintId;
     }
 }

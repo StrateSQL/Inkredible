@@ -3,10 +3,10 @@ package com.printifyproject.orm.dao;
 import com.printifyproject.orm.model.ProductEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -14,44 +14,29 @@ public class ProductDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public ProductEntity create(ProductEntity entity) {
+    public ProductEntity insert(ProductEntity entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    public List<ProductEntity> createAll(List<ProductEntity> entities) {
-        for (ProductEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
+    public Optional<ProductEntity> findById(int id) {
+        return Optional.ofNullable(entityManager.find(ProductEntity.class, id));
     }
 
-    public ProductEntity findById(int id) {
-        return entityManager.find(ProductEntity.class, id);
-    }
-
-    public ProductEntity findByKey(String key) {
-        TypedQuery<ProductEntity> query = entityManager.createQuery(
-                "SELECT p FROM ProductEntity p WHERE p.productKey = :key",
-                ProductEntity.class);
-        query.setParameter("key", key);
-        return query.getSingleResult();
-    }
-
-    @SuppressWarnings("unchecked")
     public List<ProductEntity> findAll() {
-        return entityManager.createQuery("FROM ProductEntity").getResultList();
+        return entityManager.createQuery(
+                "SELECT e FROM ProductEntity e", ProductEntity.class
+        ).getResultList();
     }
 
     public ProductEntity update(ProductEntity entity) {
-        return entityManager.merge(entity);
+        entityManager.merge(entity);
+        return entity;
     }
 
     public void deleteById(int id) {
-        ProductEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        Optional<ProductEntity> entity = findById(id);
+        entity.ifPresent(entityManager::remove);
     }
 
     public void delete(ProductEntity entity) {
@@ -59,15 +44,16 @@ public class ProductDao {
     }
 
     public boolean existsById(int id) {
-        ProductEntity entity = findById(id);
-        return entity != null;
+        return findById(id).isPresent();
     }
 
     public boolean exists(ProductEntity entity) {
-        return entityManager.contains(entity);
+        return entityManager.contains(entity) || existsById(entity.getProductId());
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(p) FROM ProductEntity p").getSingleResult();
+        return entityManager.createQuery(
+                "SELECT COUNT(e) FROM ProductEntity e", Long.class
+        ).getSingleResult();
     }
 }

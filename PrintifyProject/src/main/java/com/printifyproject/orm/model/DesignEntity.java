@@ -1,28 +1,34 @@
 package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
-
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "designs", schema = "inkcredible", catalog = "")
+@Table(name = "designs", schema = "inkcredible")
 public class DesignEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "DesignId", nullable = false)
     private int designId;
-    @Basic
-    @Column(name = "Title", nullable = true, length = 255)
+
+    @Column(name = "Title", nullable = false, length = 255)
+    @NotNull
+    @Size(max = 255)
     private String title;
-    @Basic
-    @Column(name = "Description", nullable = true, length = -1)
+
+    @Column(name = "Description", nullable = false, length = -1)
+    @NotNull
     private String description;
-    @Basic
-    @Column(name = "Image", nullable = true, length = -1)
+
+    @Column(name = "Image", nullable = false, length = -1)
+    @NotNull
     private String image;
-    @OneToMany(mappedBy = "design")
-    private Collection<ProductEntity> productsByDesignId;
+
+    @OneToMany(mappedBy = "design", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Collection<ProductEntity> products;
 
     public int getDesignId() {
         return designId;
@@ -69,11 +75,12 @@ public class DesignEntity {
         return Objects.hash(designId, title, description, image);
     }
 
-    public Collection<ProductEntity> getProductsByDesignId() {
-        return productsByDesignId;
+    public Collection<ProductEntity> getProducts() {
+        return products;
     }
 
-    public void setProductsByDesignId(Collection<ProductEntity> productsByDesignId) {
-        this.productsByDesignId = productsByDesignId;
+    public void setProducts(Collection<ProductEntity> products) {
+        this.products = products;
     }
+
 }

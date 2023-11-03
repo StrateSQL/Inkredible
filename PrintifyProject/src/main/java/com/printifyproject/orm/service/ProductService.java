@@ -7,25 +7,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class ProductService {
 
+    private final ProductDao dao;
+
     @Autowired
-    private ProductDao dao;
+    public ProductService(ProductDao dao) {
+        this.dao = dao;
+    }
 
     public ProductEntity add(ProductEntity entity) {
-        return dao.create(entity);
+        return dao.insert(entity);
     }
 
+    public List<ProductEntity> add(List<ProductEntity> entities) {
+        for (ProductEntity entity : entities) {
+            dao.insert(entity);
+        }
+        return entities;
+    }
 
-    public ProductEntity findById(int id) {
+    public Optional<ProductEntity> findById(int id) {
         return dao.findById(id);
-    }
-
-    public ProductEntity findByKey(String key) {
-        return dao.findByKey(key);
     }
 
     public List<ProductEntity> findAll() {
@@ -36,18 +43,7 @@ public class ProductService {
         return dao.update(entity);
     }
 
-    public ProductEntity merge(ProductEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<ProductEntity> mergeAll(List<ProductEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
@@ -55,7 +51,7 @@ public class ProductService {
         dao.delete(entity);
     }
 
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
     }
 

@@ -17,7 +17,6 @@ public class ServiceHelper {
     private PrintProviderService printProviderService;
     private PrintSpecColorService printSpecColorService;
     private PrintSpecService printSpecService;
-    private PrintSpecSizeService printSpecSizeService;
     private ProductService productService;
     private SizeService sizeService;
 
@@ -90,13 +89,6 @@ public class ServiceHelper {
             this.printSpecService = applicationContext.getBean(PrintSpecService.class);
         }
         return this.printSpecService;
-    }
-
-    public PrintSpecSizeService getPrintSpecSizeService() {
-        if (this.printSpecSizeService == null) {
-            this.printSpecSizeService = applicationContext.getBean(PrintSpecSizeService.class);
-        }
-        return this.printSpecSizeService;
     }
 
     public ProductService getProductService() {

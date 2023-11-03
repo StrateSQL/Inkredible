@@ -1,35 +1,47 @@
 package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "printspecs", schema = "inkcredible", catalog = "")
+@Table(name = "printspecs", schema = "inkcredible")
 public class PrintSpecEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "PrintSpecId", nullable = false)
     private int printSpecId;
-    @Basic
-    @Column(name = "Name", nullable = true, length = 255)
+
+    @Column(name = "Name", nullable = false, length = 255)
+    @NotNull
     private String name;
-    @Basic
-    @Column(name = "BlueprintPrintProviderId", nullable = true, insertable=false, updatable=false)
-    private Integer blueprintPrintProviderId;
-    @Basic
-    @Column(name = "GossMargin", nullable = true, precision = 0)
+
+    @Column(name = "GossMargin", precision = 0)
     private Double gossMargin;
-    @OneToMany(mappedBy = "printspecsByPrintSpecId")
-    private Collection<PrintSpecColorEntity> printspeccolorsByPrintSpecId;
+
     @ManyToOne
-    @JoinColumn(name = "BlueprintPrintProviderId", referencedColumnName = "BlueprintPrintProviderId")
-    private BlueprintPrintProviderEntity blueprintprintprovidersByBlueprintPrintProviderId;
-    @OneToMany(mappedBy = "printSpec")
-    private Collection<PrintSpecSizeEntity> printspecsizesByPrintSpecId;
-    @OneToMany(mappedBy = "printSpec")
-    private Collection<ProductEntity> productsByPrintSpecId;
+    @JoinColumn(name = "blueprintPrintProviderID", nullable = false)
+    private BlueprintPrintProviderEntity blueprintPrintProvider;
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PrintSpecColorEntity> colors = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<ProductEntity> products;
+
+    public PrintSpecEntity() {
+    }
+
+    public PrintSpecEntity(String name, Double gossMargin, BlueprintPrintProviderEntity blueprintPrintProvider, Set<PrintSpecColorEntity> colors) {
+        this.name = name;
+        this.gossMargin = gossMargin;
+        this.blueprintPrintProvider = blueprintPrintProvider;
+        this.colors = colors;
+    }
 
     public int getPrintSpecId() {
         return printSpecId;
@@ -47,14 +59,6 @@ public class PrintSpecEntity {
         this.name = name;
     }
 
-    public Integer getBlueprintPrintProviderId() {
-        return blueprintPrintProviderId;
-    }
-
-    public void setBlueprintPrintProviderId(Integer blueprintPrintProviderId) {
-        this.blueprintPrintProviderId = blueprintPrintProviderId;
-    }
-
     public Double getGossMargin() {
         return gossMargin;
     }
@@ -63,48 +67,40 @@ public class PrintSpecEntity {
         this.gossMargin = gossMargin;
     }
 
+    public BlueprintPrintProviderEntity getBlueprintPrintProvider() {
+        return blueprintPrintProvider;
+    }
+
+    public void setBlueprintPrintProvider(BlueprintPrintProviderEntity blueprintPrintProvider) {
+        this.blueprintPrintProvider = blueprintPrintProvider;
+    }
+
+    public Set<PrintSpecColorEntity> getColors() {
+        return colors;
+    }
+
+    public void setColors(Set<PrintSpecColorEntity> colors) {
+        this.colors = colors;
+    }
+
+    public Collection<ProductEntity> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Collection<ProductEntity> products) {
+        this.products = products;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrintSpecEntity that = (PrintSpecEntity) o;
-        return printSpecId == that.printSpecId && Objects.equals(name, that.name) && Objects.equals(blueprintPrintProviderId, that.blueprintPrintProviderId) && Objects.equals(gossMargin, that.gossMargin);
+        return printSpecId == that.printSpecId && Objects.equals(name, that.name) && Objects.equals(gossMargin, that.gossMargin) && Objects.equals(blueprintPrintProvider, that.blueprintPrintProvider) && Objects.equals(colors, that.colors);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(printSpecId, name, blueprintPrintProviderId, gossMargin);
-    }
-
-    public Collection<PrintSpecColorEntity> getPrintspeccolorsByPrintSpecId() {
-        return printspeccolorsByPrintSpecId;
-    }
-
-    public void setPrintspeccolorsByPrintSpecId(Collection<PrintSpecColorEntity> printspeccolorsByPrintSpecId) {
-        this.printspeccolorsByPrintSpecId = printspeccolorsByPrintSpecId;
-    }
-
-    public BlueprintPrintProviderEntity getBlueprintprintprovidersByBlueprintPrintProviderId() {
-        return blueprintprintprovidersByBlueprintPrintProviderId;
-    }
-
-    public void setBlueprintprintprovidersByBlueprintPrintProviderId(BlueprintPrintProviderEntity blueprintprintprovidersByBlueprintPrintProviderId) {
-        this.blueprintprintprovidersByBlueprintPrintProviderId = blueprintprintprovidersByBlueprintPrintProviderId;
-    }
-
-    public Collection<PrintSpecSizeEntity> getPrintspecsizesByPrintSpecId() {
-        return printspecsizesByPrintSpecId;
-    }
-
-    public void setPrintspecsizesByPrintSpecId(Collection<PrintSpecSizeEntity> printspecsizesByPrintSpecId) {
-        this.printspecsizesByPrintSpecId = printspecsizesByPrintSpecId;
-    }
-
-    public Collection<ProductEntity> getProductsByPrintSpecId() {
-        return productsByPrintSpecId;
-    }
-
-    public void setProductsByPrintSpecId(Collection<ProductEntity> productsByPrintSpecId) {
-        this.productsByPrintSpecId = productsByPrintSpecId;
+        return Objects.hash(printSpecId, name, gossMargin, blueprintPrintProvider, colors);
     }
 }

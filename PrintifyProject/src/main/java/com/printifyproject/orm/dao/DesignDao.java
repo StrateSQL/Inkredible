@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DesignDao {
@@ -13,31 +14,19 @@ public class DesignDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public DesignEntity create(DesignEntity entity) {
+    public DesignEntity insert(DesignEntity entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    public List<DesignEntity> createAll(List<DesignEntity> entities) {
-        for (DesignEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
+    public Optional<DesignEntity> findById(int id) {
+        return Optional.ofNullable(entityManager.find(DesignEntity.class, id));
     }
 
-    public DesignEntity findById(int id) {
-        return entityManager.find(DesignEntity.class, id);
-    }
-
-    public DesignEntity findByKey(String key) {
-        return entityManager.createQuery("FROM DesignEntity WHERE title = :key", DesignEntity.class)
-                .setParameter("key", key)
-                .getSingleResult();
-    }
-
-    @SuppressWarnings("unchecked")
     public List<DesignEntity> findAll() {
-        return entityManager.createQuery("FROM DesignEntity").getResultList();
+        return entityManager.createQuery(
+                "SELECT d FROM DesignEntity d", DesignEntity.class
+        ).getResultList();
     }
 
     public DesignEntity update(DesignEntity entity) {
@@ -45,26 +34,17 @@ public class DesignDao {
     }
 
     public void deleteById(int id) {
-        DesignEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
-    }
-
-    public void delete(DesignEntity entity) {
-        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+        Optional<DesignEntity> entity = findById(id);
+        entity.ifPresent(entityManager::remove);
     }
 
     public boolean existsById(int id) {
-        DesignEntity entity = findById(id);
-        return entity != null;
-    }
-
-    public boolean exists(DesignEntity entity) {
-        return entityManager.contains(entity);
+        return findById(id).isPresent();
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM DesignEntity e").getSingleResult();
+        return entityManager.createQuery(
+                "SELECT COUNT(d) FROM DesignEntity d", Long.class
+        ).getSingleResult();
     }
 }

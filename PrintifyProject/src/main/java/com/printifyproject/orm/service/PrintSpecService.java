@@ -7,25 +7,32 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class PrintSpecService {
 
+    private final PrintSpecDao dao;
+
     @Autowired
-    private PrintSpecDao dao;
+    public PrintSpecService(PrintSpecDao dao) {
+        this.dao = dao;
+    }
 
     public PrintSpecEntity add(PrintSpecEntity entity) {
-        return dao.create(entity);
+        return dao.insert(entity);
     }
 
+    public List<PrintSpecEntity> add(List<PrintSpecEntity> entities) {
+        for (PrintSpecEntity entity : entities) {
+            dao.insert(entity);
+        }
+        return entities;
+    }
 
-    public PrintSpecEntity findById(int id) {
+    public Optional<PrintSpecEntity> findById(int id) {
         return dao.findById(id);
-    }
-
-    public PrintSpecEntity findByKey(String key) {
-        return dao.findByKey(key);
     }
 
     public List<PrintSpecEntity> findAll() {
@@ -36,18 +43,7 @@ public class PrintSpecService {
         return dao.update(entity);
     }
 
-    public PrintSpecEntity merge(PrintSpecEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<PrintSpecEntity> mergeAll(List<PrintSpecEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
@@ -55,7 +51,7 @@ public class PrintSpecService {
         dao.delete(entity);
     }
 
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
     }
 

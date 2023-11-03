@@ -1098,8 +1098,8 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="289" parent="1" name="inkcredible">
       <Current>1</Current>
-      <IntrospectionTimestamp>2023-11-02.10:45:27</IntrospectionTimestamp>
-      <LocalIntrospectionTimestamp>2023-11-02.15:45:27</LocalIntrospectionTimestamp>
+      <IntrospectionTimestamp>2023-11-03.00:18:14</IntrospectionTimestamp>
+      <LocalIntrospectionTimestamp>2023-11-03.05:18:13</LocalIntrospectionTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <schema id="290" parent="1" name="mysql">
@@ -1133,473 +1133,473 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Plugin>caching_sha2_password</Plugin>
     </user>
     <user id="298" parent="1" name="mysqldbuser"/>
-    <table id="299" parent="289" name="blueprintprintprovidercolors">
+    <table id="299" parent="289" name="blueprintprintproviders">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="300" parent="289" name="blueprintprintproviders">
+    <table id="300" parent="289" name="blueprintprintprovidervariants">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="301" parent="289" name="blueprintprintprovidersizes">
+    <table id="301" parent="289" name="blueprints">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="302" parent="289" name="blueprintprintprovidervariants">
+    <table id="302" parent="289" name="colors">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="303" parent="289" name="blueprints">
+    <table id="303" parent="289" name="designs">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="304" parent="289" name="colors">
+    <table id="304" parent="289" name="printproviders">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="305" parent="289" name="designs">
+    <table id="305" parent="289" name="printspeccolors">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="306" parent="289" name="printproviders">
+    <table id="306" parent="289" name="printspecs">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="307" parent="289" name="printspeccolors">
+    <table id="307" parent="289" name="printspecsizes">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="308" parent="289" name="printspecs">
+    <table id="308" parent="289" name="products">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="309" parent="289" name="printspecsizes">
+    <table id="309" parent="289" name="sizes">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </table>
-    <table id="310" parent="289" name="products">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <table id="311" parent="289" name="sizes">
-      <Engine>InnoDB</Engine>
-      <CollationName>utf8mb4_0900_ai_ci</CollationName>
-    </table>
-    <column id="312" parent="299" name="BlueprintPrintProviderColorId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="310" parent="299" name="BlueprintPrintProviderId">
+      <AutoIncrement>1246</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="313" parent="299" name="BlueprintPrintProviderId">
+    <column id="311" parent="299" name="BlueprintId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="314" parent="299" name="ColorId">
+    <column id="312" parent="299" name="PrintProviderId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="315" parent="299" name="blueprintprintprovidercolors_ibfk_1">
-      <ColNames>BlueprintPrintProviderId</ColNames>
-      <RefColNames>BlueprintPrintProviderId</RefColNames>
-      <RefTableName>blueprintprintproviders</RefTableName>
-    </foreign-key>
-    <foreign-key id="316" parent="299" name="blueprintprintprovidercolors_ibfk_2">
-      <ColNames>ColorId</ColNames>
-      <RefColNames>ColorId</RefColNames>
-      <RefTableName>colors</RefTableName>
-    </foreign-key>
-    <index id="317" parent="299" name="PRIMARY">
-      <ColNames>BlueprintPrintProviderColorId</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="318" parent="299" name="BlueprintPrintProviderId">
-      <ColNames>BlueprintPrintProviderId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="319" parent="299" name="ColorId">
-      <ColNames>ColorId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="320" parent="299" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="321" parent="300" name="BlueprintPrintProviderId">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="322" parent="300" name="BlueprintId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="323" parent="300" name="PrintProviderId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <foreign-key id="324" parent="300" name="blueprintprintproviders_ibfk_1">
+    <foreign-key id="313" parent="299" name="blueprintprintproviders_ibfk_1">
       <ColNames>BlueprintId</ColNames>
       <RefColNames>BlueprintId</RefColNames>
       <RefTableName>blueprints</RefTableName>
     </foreign-key>
-    <foreign-key id="325" parent="300" name="blueprintprintproviders_ibfk_2">
+    <foreign-key id="314" parent="299" name="blueprintprintproviders_ibfk_2">
       <ColNames>PrintProviderId</ColNames>
       <RefColNames>PrintProviderId</RefColNames>
       <RefTableName>printproviders</RefTableName>
     </foreign-key>
-    <index id="326" parent="300" name="PRIMARY">
+    <index id="315" parent="299" name="PRIMARY">
       <ColNames>BlueprintPrintProviderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="327" parent="300" name="BlueprintId">
+    <index id="316" parent="299" name="BlueprintId">
       <ColNames>BlueprintId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="328" parent="300" name="PrintProviderId">
+    <index id="317" parent="299" name="PrintProviderId">
       <ColNames>PrintProviderId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="329" parent="300" name="PRIMARY">
+    <key id="318" parent="299" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="330" parent="301" name="BlueprintPrintProviderSizeId">
+    <column id="319" parent="300" name="BlueprintPrintProviderVariantId">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="331" parent="301" name="BlueprintPrintProviderId">
+    <column id="320" parent="300" name="BlueprintPrintProviderId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="332" parent="301" name="SizeId">
+    <column id="321" parent="300" name="VariantKey">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="333" parent="301" name="blueprintprintprovidersizes_ibfk_1">
-      <ColNames>BlueprintPrintProviderId</ColNames>
-      <RefColNames>BlueprintPrintProviderId</RefColNames>
-      <RefTableName>blueprintprintproviders</RefTableName>
-    </foreign-key>
-    <foreign-key id="334" parent="301" name="blueprintprintprovidersizes_ibfk_2">
-      <ColNames>SizeId</ColNames>
-      <RefColNames>SizeId</RefColNames>
-      <RefTableName>sizes</RefTableName>
-    </foreign-key>
-    <index id="335" parent="301" name="PRIMARY">
-      <ColNames>BlueprintPrintProviderSizeId</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="336" parent="301" name="BlueprintPrintProviderId">
-      <ColNames>BlueprintPrintProviderId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="337" parent="301" name="SizeId">
-      <ColNames>SizeId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="338" parent="301" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="339" parent="302" name="BlueprintPrintProviderVariantId">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="340" parent="302" name="BlueprintPrintProviderId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="341" parent="302" name="VariantKey">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="342" parent="302" name="Title">
+    <column id="322" parent="300" name="Title">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="343" parent="302" name="SizeId">
+    <column id="323" parent="300" name="SizeId">
       <DasType>int|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="344" parent="302" name="ColorId">
+    <column id="324" parent="300" name="ColorId">
       <DasType>int|0s</DasType>
       <Position>6</Position>
     </column>
-    <foreign-key id="345" parent="302" name="blueprintprintprovidervariants_ibfk_1">
+    <foreign-key id="325" parent="300" name="blueprintprintprovidervariants_ibfk_1">
       <ColNames>BlueprintPrintProviderId</ColNames>
       <RefColNames>BlueprintPrintProviderId</RefColNames>
       <RefTableName>blueprintprintproviders</RefTableName>
     </foreign-key>
-    <foreign-key id="346" parent="302" name="blueprintprintprovidervariants_ibfk_3">
+    <foreign-key id="326" parent="300" name="blueprintprintprovidervariants_ibfk_3">
       <ColNames>SizeId</ColNames>
       <RefColNames>SizeId</RefColNames>
       <RefTableName>sizes</RefTableName>
     </foreign-key>
-    <foreign-key id="347" parent="302" name="blueprintprintprovidervariants_ibfk_2">
+    <foreign-key id="327" parent="300" name="blueprintprintprovidervariants_ibfk_2">
       <ColNames>ColorId</ColNames>
       <RefColNames>ColorId</RefColNames>
       <RefTableName>colors</RefTableName>
     </foreign-key>
-    <index id="348" parent="302" name="PRIMARY">
+    <index id="328" parent="300" name="PRIMARY">
       <ColNames>BlueprintPrintProviderVariantId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="349" parent="302" name="uix_blueprintprintprovidervariants">
+    <index id="329" parent="300" name="uix_blueprintprintprovidervariants">
       <ColNames>BlueprintPrintProviderId
 VariantKey</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="350" parent="302" name="BlueprintPrintProviderId">
+    <index id="330" parent="300" name="BlueprintPrintProviderId">
       <ColNames>BlueprintPrintProviderId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="351" parent="302" name="SizeId">
+    <index id="331" parent="300" name="SizeId">
       <ColNames>SizeId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="352" parent="302" name="ColorId">
+    <index id="332" parent="300" name="ColorId">
       <ColNames>ColorId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="353" parent="302" name="PRIMARY">
+    <key id="333" parent="300" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="354" parent="302" name="uix_blueprintprintprovidervariants">
+    <key id="334" parent="300" name="uix_blueprintprintprovidervariants">
       <UnderlyingIndexName>uix_blueprintprintprovidervariants</UnderlyingIndexName>
     </key>
-    <column id="355" parent="303" name="BlueprintId">
-      <AutoIncrement>219</AutoIncrement>
+    <column id="335" parent="301" name="BlueprintId">
+      <AutoIncrement>761</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="356" parent="303" name="BlueprintKey">
+    <column id="336" parent="301" name="BlueprintKey">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="357" parent="303" name="Title">
+    <column id="337" parent="301" name="Title">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="358" parent="303" name="Model">
+    <column id="338" parent="301" name="Model">
       <DasType>varchar(255)|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="359" parent="303" name="Brand">
+    <column id="339" parent="301" name="Brand">
       <DasType>varchar(255)|0s</DasType>
       <Position>5</Position>
     </column>
-    <column id="360" parent="303" name="Description">
+    <column id="340" parent="301" name="Description">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <index id="361" parent="303" name="PRIMARY">
+    <index id="341" parent="301" name="PRIMARY">
       <ColNames>BlueprintId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="362" parent="303" name="PRIMARY">
+    <key id="342" parent="301" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="363" parent="304" name="ColorId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="343" parent="302" name="ColorId">
+      <AutoIncrement>1928</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="364" parent="304" name="Color">
+    <column id="344" parent="302" name="Color">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="365" parent="304" name="Hex">
+    <column id="345" parent="302" name="Hex">
       <DasType>varchar(10)|0s</DasType>
-      <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <index id="366" parent="304" name="PRIMARY">
+    <index id="346" parent="302" name="PRIMARY">
       <ColNames>ColorId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="367" parent="304" name="PRIMARY">
+    <key id="347" parent="302" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="368" parent="305" name="DesignId">
+    <column id="348" parent="303" name="DesignId">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="369" parent="305" name="Title">
+    <column id="349" parent="303" name="Title">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="370" parent="305" name="Description">
+    <column id="350" parent="303" name="Description">
       <DasType>text|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="371" parent="305" name="Image">
+    <column id="351" parent="303" name="Image">
       <DasType>text|0s</DasType>
       <Position>4</Position>
     </column>
-    <index id="372" parent="305" name="PRIMARY">
+    <index id="352" parent="303" name="PRIMARY">
       <ColNames>DesignId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="373" parent="305" name="PRIMARY">
+    <key id="353" parent="303" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="374" parent="306" name="PrintProviderId">
-      <AutoIncrement>54</AutoIncrement>
+    <column id="354" parent="304" name="PrintProviderId">
+      <AutoIncrement>439</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="375" parent="306" name="PrintProviderKey">
+    <column id="355" parent="304" name="PrintProviderKey">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="376" parent="306" name="Name">
+    <column id="356" parent="304" name="Name">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="377" parent="306" name="Region">
+    <column id="357" parent="304" name="Region">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="378" parent="306" name="Country">
+    <column id="358" parent="304" name="Country">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <index id="379" parent="306" name="PRIMARY">
+    <index id="359" parent="304" name="PRIMARY">
       <ColNames>PrintProviderId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="380" parent="306" name="PRIMARY">
+    <key id="360" parent="304" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="381" parent="307" name="PrintSpecColorId">
+    <column id="361" parent="305" name="PrintSpecColorId">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="382" parent="307" name="PrintSpecId">
+    <column id="362" parent="305" name="PrintSpecId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="383" parent="307" name="ColorId">
+    <column id="363" parent="305" name="ColorId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="384" parent="307" name="printspeccolors_ibfk_1">
+    <foreign-key id="364" parent="305" name="printspeccolors_ibfk_1">
       <ColNames>PrintSpecId</ColNames>
       <RefColNames>PrintSpecId</RefColNames>
       <RefTableName>printspecs</RefTableName>
     </foreign-key>
-    <foreign-key id="385" parent="307" name="printspeccolors_ibfk_2">
+    <foreign-key id="365" parent="305" name="printspeccolors_ibfk_2">
       <ColNames>ColorId</ColNames>
       <RefColNames>ColorId</RefColNames>
       <RefTableName>colors</RefTableName>
     </foreign-key>
-    <index id="386" parent="307" name="PRIMARY">
+    <index id="366" parent="305" name="PRIMARY">
       <ColNames>PrintSpecColorId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="387" parent="307" name="PrintSpecId">
+    <index id="367" parent="305" name="PrintSpecId">
       <ColNames>PrintSpecId</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="388" parent="307" name="ColorId">
+    <index id="368" parent="305" name="ColorId">
       <ColNames>ColorId</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="389" parent="307" name="PRIMARY">
+    <key id="369" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="390" parent="308" name="PrintSpecId">
+    <column id="370" parent="306" name="PrintSpecId">
       <AutoIncrement>1</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="391" parent="308" name="Name">
+    <column id="371" parent="306" name="Name">
       <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="392" parent="308" name="BlueprintPrintProviderId">
+    <column id="372" parent="306" name="BlueprintPrintProviderId">
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="393" parent="308" name="GossMargin">
+    <column id="373" parent="306" name="GossMargin">
       <DasType>float|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <foreign-key id="394" parent="308" name="printspecs_ibfk_1">
+    <foreign-key id="374" parent="306" name="printspecs_ibfk_1">
       <ColNames>BlueprintPrintProviderId</ColNames>
       <RefColNames>BlueprintPrintProviderId</RefColNames>
       <RefTableName>blueprintprintproviders</RefTableName>
     </foreign-key>
-    <index id="395" parent="308" name="PRIMARY">
+    <index id="375" parent="306" name="PRIMARY">
       <ColNames>PrintSpecId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="396" parent="308" name="BlueprintPrintProviderId">
+    <index id="376" parent="306" name="BlueprintPrintProviderId">
       <ColNames>BlueprintPrintProviderId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="377" parent="306" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="378" parent="307" name="PrintSpecSizeId">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="379" parent="307" name="PrintSpecId">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="380" parent="307" name="SizeId">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <foreign-key id="381" parent="307" name="printspecsizes_ibfk_1">
+      <ColNames>PrintSpecId</ColNames>
+      <RefColNames>PrintSpecId</RefColNames>
+      <RefTableName>printspecs</RefTableName>
+    </foreign-key>
+    <foreign-key id="382" parent="307" name="printspecsizes_ibfk_2">
+      <ColNames>SizeId</ColNames>
+      <RefColNames>SizeId</RefColNames>
+      <RefTableName>sizes</RefTableName>
+    </foreign-key>
+    <index id="383" parent="307" name="PRIMARY">
+      <ColNames>PrintSpecSizeId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="384" parent="307" name="PrintSpecId">
+      <ColNames>PrintSpecId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="385" parent="307" name="SizeId">
+      <ColNames>SizeId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="386" parent="307" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
+    </key>
+    <column id="387" parent="308" name="ProductId">
+      <AutoIncrement>1</AutoIncrement>
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <column id="388" parent="308" name="ProductKey">
+      <DasType>text|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>2</Position>
+    </column>
+    <column id="389" parent="308" name="DesignId">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+    </column>
+    <column id="390" parent="308" name="PrintSpecId">
+      <DasType>int|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+    </column>
+    <column id="391" parent="308" name="IsPublished">
+      <DasType>tinyint|0s</DasType>
+      <Position>5</Position>
+    </column>
+    <foreign-key id="392" parent="308" name="products_ibfk_1">
+      <ColNames>DesignId</ColNames>
+      <RefColNames>DesignId</RefColNames>
+      <RefTableName>designs</RefTableName>
+    </foreign-key>
+    <foreign-key id="393" parent="308" name="products_ibfk_2">
+      <ColNames>PrintSpecId</ColNames>
+      <RefColNames>PrintSpecId</RefColNames>
+      <RefTableName>printspecs</RefTableName>
+    </foreign-key>
+    <index id="394" parent="308" name="PRIMARY">
+      <ColNames>ProductId</ColNames>
+      <Type>btree</Type>
+      <Unique>1</Unique>
+    </index>
+    <index id="395" parent="308" name="DesignId">
+      <ColNames>DesignId</ColNames>
+      <Type>btree</Type>
+    </index>
+    <index id="396" parent="308" name="PrintSpecId">
+      <ColNames>PrintSpecId</ColNames>
       <Type>btree</Type>
     </index>
     <key id="397" parent="308" name="PRIMARY">
@@ -1607,120 +1607,23 @@ VariantKey</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="398" parent="309" name="PrintSpecSizeId">
-      <AutoIncrement>1</AutoIncrement>
+    <column id="398" parent="309" name="SizeId">
+      <AutoIncrement>910</AutoIncrement>
       <DasType>int|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="399" parent="309" name="PrintSpecId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="400" parent="309" name="SizeId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <foreign-key id="401" parent="309" name="printspecsizes_ibfk_1">
-      <ColNames>PrintSpecId</ColNames>
-      <RefColNames>PrintSpecId</RefColNames>
-      <RefTableName>printspecs</RefTableName>
-    </foreign-key>
-    <foreign-key id="402" parent="309" name="printspecsizes_ibfk_2">
-      <ColNames>SizeId</ColNames>
-      <RefColNames>SizeId</RefColNames>
-      <RefTableName>sizes</RefTableName>
-    </foreign-key>
-    <index id="403" parent="309" name="PRIMARY">
-      <ColNames>PrintSpecSizeId</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="404" parent="309" name="PrintSpecId">
-      <ColNames>PrintSpecId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="405" parent="309" name="SizeId">
-      <ColNames>SizeId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="406" parent="309" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="407" parent="310" name="ProductId">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="408" parent="310" name="ProductKey">
-      <DasType>text|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <column id="409" parent="310" name="DesignId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>3</Position>
-    </column>
-    <column id="410" parent="310" name="PrintSpecId">
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>4</Position>
-    </column>
-    <column id="411" parent="310" name="IsPublished">
-      <DasType>tinyint|0s</DasType>
-      <Position>5</Position>
-    </column>
-    <foreign-key id="412" parent="310" name="products_ibfk_1">
-      <ColNames>DesignId</ColNames>
-      <RefColNames>DesignId</RefColNames>
-      <RefTableName>designs</RefTableName>
-    </foreign-key>
-    <foreign-key id="413" parent="310" name="products_ibfk_2">
-      <ColNames>PrintSpecId</ColNames>
-      <RefColNames>PrintSpecId</RefColNames>
-      <RefTableName>printspecs</RefTableName>
-    </foreign-key>
-    <index id="414" parent="310" name="PRIMARY">
-      <ColNames>ProductId</ColNames>
-      <Type>btree</Type>
-      <Unique>1</Unique>
-    </index>
-    <index id="415" parent="310" name="DesignId">
-      <ColNames>DesignId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <index id="416" parent="310" name="PrintSpecId">
-      <ColNames>PrintSpecId</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="417" parent="310" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
-    </key>
-    <column id="418" parent="311" name="SizeId">
-      <AutoIncrement>1</AutoIncrement>
-      <DasType>int|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="419" parent="311" name="Size">
+    <column id="399" parent="309" name="Size">
       <DasType>varchar(50)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <index id="420" parent="311" name="PRIMARY">
+    <index id="400" parent="309" name="PRIMARY">
       <ColNames>SizeId</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="421" parent="311" name="PRIMARY">
+    <key id="401" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>

@@ -2,6 +2,7 @@ package com.printifyproject.orm.model;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -24,6 +25,9 @@ public class BlueprintPrintProviderEntity {
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BlueprintPrintProviderVariantEntity> colors = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Collection<PrintSpecEntity> printSpecs;
 
     public BlueprintPrintProviderEntity() {
     }

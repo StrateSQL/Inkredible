@@ -22,6 +22,9 @@ public class ColorEntity {
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants = new HashSet<>();
 
+    @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PrintSpecColorEntity> printSpecColors = new HashSet<>();
+
     public ColorEntity() {}
 
     public ColorEntity(String color) {

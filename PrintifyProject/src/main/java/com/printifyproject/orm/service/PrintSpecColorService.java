@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,16 +17,20 @@ public class PrintSpecColorService {
     private PrintSpecColorDao dao;
 
     public PrintSpecColorEntity add(PrintSpecColorEntity entity) {
-        return dao.create(entity);
+        return dao.insert(entity);
     }
 
+    public List<PrintSpecColorEntity> add(List<PrintSpecColorEntity> entities) {
+        entities.forEach(dao::insert);
+        return entities;
+    }
 
-    public PrintSpecColorEntity findById(int id) {
+    public Optional<PrintSpecColorEntity> findById(int id) {
         return dao.findById(id);
     }
 
-    public PrintSpecColorEntity findByKey(String key) {
-        return dao.findByKey(key);
+    public List<PrintSpecColorEntity> findByPrintSpecAndColor(int printSpecId, int colorId) {
+        return dao.findByPrintSpecAndColor(printSpecId, colorId);
     }
 
     public List<PrintSpecColorEntity> findAll() {
@@ -36,31 +41,12 @@ public class PrintSpecColorService {
         return dao.update(entity);
     }
 
-    public PrintSpecColorEntity merge(PrintSpecColorEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<PrintSpecColorEntity> mergeAll(List<PrintSpecColorEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
-    public void delete(PrintSpecColorEntity entity) {
-        dao.delete(entity);
-    }
-
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
-    }
-
-    public boolean exists(PrintSpecColorEntity entity) {
-        return dao.exists(entity);
     }
 
     public long count() {

@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PrintSpecColorDao {
@@ -13,36 +14,27 @@ public class PrintSpecColorDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public PrintSpecColorEntity create(PrintSpecColorEntity entity) {
+    public PrintSpecColorEntity insert(PrintSpecColorEntity entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    public List<PrintSpecColorEntity> createAll(List<PrintSpecColorEntity> entities) {
-        for (PrintSpecColorEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
+    public Optional<PrintSpecColorEntity> findById(int id) {
+        return Optional.ofNullable(entityManager.find(PrintSpecColorEntity.class, id));
     }
 
-    public PrintSpecColorEntity findById(int id) {
-        return entityManager.find(PrintSpecColorEntity.class, id);
+    public List<PrintSpecColorEntity> findByPrintSpecAndColor(int printSpecId, int colorId) {
+        return entityManager.createQuery("SELECT psc FROM PrintSpecColorEntity psc " +
+                        "WHERE psc.printSpec.printSpecId = :printSpecId AND psc.color.id = :colorId", PrintSpecColorEntity.class)
+                .setParameter("printSpecId", printSpecId)
+                .setParameter("colorId", colorId)
+                .getResultList();
     }
 
-    // Assuming the key attribute here refers to `printSpecId`.
-    public PrintSpecColorEntity findByKey(String key) {
-        try {
-            return entityManager.createQuery("FROM PrintSpecColorEntity WHERE printSpecId = :key", PrintSpecColorEntity.class)
-                    .setParameter("key", Integer.valueOf(key))
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
     public List<PrintSpecColorEntity> findAll() {
-        return entityManager.createQuery("FROM PrintSpecColorEntity").getResultList();
+        return entityManager.createQuery(
+                "SELECT psc FROM PrintSpecColorEntity psc", PrintSpecColorEntity.class
+        ).getResultList();
     }
 
     public PrintSpecColorEntity update(PrintSpecColorEntity entity) {
@@ -50,26 +42,17 @@ public class PrintSpecColorDao {
     }
 
     public void deleteById(int id) {
-        PrintSpecColorEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
-    }
-
-    public void delete(PrintSpecColorEntity entity) {
-        entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
+        Optional<PrintSpecColorEntity> entity = findById(id);
+        entity.ifPresent(entityManager::remove);
     }
 
     public boolean existsById(int id) {
-        PrintSpecColorEntity entity = findById(id);
-        return entity != null;
-    }
-
-    public boolean exists(PrintSpecColorEntity entity) {
-        return entityManager.contains(entity);
+        return findById(id).isPresent();
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM PrintSpecColorEntity e").getSingleResult();
+        return entityManager.createQuery(
+                "SELECT COUNT(psc) FROM PrintSpecColorEntity psc", Long.class
+        ).getSingleResult();
     }
 }

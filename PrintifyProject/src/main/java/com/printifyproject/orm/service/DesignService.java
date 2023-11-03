@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,16 +17,16 @@ public class DesignService {
     private DesignDao dao;
 
     public DesignEntity add(DesignEntity entity) {
-        return dao.create(entity);
+        return dao.insert(entity);
     }
 
+    public List<DesignEntity> add(List<DesignEntity> entities) {
+        entities.forEach(dao::insert);
+        return entities;
+    }
 
-    public DesignEntity findById(int id) {
+    public Optional<DesignEntity> findById(int id) {
         return dao.findById(id);
-    }
-
-    public DesignEntity findByKey(String key) {
-        return dao.findByKey(key);
     }
 
     public List<DesignEntity> findAll() {
@@ -36,31 +37,12 @@ public class DesignService {
         return dao.update(entity);
     }
 
-    public DesignEntity merge(DesignEntity entity) {
-        return dao.update(entity);
-    }
-
-    public List<DesignEntity> mergeAll(List<DesignEntity> entities) {
-        for (int i = 0; i < entities.size(); i++) {
-            entities.set(i, dao.update(entities.get(i)));
-        }
-        return entities;
-    }
-
-    public void delete(int id) {
+    public void deleteById(int id) {
         dao.deleteById(id);
     }
 
-    public void delete(DesignEntity entity) {
-        dao.delete(entity);
-    }
-
-    public boolean exists(int id) {
+    public boolean existsById(int id) {
         return dao.existsById(id);
-    }
-
-    public boolean exists(DesignEntity entity) {
-        return dao.exists(entity);
     }
 
     public long count() {

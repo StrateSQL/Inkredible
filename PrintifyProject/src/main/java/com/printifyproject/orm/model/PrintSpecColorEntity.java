@@ -5,24 +5,28 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "printspeccolors", schema = "inkcredible", catalog = "")
+@Table(name = "printspeccolors", schema = "inkcredible")
 public class PrintSpecColorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "PrintSpecColorId", nullable = false)
     private int printSpecColorId;
-    @Basic
-    @Column(name = "PrintSpecId", nullable = true, insertable=false, updatable=false)
-    private Integer printSpecId;
-    @Basic
-    @Column(name = "ColorId", nullable = true, insertable=false, updatable=false)
-    private Integer colorId;
-    @ManyToOne
-    @JoinColumn(name = "PrintSpecId", referencedColumnName = "PrintSpecId")
-    private PrintSpecEntity printspecsByPrintSpecId;
-    @ManyToOne
-    @JoinColumn(name = "ColorId")
-    private ColorEntity colorInPrintSpec;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PrintSpecId", nullable = false)
+    private PrintSpecEntity printSpec;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ColorId", nullable = false)
+    private ColorEntity color;
+
+    public PrintSpecColorEntity() {
+    }
+
+    public PrintSpecColorEntity(PrintSpecEntity printSpec, ColorEntity color) {
+        this.printSpec = printSpec;
+        this.color = color;
+    }
 
     public int getPrintSpecColorId() {
         return printSpecColorId;
@@ -32,20 +36,20 @@ public class PrintSpecColorEntity {
         this.printSpecColorId = printSpecColorId;
     }
 
-    public Integer getPrintSpecId() {
-        return printSpecId;
+    public PrintSpecEntity getPrintSpec() {
+        return printSpec;
     }
 
-    public void setPrintSpecId(Integer printSpecId) {
-        this.printSpecId = printSpecId;
+    public void setPrintSpec(PrintSpecEntity printSpec) {
+        this.printSpec = printSpec;
     }
 
-    public Integer getColorId() {
-        return colorId;
+    public ColorEntity getColor() {
+        return color;
     }
 
-    public void setColorId(Integer colorId) {
-        this.colorId = colorId;
+    public void setColor(ColorEntity color) {
+        this.color = color;
     }
 
     @Override
@@ -53,27 +57,11 @@ public class PrintSpecColorEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PrintSpecColorEntity that = (PrintSpecColorEntity) o;
-        return printSpecColorId == that.printSpecColorId && Objects.equals(printSpecId, that.printSpecId) && Objects.equals(colorId, that.colorId);
+        return Objects.equals(printSpec, that.printSpec) && Objects.equals(color, that.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(printSpecColorId, printSpecId, colorId);
-    }
-
-    public PrintSpecEntity getPrintspecsByPrintSpecId() {
-        return printspecsByPrintSpecId;
-    }
-
-    public void setPrintspecsByPrintSpecId(PrintSpecEntity printspecsByPrintSpecId) {
-        this.printspecsByPrintSpecId = printspecsByPrintSpecId;
-    }
-
-    public ColorEntity getColorInPrintSpec() {
-        return colorInPrintSpec;
-    }
-
-    public void setColorInPrintSpec(ColorEntity colorsByColorId) {
-        this.colorInPrintSpec = colorsByColorId;
+        return Objects.hash(printSpec, color);
     }
 }

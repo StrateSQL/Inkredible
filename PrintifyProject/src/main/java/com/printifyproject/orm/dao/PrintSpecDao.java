@@ -6,6 +6,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PrintSpecDao {
@@ -13,47 +14,29 @@ public class PrintSpecDao {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public PrintSpecEntity create(PrintSpecEntity entity) {
+    public PrintSpecEntity insert(PrintSpecEntity entity) {
         entityManager.persist(entity);
         return entity;
     }
 
-    public List<PrintSpecEntity> createAll(List<PrintSpecEntity> entities) {
-        for (PrintSpecEntity entity : entities) {
-            entityManager.persist(entity);
-        }
-        return entities;
+    public Optional<PrintSpecEntity> findById(int id) {
+        return Optional.ofNullable(entityManager.find(PrintSpecEntity.class, id));
     }
 
-    public PrintSpecEntity findById(int id) {
-        return entityManager.find(PrintSpecEntity.class, id);
-    }
-
-    // Assuming the key attribute here refers to `name`.
-    public PrintSpecEntity findByKey(String key) {
-        try {
-            return entityManager.createQuery("FROM PrintSpecEntity WHERE name = :key", PrintSpecEntity.class)
-                    .setParameter("key", key)
-                    .getSingleResult();
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
     public List<PrintSpecEntity> findAll() {
-        return entityManager.createQuery("FROM PrintSpecEntity").getResultList();
+        return entityManager.createQuery(
+                "SELECT e FROM PrintSpecEntity e", PrintSpecEntity.class
+        ).getResultList();
     }
 
     public PrintSpecEntity update(PrintSpecEntity entity) {
-        return entityManager.merge(entity);
+        entityManager.merge(entity);
+        return entity;
     }
 
     public void deleteById(int id) {
-        PrintSpecEntity entity = findById(id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        Optional<PrintSpecEntity> entity = findById(id);
+        entity.ifPresent(entityManager::remove);
     }
 
     public void delete(PrintSpecEntity entity) {
@@ -61,15 +44,16 @@ public class PrintSpecDao {
     }
 
     public boolean existsById(int id) {
-        PrintSpecEntity entity = findById(id);
-        return entity != null;
+        return findById(id).isPresent();
     }
 
     public boolean exists(PrintSpecEntity entity) {
-        return entityManager.contains(entity);
+        return entityManager.contains(entity) || existsById(entity.getPrintSpecId());
     }
 
     public long count() {
-        return (long) entityManager.createQuery("SELECT COUNT(e) FROM PrintSpecEntity e").getSingleResult();
+        return entityManager.createQuery(
+                "SELECT COUNT(e) FROM PrintSpecEntity e", Long.class
+        ).getSingleResult();
     }
 }

@@ -1,5 +1,6 @@
 package com.printifyproject.utility;
 
+import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.printifyapi.loader.PrintifyLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,6 +20,8 @@ public class Main {
         logger.info("This is an info message.");
         logger.error("This is an error message.");
         //colorExample();
+
+        var prod = new BlueprintEntity();
 
     }
 
