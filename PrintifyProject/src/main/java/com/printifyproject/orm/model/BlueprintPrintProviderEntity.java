@@ -3,26 +3,27 @@ package com.printifyproject.orm.model;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name = "blueprintprintproviders", schema = "inkcredible")
 public class BlueprintPrintProviderEntity {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BlueprintPrintProviderId", nullable = false)
-    private int blueprintPrintProviderId;
+    private int id;
 
     @ManyToOne
-    @JoinColumn(name = "BlueprintId")
+    @JoinColumn(name = "BlueprintId", nullable = false)
     private BlueprintEntity blueprint;
 
     @ManyToOne
-    @JoinColumn(name = "PrintProviderId")
+    @JoinColumn(name = "PrintProviderId", nullable = false)
     private PrintProviderEntity printProvider;
 
-    @OneToMany(mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlueprintPrintProviderColorEntity> colors = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BlueprintPrintProviderVariantEntity> colors = new HashSet<>();
 
     public BlueprintPrintProviderEntity() {
     }
@@ -32,12 +33,12 @@ public class BlueprintPrintProviderEntity {
         this.printProvider = printProvider;
     }
 
-    public int getBlueprintPrintProviderId() {
-        return blueprintPrintProviderId;
+    public int getId() {
+        return id;
     }
 
-    public void setBlueprintPrintProviderId(int blueprintPrintProviderId) {
-        this.blueprintPrintProviderId = blueprintPrintProviderId;
+    public void setId(int blueprintPrintProviderId) {
+        this.id = blueprintPrintProviderId;
     }
 
     public BlueprintEntity getBlueprint() {
@@ -56,21 +57,24 @@ public class BlueprintPrintProviderEntity {
         this.printProvider = printProvider;
     }
 
-    public Set<BlueprintPrintProviderColorEntity> getColors() {
+    public Set<BlueprintPrintProviderVariantEntity> getColors() {
         return colors;
     }
 
-    public void setColors(Set<BlueprintPrintProviderColorEntity> colors) {
+    public void setColors(Set<BlueprintPrintProviderVariantEntity> colors) {
         this.colors = colors;
     }
 
-    public void addColor(BlueprintPrintProviderColorEntity colorEntity) {
-        colors.add(colorEntity);
-        colorEntity.setBlueprintPrintProvider(this);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BlueprintPrintProviderEntity that = (BlueprintPrintProviderEntity) o;
+        return id == that.id && Objects.equals(blueprint, that.blueprint) && Objects.equals(printProvider, that.printProvider) && Objects.equals(colors, that.colors);
     }
 
-    public void removeColor(BlueprintPrintProviderColorEntity colorEntity) {
-        colors.remove(colorEntity);
-        colorEntity.setBlueprintPrintProvider(null);
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, blueprint, printProvider, colors);
     }
 }

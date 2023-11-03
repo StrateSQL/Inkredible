@@ -2,6 +2,7 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.PrintProviderDao;
 import com.printifyproject.orm.model.PrintProviderEntity;
+import com.printifyproject.printifyapi.api.ApiCatalog;
 import com.printifyproject.printifyapi.catalog.Location;
 import com.printifyproject.printifyapi.catalog.PrintProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -77,8 +79,19 @@ public class PrintProviderService {
         return dao.count();
     }
 
-    public static PrintProviderEntity transform(PrintProvider printProvider) {
-        var entity = new PrintProviderEntity();
+    public void importPrintifyApi(ApiCatalog apiCatalog, String countryFilter) {
+        List<PrintProvider> printProviders = apiCatalog.getPrintProviders();
+
+        List<PrintProviderEntity> entities = printProviders.stream()
+                .filter(printProvider -> printProvider.getLocation().getCountry().equals(countryFilter))
+                .map(this::transformPrintProviderToEntity)
+                .collect(Collectors.toList());
+
+        add(entities);
+    }
+
+    public PrintProviderEntity transformPrintProviderToEntity(PrintProvider printProvider) {
+        PrintProviderEntity entity = new PrintProviderEntity();
         Location location = printProvider.getLocation();
 
         entity.setName(printProvider.getTitle());

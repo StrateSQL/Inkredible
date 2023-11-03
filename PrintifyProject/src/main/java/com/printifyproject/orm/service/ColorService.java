@@ -2,31 +2,36 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.ColorDao;
 import com.printifyproject.orm.model.ColorEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
+@Service
 @Transactional
 public class ColorService {
 
-    private final ColorDao dao = new ColorDao(); // In real scenarios, you would inject this.
+    @Autowired
+    private ColorDao dao;
 
-    public void add(ColorEntity entity) {
-        dao.insert(entity);
+    public ColorEntity add(ColorEntity entity) {
+        return dao.insert(entity);
     }
 
-    public void add(List<ColorEntity> entities) {
-        entities.forEach(dao::insert);
+    public List<ColorEntity> add(List<ColorEntity> entities) {
+        entities.parallelStream().forEach(dao::insert); // Parallelized operation
+        return entities;
     }
 
-    public ColorEntity findById(int id) {
+    public Optional<ColorEntity> findById(int id) {
         return dao.findById(id);
     }
 
-    public ColorEntity findByKey(String key) {
-        return dao.findByKey(key);
+    public ColorEntity findByColor(String color) {
+        return dao.findByColor(color);
     }
-
     public List<ColorEntity> findAll() {
         return dao.findAll();
     }

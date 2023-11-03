@@ -4,11 +4,15 @@ import com.printifyproject.orm.dao.BlueprintPrintProviderDao;
 import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.BlueprintPrintProviderEntity;
 import com.printifyproject.orm.model.PrintProviderEntity;
+import com.printifyproject.printifyapi.api.ApiCatalog;
+import com.printifyproject.printifyapi.catalog.PrintProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -16,6 +20,12 @@ public class BlueprintPrintProviderService {
 
     @Autowired
     private BlueprintPrintProviderDao dao;
+
+    @Autowired
+    private BlueprintService blueprintService;
+
+    @Autowired
+    private PrintProviderService printProviderService;
 
     public BlueprintPrintProviderEntity add(BlueprintPrintProviderEntity entity) {
         return dao.insert(entity);
@@ -28,11 +38,11 @@ public class BlueprintPrintProviderService {
         return entities;
     }
 
-    public BlueprintPrintProviderEntity findById(int id) {
+    public Optional<BlueprintPrintProviderEntity> findById(int id) {
         return dao.findById(id);
     }
 
-    public List<BlueprintPrintProviderEntity> findByKeys(
+    public Optional<BlueprintPrintProviderEntity> findByKeys(
             BlueprintEntity blueprint, PrintProviderEntity printProvider) {
         return dao.findByKeys(blueprint, printProvider);
     }
@@ -64,4 +74,42 @@ public class BlueprintPrintProviderService {
     public long count() {
         return dao.count();
     }
+
+    public void importPrintifyApi(ApiCatalog apiCatalog) {
+        List<BlueprintEntity> blueprintEntities = blueprintService.findAll();
+        List<BlueprintPrintProviderEntity> blueprintPrintProviderEntities = new ArrayList<>();
+
+        processBlueprints(apiCatalog, blueprintEntities, blueprintPrintProviderEntities);
+        add(blueprintPrintProviderEntities);
+    }
+
+    private void processBlueprints(ApiCatalog apiCatalog, List<BlueprintEntity> blueprintEntities, List<BlueprintPrintProviderEntity> blueprintPrintProviderEntities) {
+        for (BlueprintEntity blueprintEntity : blueprintEntities) {
+            List<PrintProvider> printProviders = apiCatalog.getPrintProviders(blueprintEntity.getBlueprintKey());
+            for (PrintProvider printProvider : printProviders) {
+                checkAndAddPrintProvider(blueprintEntity, printProvider, blueprintPrintProviderEntities);
+            }
+        }
+    }
+
+    private void checkAndAddPrintProvider(BlueprintEntity blueprintEntity, PrintProvider printProvider, List<BlueprintPrintProviderEntity> blueprintPrintProviderEntities) {
+        PrintProviderEntity printProviderEntity = printProviderService.transformPrintProviderToEntity(printProvider);
+
+        PrintProviderEntity existingPrintProviderEntity = printProviderService.findByKey(printProviderEntity.getPrintProviderKey());
+
+        if (existingPrintProviderEntity == null) {
+            printProviderService.add(printProviderEntity);
+        } else {
+            printProviderEntity = existingPrintProviderEntity;
+        }
+
+        Optional<BlueprintPrintProviderEntity> blueprintPrintProviderEntity = findByKeys(blueprintEntity, printProviderEntity);
+
+        if (blueprintPrintProviderEntity.isEmpty()) {
+            BlueprintPrintProviderEntity newEntity = new BlueprintPrintProviderEntity(blueprintEntity, printProviderEntity);
+            blueprintPrintProviderEntities.add(newEntity);
+        }
+    }
+
+
 }

@@ -11,14 +11,13 @@ public class SizeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SizeId", nullable = false)
-    private int sizeId;
+    private int id;
 
-    @Basic
-    @Column(name = "Size", nullable = true, length = 50)
+    @Column(name = "Size", length = 50)
     private String size;
 
     @OneToMany(mappedBy = "size", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlueprintPrintProviderSizeEntity> blueprintPrintProviderSizes = new HashSet<>();
+    private Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants = new HashSet<>();
 
     public SizeEntity() {}
 
@@ -26,12 +25,12 @@ public class SizeEntity {
         this.size = size;
     }
 
-    public int getSizeId() {
-        return sizeId;
+    public int getId() {
+        return id;
     }
 
-    public void setSizeId(int sizeId) {
-        this.sizeId = sizeId;
+    public void setId(int sizeId) {
+        this.id = sizeId;
     }
 
     public String getSize() {
@@ -42,18 +41,12 @@ public class SizeEntity {
         this.size = size;
     }
 
-    public Set<BlueprintPrintProviderSizeEntity> getBlueprintPrintProviderSizes() {
-        return blueprintPrintProviderSizes;
+    public Set<BlueprintPrintProviderVariantEntity> getBlueprintPrintProviderVariants() {
+        return blueprintPrintProviderVariants;
     }
 
-    public void addBlueprintPrintProviderSize(BlueprintPrintProviderSizeEntity blueprintPrintProviderSize) {
-        blueprintPrintProviderSizes.add(blueprintPrintProviderSize);
-        blueprintPrintProviderSize.setSize(this);
+    public void setBlueprintPrintProviderVariants(Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants) {
+        this.blueprintPrintProviderVariants = blueprintPrintProviderVariants;
     }
 
-    // Method to remove a BlueprintPrintProviderSizeEntity
-    public void removeBlueprintPrintProviderSize(BlueprintPrintProviderSizeEntity blueprintPrintProviderSize) {
-        blueprintPrintProviderSizes.remove(blueprintPrintProviderSize);
-        blueprintPrintProviderSize.setSize(null);
-    }
 }

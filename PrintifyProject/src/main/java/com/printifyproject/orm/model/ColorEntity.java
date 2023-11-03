@@ -11,32 +11,34 @@ public class ColorEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ColorId", nullable = false)
-    private int colorId;
+    private int id;
 
-    @Basic
-    @Column(name = "Color", nullable = true, length = 50)
+    @Column(name = "Color", length = 50)
     private String color;
 
-    @Basic
-    @Column(name = "Hex", nullable = true, length = 10)
+    @Column(name = "Hex", length = 10)
     private String hex;
 
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlueprintPrintProviderColorEntity> blueprintPrintProviderColors = new HashSet<>();
+    private Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants = new HashSet<>();
 
     public ColorEntity() {}
+
+    public ColorEntity(String color) {
+        this.color = color;
+    }
 
     public ColorEntity(String color, String hex) {
         this.color = color;
         this.hex = hex;
     }
 
-    public int getColorId() {
-        return colorId;
+    public int getId() {
+        return id;
     }
 
-    public void setColorId(int colorId) {
-        this.colorId = colorId;
+    public void setId(int colorId) {
+        this.id = colorId;
     }
 
     public String getColor() {
@@ -55,18 +57,12 @@ public class ColorEntity {
         this.hex = hex;
     }
 
-    public Set<BlueprintPrintProviderColorEntity> getBlueprintPrintProviderColors() {
-        return blueprintPrintProviderColors;
+    public Set<BlueprintPrintProviderVariantEntity> getBlueprintPrintProviderVariants() {
+        return blueprintPrintProviderVariants;
     }
 
-    public void addBlueprintPrintProviderColor(BlueprintPrintProviderColorEntity blueprintPrintProviderColor) {
-        blueprintPrintProviderColors.add(blueprintPrintProviderColor);
-        blueprintPrintProviderColor.setColor(this);
+    public void setBlueprintPrintProviderVariants(Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants) {
+        this.blueprintPrintProviderVariants = blueprintPrintProviderVariants;
     }
 
-    // Method to remove a BlueprintPrintProviderColorEntity
-    public void removeBlueprintPrintProviderColor(BlueprintPrintProviderColorEntity blueprintPrintProviderColor) {
-        blueprintPrintProviderColors.remove(blueprintPrintProviderColor);
-        blueprintPrintProviderColor.setColor(null);
-    }
 }

@@ -2,11 +2,14 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.BlueprintDao;
 import com.printifyproject.orm.model.BlueprintEntity;
+import com.printifyproject.printifyapi.api.ApiCatalog;
+import com.printifyproject.printifyapi.catalog.Blueprint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -14,6 +17,7 @@ public class BlueprintService {
 
     @Autowired
     private BlueprintDao dao;
+
 
     public void add(List<BlueprintEntity> entities) {
         for (BlueprintEntity entity : entities) {
@@ -75,4 +79,29 @@ public class BlueprintService {
     public long count() {
         return dao.count();
     }
+
+    public void importPrintifyApi(ApiCatalog apiCatalog) {
+        List<Blueprint> blueprints = apiCatalog.getBlueprints();
+
+        List<BlueprintEntity> entities = blueprints.stream()
+                .filter(blueprint -> blueprint.getTitle().toLowerCase().contains("shirt"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("toy"))
+                .map(this::transformBlueprintToEntity)
+                .collect(Collectors.toList());
+
+        add(entities);
+    }
+
+    private BlueprintEntity transformBlueprintToEntity(Blueprint blueprint) {
+        BlueprintEntity entity = new BlueprintEntity();
+
+        entity.setBlueprintKey(blueprint.getBlueprintKey());
+        entity.setTitle(blueprint.getTitle());
+        entity.setModel(blueprint.getModel());
+        entity.setBrand(blueprint.getBrand());
+        entity.setDescription(blueprint.getDescription());
+
+        return entity;
+    }
+
 }
