@@ -10,7 +10,7 @@ public class PrintSpecExample {
         PrintSpecService printSpecService = serviceHelper.getPrintPrintSpecService();
         BlueprintPrintProviderService blueprintPrintProviderService = serviceHelper.getBlueprintPrintProviderService();
 
-        BlueprintPrintProviderEntity blueprintPrintProviderEntity = blueprintPrintProviderService.findByKeys()
+//        BlueprintPrintProviderEntity blueprintPrintProviderEntity = blueprintPrintProviderService.findByKeys();
 
 
 
