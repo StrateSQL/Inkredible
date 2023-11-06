@@ -6,19 +6,18 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
-import java.util.Objects;
 
-public class SceneController {
+public class SelectionScreenController
+{
     private Stage stage;
     private Scene scene;
     private Parent root;
 
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Selection Screen.fxml"));
+        root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -26,14 +25,14 @@ public class SceneController {
     }
 
     public void switchToPrintDesignsListScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Print Designs List Screen.fxml"));
+        root = FXMLLoader.load(getClass().getResource("PrintDesignsListScreen.fxml"));
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
     public void switchToProductProfilesListScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Product Profiles List Screen.fxml"));
+        root = FXMLLoader.load(getClass().getResource("ProductProfilesListScreen.fxml"));
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
@@ -41,7 +40,15 @@ public class SceneController {
     }
 
     public void switchToPublishedProductsScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("Published Products Screen List Screen.fxml"));
+        root = FXMLLoader.load(getClass().getResource("PublishedProductsScreen.fxml"));
+        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void switchToPublishNewProductScreen(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("PublishNewProducts.fxml"));
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);

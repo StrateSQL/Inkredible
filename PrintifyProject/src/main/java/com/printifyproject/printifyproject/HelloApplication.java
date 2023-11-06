@@ -12,7 +12,7 @@ import static com.printifyproject.orm.examples.BlueprintExample.createComboBoxDa
 public class HelloApplication extends Application {
 
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("Selection Screen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SelectionScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Printify Application");
         stage.setScene(scene);
