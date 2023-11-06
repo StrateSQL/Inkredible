@@ -33,6 +33,5 @@ public class BlueprintExample {
 
         ObservableList<BlueprintEntity> blueprintList = FXCollections.observableArrayList(blueprints);
         ComboBox<BlueprintEntity> comboBox = new ComboBox<>(blueprintList);
-        System.out.println(comboBox.toString());
     }
 }

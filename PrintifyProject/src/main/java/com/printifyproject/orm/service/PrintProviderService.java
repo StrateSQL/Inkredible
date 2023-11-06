@@ -101,4 +101,13 @@ public class PrintProviderService {
 
         return entity;
     }
+
+    public List<String> getNames() {
+        List<PrintProviderEntity> allPrintProviders = dao.findAll();
+
+        // Extract and return the names using Java Streams
+        return allPrintProviders.stream()
+                .map(PrintProviderEntity::getName)
+                .collect(Collectors.toList());
+    }
 }

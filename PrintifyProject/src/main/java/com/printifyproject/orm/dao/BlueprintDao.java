@@ -64,4 +64,5 @@ public class BlueprintDao {
     public long count() {
         return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintEntity e").getSingleResult();
     }
+
 }
