@@ -1,12 +1,16 @@
 package com.printifyproject.printifyproject;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class SelectionScreenController
@@ -45,6 +49,8 @@ public class SelectionScreenController
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+
+
     }
 
     public void switchToPublishNewProductScreen(ActionEvent event) throws IOException {
