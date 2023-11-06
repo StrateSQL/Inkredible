@@ -7,7 +7,6 @@ public class PrintSpecExample {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
 
-
       //BlueprintService blueprintService = serviceHelper.getBlueprintService();
       //PrintProviderService printProviderService = serviceHelper.getPrintProviderService();
       //BlueprintPrintProviderService blueprintPrintProviderService = serviceHelper.getBlueprintPrintProviderService();
@@ -26,8 +25,6 @@ public class PrintSpecExample {
       //Optional<BlueprintPrintProviderEntity> printProvider = blueprintPrintProviderService.findById(29);
 
       //BlueprintPrintProviderEntity blueprintPrintProviderEntity = blueprintPrintProviderService.findByKeys(blueprint, printProvider);
-
-
 
 
     }
