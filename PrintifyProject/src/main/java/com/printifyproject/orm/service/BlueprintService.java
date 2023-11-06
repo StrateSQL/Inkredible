@@ -18,7 +18,6 @@ public class BlueprintService {
     @Autowired
     private BlueprintDao dao;
 
-
     public void add(List<BlueprintEntity> entities) {
         for (BlueprintEntity entity : entities) {
             add(entity);
@@ -103,5 +102,8 @@ public class BlueprintService {
 
         return entity;
     }
+
+
+
 
 }

@@ -3,14 +3,14 @@ package com.printifyproject.utility;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import static com.printifyproject.orm.examples.PrintSpecExample.createPrintSpec;
+import static com.printifyproject.orm.examples.PrintProviderExample.createNameList;
 
 public class Main {
 
     public static void main(String[] args) {
         //getBlueprintData();
         //PrintifyLoader.process();
-        createPrintSpec();
+        createNameList();
     }
 
 
