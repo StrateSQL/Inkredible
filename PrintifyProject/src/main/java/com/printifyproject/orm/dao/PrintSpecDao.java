@@ -3,6 +3,7 @@ package com.printifyproject.orm.dao;
 import com.printifyproject.orm.model.PrintSpecEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -55,5 +56,20 @@ public class PrintSpecDao {
         return entityManager.createQuery(
                 "SELECT COUNT(e) FROM PrintSpecEntity e", Long.class
         ).getSingleResult();
+    }
+
+    public Optional<PrintSpecEntity> findByName(String name) {
+        TypedQuery<PrintSpecEntity> query = entityManager.createQuery(
+                "SELECT e FROM PrintSpecEntity e WHERE e.name = :name",
+                PrintSpecEntity.class
+        );
+        query.setParameter("name", name);
+
+        try {
+            PrintSpecEntity result = query.getSingleResult();
+            return Optional.of(result);
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
     }
 }

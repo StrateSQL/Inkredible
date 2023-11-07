@@ -6,17 +6,17 @@ import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "printproviders", schema = "inkcredible", catalog = "")
+@Table(name = "printproviders", schema = "inkcredible")
 public class PrintProviderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "PrintProviderId", nullable = false)
     private int printProviderId;
     @Basic
-    @Column(name = "PrintProviderKey", nullable = true)
+    @Column(name = "PrintProviderKey", nullable = true, unique = true)
     private Integer printProviderKey;
     @Basic
-    @Column(name = "Name", nullable = true, length = 50)
+    @Column(name = "Name", nullable = true, length = 50, unique = true)
     private String name;
     @Basic
     @Column(name = "Region", nullable = true, length = 50)

@@ -23,6 +23,17 @@ public class BlueprintPrintProviderVariantDao {
         return Optional.ofNullable(entityManager.find(BlueprintPrintProviderVariantEntity.class, id));
     }
 
+    public List<BlueprintPrintProviderVariantEntity> findByBlueprintPrintProvider(int blueprintPrintProviderId) {
+        return entityManager.createQuery(
+                        "SELECT b " +
+                                "FROM BlueprintPrintProviderVariantEntity b " +
+                                "WHERE b.blueprintPrintProvider.id = :blueprintPrintProviderId",
+                        BlueprintPrintProviderVariantEntity.class)
+                .setParameter("blueprintPrintProviderId", blueprintPrintProviderId)
+                .getResultList();
+    }
+
+
     public List<BlueprintPrintProviderVariantEntity> findAll() {
         return entityManager.createQuery(
                 "SELECT bpv FROM BlueprintPrintProviderVariantEntity bpv", BlueprintPrintProviderVariantEntity.class

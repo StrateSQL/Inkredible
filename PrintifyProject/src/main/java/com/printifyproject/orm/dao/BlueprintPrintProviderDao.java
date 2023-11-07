@@ -1,5 +1,6 @@
 package com.printifyproject.orm.dao;
 
+import com.printifyproject.orm.dto.BlueprintPrintProviderVariantInfoDto;
 import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.BlueprintPrintProviderEntity;
 import com.printifyproject.orm.model.PrintProviderEntity;
@@ -75,4 +76,10 @@ public class BlueprintPrintProviderDao {
                 "SELECT COUNT(e) FROM BlueprintPrintProviderEntity e", Long.class
         ).getSingleResult();
     }
+
+    public List<BlueprintPrintProviderVariantInfoDto> findBlueprintPrintProviderVariantInfo(int blueprintPrintProviderId) {
+        // TODO: Implement the query for finding BlueprintPrintProviderVariantInfo
+        return null;
+    }
+
 }

@@ -3,9 +3,11 @@ package com.printifyproject.orm.dao;
 import com.printifyproject.orm.model.PrintProviderEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class PrintProviderDao {
@@ -63,5 +65,20 @@ public class PrintProviderDao {
 
     public long count() {
         return (long) entityManager.createQuery("SELECT COUNT(e) FROM PrintProviderEntity e").getSingleResult();
+    }
+
+    public Optional<PrintProviderEntity> findByName(String name) {
+        TypedQuery<PrintProviderEntity> query = entityManager.createQuery(
+                "SELECT e FROM PrintProviderEntity e WHERE e.name = :name",
+                PrintProviderEntity.class
+        );
+        query.setParameter("name", name);
+
+        try {
+            PrintProviderEntity result = query.getSingleResult();
+            return Optional.of(result);
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
     }
 }

@@ -16,7 +16,7 @@ public class PrintSpecEntity {
     @Column(name = "PrintSpecId", nullable = false)
     private int printSpecId;
 
-    @Column(name = "Name", nullable = false, length = 255)
+    @Column(name = "Name", nullable = false, length = 255, unique = true)
     @NotNull
     private String name;
 

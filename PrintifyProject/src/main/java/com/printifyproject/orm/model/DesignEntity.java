@@ -14,7 +14,7 @@ public class DesignEntity {
     @Column(name = "DesignId", nullable = false)
     private int designId;
 
-    @Column(name = "Title", nullable = false, length = 255)
+    @Column(name = "Title", nullable = false, length = 255, unique = true)
     @NotNull
     @Size(max = 255)
     private String title;

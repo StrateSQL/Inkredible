@@ -3,9 +3,11 @@ package com.printifyproject.orm.dao;
 import com.printifyproject.orm.model.BlueprintEntity;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class BlueprintDao {
@@ -65,4 +67,18 @@ public class BlueprintDao {
         return (long) entityManager.createQuery("SELECT COUNT(e) FROM BlueprintEntity e").getSingleResult();
     }
 
+    public Optional<BlueprintEntity> findByTitle(String title) {
+        TypedQuery<BlueprintEntity> query = entityManager.createQuery(
+                "SELECT b FROM BlueprintEntity b WHERE b.title = :title",
+                BlueprintEntity.class
+        );
+        query.setParameter("title", title);
+
+        try {
+            BlueprintEntity result = query.getSingleResult();
+            return Optional.of(result);
+        } catch (Exception ex) {
+            return Optional.empty();
+        }
+    }
 }

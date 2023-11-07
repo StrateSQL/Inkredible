@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -103,7 +104,23 @@ public class BlueprintService {
         return entity;
     }
 
+    public List<String> getTitles() {
+        List<BlueprintEntity> blueprints = dao.findAll();
 
+        return blueprints.stream()
+                .map(BlueprintEntity::getTitle)
+                .toList();
+    }
+    public Optional<BlueprintEntity> findBlueprintByTitle(String title) {
+        return dao.findByTitle(title);
+    }
+    public Optional<Integer> getIdByTitle(String title) {
+        Optional<BlueprintEntity> blueprintOptional = dao.findByTitle(title);
+        return blueprintOptional.map(BlueprintEntity::getBlueprintId);
+    }
 
-
+    public Optional<Integer> getKeyByTitle(String title) {
+        Optional<BlueprintEntity> blueprintOptional = dao.findByTitle(title);
+        return blueprintOptional.map(BlueprintEntity::getBlueprintKey);
+    }
 }

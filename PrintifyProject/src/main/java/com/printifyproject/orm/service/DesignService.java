@@ -48,4 +48,19 @@ public class DesignService {
     public long count() {
         return dao.count();
     }
+
+    public List<String> getTitles() {
+        List<DesignEntity> blueprints = dao.findAll();
+
+        return blueprints.stream()
+                .map(DesignEntity::getTitle)
+                .toList();
+    }
+    public Optional<DesignEntity> findDesignByTitle(String title) {
+        return dao.findByTitle(title);
+    }
+    public Optional<Integer> getIdByTitle(String title) {
+        Optional<DesignEntity> design = dao.findByTitle(title);
+        return design.map(DesignEntity::getDesignId);
+    }
 }

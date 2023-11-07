@@ -5,8 +5,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class ColorDao {
@@ -62,5 +64,52 @@ public class ColorDao {
         return entityManager.createQuery(
                 "SELECT COUNT(c) FROM ColorEntity c", Long.class
         ).getSingleResult();
+    }
+
+    public Set<String> findColorsByBlueprintPrintProviderId(int blueprintPrintProviderId) {
+        return new HashSet<>(entityManager.createQuery(
+                        "SELECT DISTINCT c.color " +
+                                "FROM ColorEntity c " +
+                                "JOIN c.blueprintPrintProviderVariants bpv " +
+                                "WHERE bpv.blueprintPrintProvider.id = :providerId", String.class)
+                .setParameter("providerId", blueprintPrintProviderId)
+                .getResultList());
+    }
+
+    public String findColorByBlueprintPrintProviderVariantId(int blueprintPrintProviderVariantId) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT DISTINCT c.color " +
+                                    "FROM ColorEntity c " +
+                                    "JOIN c.blueprintPrintProviderVariants bpv " +
+                                    "WHERE bpv.id = :variantId", String.class)
+                    .setParameter("variantId", blueprintPrintProviderVariantId)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null; // Handle the case where no result is found
+        }
+    }
+    public Set<String> findColorsByPrintSpecId(int printSpecId) {
+        return new HashSet<>(entityManager.createQuery(
+                        "SELECT DISTINCT c.color " +
+                                "FROM ColorEntity c " +
+                                "JOIN c.printSpecColors psc " +
+                                "WHERE psc.printSpec.id = :printSpecId", String.class)
+                .setParameter("printSpecId", printSpecId)
+                .getResultList());
+    }
+
+    public String findColorByPrintSpecId(int printSpecId) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT DISTINCT c.color " +
+                                    "FROM ColorEntity c " +
+                                    "JOIN c.printSpecColors bpv " +
+                                    "WHERE bpv.id = :printSpecId", String.class)
+                    .setParameter("printSpecId", printSpecId)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null; // Handle the case where no result is found
+        }
     }
 }

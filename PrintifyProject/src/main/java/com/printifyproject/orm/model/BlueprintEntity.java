@@ -13,10 +13,10 @@ public class BlueprintEntity {
     @Column(name = "BlueprintId", nullable = false)
     private int blueprintId;
     @Basic
-    @Column(name = "BlueprintKey", nullable = true)
+    @Column(name = "BlueprintKey", nullable = true, unique = true)
     private Integer blueprintKey;
     @Basic
-    @Column(name = "Title", nullable = true, length = 255)
+    @Column(name = "Title", nullable = true, length = 255, unique = true)
     private String title;
     @Basic
     @Column(name = "Model", nullable = true, length = 255)

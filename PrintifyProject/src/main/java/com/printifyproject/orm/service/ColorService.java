@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -58,5 +59,9 @@ public class ColorService {
 
     public long count() {
         return dao.count();
+    }
+
+    public Set<String> getColorsByBlueprintPrintProviderId(int blueprintPrintProviderId) {
+        return dao.findColorsByBlueprintPrintProviderId(blueprintPrintProviderId);
     }
 }

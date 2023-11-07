@@ -5,14 +5,14 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "products", schema = "inkcredible", catalog = "")
+@Table(name = "products", schema = "inkcredible")
 public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "ProductId", nullable = false)
     private int productId;
 
-    @Column(name = "ProductKey", nullable = true, length = -1)
+    @Column(name = "ProductKey", nullable = true, length = -1, unique = true)
     private String productKey;
 
     @Column(name = "IsPublished")

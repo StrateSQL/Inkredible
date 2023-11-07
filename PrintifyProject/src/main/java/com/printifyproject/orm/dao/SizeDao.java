@@ -5,8 +5,10 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public class SizeDao {
@@ -57,5 +59,29 @@ public class SizeDao {
     }
     public long count() {
         return entityManager.createQuery("SELECT COUNT(s) FROM SizeEntity s", Long.class).getSingleResult();
+    }
+
+    public Set<String> findSizesByBlueprintPrintProviderId(int blueprintPrintProviderId) {
+        return new HashSet<>(entityManager.createQuery(
+                        "SELECT DISTINCT s.size " +
+                                "FROM SizeEntity s " +
+                                "JOIN s.blueprintPrintProviderVariants bpv " +
+                                "WHERE bpv.blueprintPrintProvider.id = :providerId", String.class)
+                .setParameter("providerId", blueprintPrintProviderId)
+                .getResultList());
+    }
+
+    public String findSizeByBlueprintPrintProviderVariantId(int blueprintPrintProviderVariantId) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT DISTINCT s.size " +
+                                    "FROM SizeEntity s " +
+                                    "JOIN s.blueprintPrintProviderVariants bpv " +
+                                    "WHERE bpv.id = :variantId", String.class)
+                    .setParameter("variantId", blueprintPrintProviderVariantId)
+                    .getSingleResult();
+        } catch (jakarta.persistence.NoResultException e) {
+            return null; // Handle the case where no result is found
+        }
     }
 }

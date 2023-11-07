@@ -62,4 +62,20 @@ public class PrintSpecService {
     public long count() {
         return dao.count();
     }
+
+    public List<String> getNames() {
+        List<PrintSpecEntity> printSpec = dao.findAll();
+
+        return printSpec.stream()
+                .map(PrintSpecEntity::getName)
+                .toList();
+    }
+    public Optional<PrintSpecEntity> findBlueprintByTitle(String title) {
+        return dao.findByName(title);
+    }
+    public Optional<Integer> getIdByTitle(String title) {
+        Optional<PrintSpecEntity> printSpec = dao.findByName(title);
+        return printSpec.map(PrintSpecEntity::getPrintSpecId);
+    }
+
 }

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -105,9 +106,23 @@ public class PrintProviderService {
     public List<String> getNames() {
         List<PrintProviderEntity> allPrintProviders = dao.findAll();
 
-        // Extract and return the names using Java Streams
         return allPrintProviders.stream()
                 .map(PrintProviderEntity::getName)
                 .collect(Collectors.toList());
     }
+
+    public Optional<PrintProviderEntity> findDesignByName(String name) {
+        return dao.findByName(name);
+    }
+    public Optional<Integer> getIdByName(String name) {
+        Optional<PrintProviderEntity> printProvider = dao.findByName(name);
+        return printProvider.map(PrintProviderEntity::getPrintProviderId);
+    }
+
+    public Optional<Integer> getKeyByName(String name) {
+        Optional<PrintProviderEntity> printProvider = dao.findByName(name);
+        return printProvider.map(PrintProviderEntity::getPrintProviderKey);
+    }
+
+
 }
