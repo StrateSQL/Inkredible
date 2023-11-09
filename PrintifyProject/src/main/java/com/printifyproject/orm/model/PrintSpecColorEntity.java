@@ -62,6 +62,6 @@ public class PrintSpecColorEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(printSpec, color);
+        return Objects.hash(printSpecColorId); // Use only the primary key field
     }
 }

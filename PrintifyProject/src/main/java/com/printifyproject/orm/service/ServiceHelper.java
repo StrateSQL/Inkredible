@@ -84,7 +84,7 @@ public class ServiceHelper {
         return this.printSpecColorService;
     }
 
-    public PrintSpecService getPrintPrintSpecService() {
+    public PrintSpecService getPrintSpecService() {
         if (this.printSpecService == null) {
             this.printSpecService = applicationContext.getBean(PrintSpecService.class);
         }

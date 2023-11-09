@@ -111,9 +111,10 @@ public class PrintProviderService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<PrintProviderEntity> findDesignByName(String name) {
+    public Optional<PrintProviderEntity> getPrintProviderByName(String name) {
         return dao.findByName(name);
     }
+
     public Optional<Integer> getIdByName(String name) {
         Optional<PrintProviderEntity> printProvider = dao.findByName(name);
         return printProvider.map(PrintProviderEntity::getPrintProviderId);

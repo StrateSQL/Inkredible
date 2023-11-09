@@ -101,6 +101,6 @@ public class PrintSpecEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(printSpecId, name, gossMargin, blueprintPrintProvider, colors);
+        return Objects.hash(printSpecId); // Use only the primary key field
     }
 }

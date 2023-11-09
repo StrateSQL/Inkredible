@@ -79,6 +79,6 @@ public class BlueprintPrintProviderEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, blueprint, printProvider, colors);
+        return Objects.hash(id); // Use only the primary key field
     }
 }

@@ -40,6 +40,23 @@ public class BlueprintPrintProviderDao {
             return Optional.empty();
         }
     }
+    public List<BlueprintPrintProviderEntity> findByBlueprintId(int blueprintId) {
+        return entityManager.createQuery(
+                        "SELECT bpp FROM BlueprintPrintProviderEntity bpp " +
+                                "WHERE bpp.blueprint.blueprintId = :blueprintId",
+                        BlueprintPrintProviderEntity.class)
+                .setParameter("blueprintId", blueprintId)
+                .getResultList();
+    }
+
+    public List<BlueprintPrintProviderEntity> findByPrintProviderId(int printProviderId) {
+        return entityManager.createQuery(
+                        "SELECT bpp FROM BlueprintPrintProviderEntity bpp " +
+                                "WHERE bpp.printProvider.printProviderId = :printProviderId",
+                        BlueprintPrintProviderEntity.class)
+                .setParameter("printProviderId", printProviderId)
+                .getResultList();
+    }
 
     public List<BlueprintPrintProviderEntity> findAll() {
         return entityManager.createQuery(
@@ -81,5 +98,4 @@ public class BlueprintPrintProviderDao {
         // TODO: Implement the query for finding BlueprintPrintProviderVariantInfo
         return null;
     }
-
 }

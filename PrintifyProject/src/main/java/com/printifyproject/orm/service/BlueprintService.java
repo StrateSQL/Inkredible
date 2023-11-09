@@ -111,7 +111,7 @@ public class BlueprintService {
                 .map(BlueprintEntity::getTitle)
                 .toList();
     }
-    public Optional<BlueprintEntity> findBlueprintByTitle(String title) {
+    public Optional<BlueprintEntity> getBlueprintByTitle(String title) {
         return dao.findByTitle(title);
     }
     public Optional<Integer> getIdByTitle(String title) {

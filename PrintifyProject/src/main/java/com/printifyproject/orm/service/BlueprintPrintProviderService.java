@@ -47,6 +47,14 @@ public class BlueprintPrintProviderService {
         return dao.findByKeys(blueprint, printProvider);
     }
 
+    public List<BlueprintPrintProviderEntity> findByBlueprintId(int blueprintId) {
+        return dao.findByBlueprintId(blueprintId);
+    }
+
+    public List<BlueprintPrintProviderEntity> findByPrintProviderId(int printProviderId) {
+        return dao.findByPrintProviderId(printProviderId);
+    }
+
     public List<BlueprintPrintProviderEntity> findAll() {
         return dao.findAll();
     }
@@ -109,6 +117,16 @@ public class BlueprintPrintProviderService {
             BlueprintPrintProviderEntity newEntity = new BlueprintPrintProviderEntity(blueprintEntity, printProviderEntity);
             blueprintPrintProviderEntities.add(newEntity);
         }
+    }
+
+    public List<String> getPrintProviderNames(int blueprintId) {
+        List<BlueprintPrintProviderEntity> allBlueprintPrintProviders = dao.findByBlueprintId(blueprintId);
+        List<String> names = new ArrayList<>();
+
+        for (BlueprintPrintProviderEntity blueprintPrintProvider : allBlueprintPrintProviders) {
+            names.add(blueprintPrintProvider.getPrintProvider().getName());
+        }
+        return names;
     }
 
 }

@@ -87,4 +87,6 @@ public class PrintProviderEntity {
     public void setBlueprintprintprovidersByPrintProviderId(Collection<BlueprintPrintProviderEntity> blueprintprintprovidersByPrintProviderId) {
         this.blueprintprintprovidersByPrintProviderId = blueprintprintprovidersByPrintProviderId;
     }
+
+
 }
