@@ -43,6 +43,12 @@ public class ProductDao {
         entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
+    public void delete(List<ProductEntity> products) {
+        entityManager.createQuery("DELETE FROM ProductEntity p WHERE p IN :products")
+                .setParameter("products", products)
+                .executeUpdate();
+    }
+
     public boolean existsById(int id) {
         return findById(id).isPresent();
     }

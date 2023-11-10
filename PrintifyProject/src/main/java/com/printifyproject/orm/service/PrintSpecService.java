@@ -1,6 +1,7 @@
 package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.PrintSpecDao;
+import com.printifyproject.orm.dao.ProductDao;
 import com.printifyproject.orm.model.PrintSpecEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,12 @@ import java.util.Optional;
 public class PrintSpecService {
 
     private final PrintSpecDao dao;
+    private final ProductDao productDao;
 
     @Autowired
-    public PrintSpecService(PrintSpecDao dao) {
+    public PrintSpecService(PrintSpecDao dao, ProductDao productDao) {
         this.dao = dao;
+        this.productDao = productDao;
     }
 
     public PrintSpecEntity add(PrintSpecEntity entity) {

@@ -44,6 +44,7 @@ public class PrintSpecDao {
         entityManager.remove(entityManager.contains(entity) ? entity : entityManager.merge(entity));
     }
 
+
     public boolean existsById(int id) {
         return findById(id).isPresent();
     }

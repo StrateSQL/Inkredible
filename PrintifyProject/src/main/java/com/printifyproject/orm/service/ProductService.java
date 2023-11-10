@@ -51,6 +51,10 @@ public class ProductService {
         dao.delete(entity);
     }
 
+    public void delete(List<ProductEntity> entities) {
+        dao.delete(entities);
+    }
+
     public boolean existsById(int id) {
         return dao.existsById(id);
     }

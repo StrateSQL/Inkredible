@@ -27,10 +27,10 @@ public class PrintSpecEntity {
     @JoinColumn(name = "blueprintPrintProviderID", nullable = false)
     private BlueprintPrintProviderEntity blueprintPrintProvider;
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL)
     private Set<PrintSpecColorEntity> colors = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "printSpec", cascade = CascadeType.ALL)
     private Collection<ProductEntity> products;
 
     public PrintSpecEntity() {
