@@ -15,6 +15,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -34,26 +35,30 @@ public class ProductProfilesListScreenController implements Initializable {
 
 
     @FXML
-    private ChoiceBox<String> myChoiceBox;
-    private String[] food= {"pizza","sushi","ramen"};
+    private ChoiceBox<String> productBlueprintChoiceBox;
+    @FXML
+    private ChoiceBox<String> printProviderChoiceBox;
+    @FXML
+    private ListView<String> colorsList;
+
 
     public void initialize(URL  arg0, ResourceBundle arg1){
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
-        PrintProviderService blueprintService = serviceHelper.getPrintProviderService();
-        List<PrintProviderEntity> results = blueprintService.findAll();
+        BlueprintService blueprintService = serviceHelper.getBlueprintService();
+        List<BlueprintEntity> results = blueprintService.findAll();
 
-        List<String> names = getNames(results);
+        List<String> blueprintTitles = getTitles(results);
 
 
 //        Initialization code goes here
-        myChoiceBox.getItems().addAll(names);
+//        myChoiceBox.getItems().addAll(names);
     }
 
-    public List<String> getNames(List<PrintProviderEntity> list){
+    public List<String> getTitles(List<BlueprintEntity> list){
 
         return list.stream()
-                    .map(PrintProviderEntity::getName)
+                    .map(BlueprintEntity::getTitle)
                     .toList();
 
     }

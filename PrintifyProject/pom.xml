@@ -228,7 +228,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                com.printifyproject.printifyproject/com.printifyproject.printifyproject.HelloApplication
+                                com.printifyproject.printifyproject/com.printifyproject.printifyproject.PrintifyApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>

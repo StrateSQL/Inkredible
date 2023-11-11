@@ -9,10 +9,10 @@ import java.io.IOException;
 
 import static com.printifyproject.orm.examples.BlueprintExample.createComboBoxDataSet;
 
-public class HelloApplication extends Application {
+public class PrintifyApplication extends Application {
 
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("SelectionScreen.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(PrintifyApplication.class.getResource("SelectionScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 600, 600);
         stage.setTitle("Printify Application");
         stage.setScene(scene);
