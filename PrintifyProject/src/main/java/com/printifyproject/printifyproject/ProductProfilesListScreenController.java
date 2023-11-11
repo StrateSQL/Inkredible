@@ -2,8 +2,7 @@ package com.printifyproject.printifyproject;
 
 import com.printifyproject.orm.model.*;
 import com.printifyproject.orm.service.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,20 +11,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
-import java.util.Optional;
-import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import org.apache.logging.log4j.core.pattern.AbstractStyleNameConverter;
+import java.util.*;
 
 public class ProductProfilesListScreenController implements Initializable {
 
@@ -42,8 +35,13 @@ public class ProductProfilesListScreenController implements Initializable {
     private ListView<String> colorsList;
     @FXML
     private ChoiceBox<String> colorsChoiceBox;
+    @FXML
+    private TextField gossMarginTextbox;
+    @FXML
+    private TextField titleTextBox;
     private BlueprintService blueprintService;
     private BlueprintPrintProviderService blueprintPrintProviderService;
+    private ColorService colorService;
     private ServiceHelper serviceHelper;
 
     private BlueprintEntity selectedBlueprintEntity;
@@ -101,7 +99,7 @@ public class ProductProfilesListScreenController implements Initializable {
             selectedPrintProviderEntity = printProviderEntity;
             Optional<BlueprintPrintProviderEntity> blueprintPrintProviderEntity =  blueprintPrintProviderService.findByKeys(selectedBlueprintEntity,selectedPrintProviderEntity);
             blueprintPrintProviderEntity.ifPresent(blueprintPrintProviderEntity1 -> {
-                ColorService colorService = serviceHelper.getColorService();
+                colorService = serviceHelper.getColorService();
                 Set<String> colorEntitySet =  colorService.getColorsByBlueprintPrintProviderId(blueprintPrintProviderEntity1.getId());
                 colorsChoiceBox.getItems().addAll(colorEntitySet);
                 selectedBlueprintPrintProviderEntity = blueprintPrintProviderEntity1;
@@ -140,8 +138,26 @@ public class ProductProfilesListScreenController implements Initializable {
     public void saveProductProfile(){
         PrintSpecService printSpecService = serviceHelper.getPrintSpecService();
         PrintSpecEntity printSpecEntity= new PrintSpecEntity();
+
+        // printSpec takes in a name, goss margin, blueprintPrintProvider, a set of print spec color entities
         printSpecEntity.setBlueprintPrintProvider(selectedBlueprintPrintProviderEntity);
-        printSpecEntity.set
+        printSpecEntity.setGossMargin(Double.parseDouble(gossMarginTextbox.getText()));
+        printSpecEntity.setName(titleTextBox.getText());
+
+        // get selected colors
+        List<String> colors =  colorsList.getItems();
+        Set<PrintSpecColorEntity> printSpecColorSet = new HashSet<PrintSpecColorEntity>();
+
+        for (String color : colors){
+            PrintSpecColorEntity printSpecColorEntity = new PrintSpecColorEntity();
+            printSpecColorEntity.setColor(colorService.findByColor(color));
+            printSpecColorSet.add(printSpecColorEntity);
+        }
+
+        printSpecEntity.setColors(printSpecColorSet);
+
+        printSpecService.add(printSpecEntity);
+
     }
 
 
