@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
@@ -63,6 +64,7 @@ public class PrintDesignsListScreenController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+        scene.setFill(Color.rgb(200,200,0));
     }
 
 
