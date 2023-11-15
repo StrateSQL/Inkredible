@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -13,7 +15,11 @@
          </font>
       </Label>
       <Button layoutX="57.0" layoutY="318.0" mnemonicParsing="false" onAction="#switchToSelectionScreen" style="-fx-background-color: skyblue;" text="Back to Selection Screen" />
-      <Label layoutX="121.0" layoutY="154.0" text="Label" />
-      <Label layoutX="121.0" layoutY="192.0" text="Label" />
+      <Label layoutX="250.0" layoutY="129.0" prefHeight="18.0" prefWidth="335.0" text="For this design, these products specs have been published:" />
+      <Label layoutX="57.0" layoutY="191.0" text="Select a Product Spec:" />
+      <ChoiceBox fx:id="designChoiceBox" layoutX="54.0" layoutY="138.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="productSpecChoiceBox" layoutX="54.0" layoutY="209.0" prefWidth="150.0" />
+      <ListView fx:id="productSpecsPublishedList" layoutX="340.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0" />
+      <Label layoutX="57.0" layoutY="119.0" text="Select a Design:" />
    </children>
 </AnchorPane>

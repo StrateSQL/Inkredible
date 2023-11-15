@@ -16,9 +16,11 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -116,6 +118,14 @@ public class PrintDesignsListScreenController implements Initializable {
         return list.stream()
                 .map(DesignEntity::getTitle)
                 .toList();
+
+    }
+
+    public void selectImage(ActionEvent event){
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(stage);
+        img_textbox.setText(file.getAbsolutePath());
 
     }
 
