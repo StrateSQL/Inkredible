@@ -26,7 +26,7 @@ public class ImageManager {
             return;
         }
 
-        String destinationPackagePath = "com/printifyproject/orm/images/";
+        String destinationPackagePath = "com/printifyproject/images/";
         String destinationDirectoryPath = "src/main/java/" + destinationPackagePath;
 
         File destinationDirectory = new File(destinationDirectoryPath);
