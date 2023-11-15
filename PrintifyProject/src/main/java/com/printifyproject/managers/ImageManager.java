@@ -1,4 +1,4 @@
-package com.printifyproject.images;
+package com.printifyproject.managers;
 /*
 example
     String sourceFilePath = "path/to/source/file.txt";
@@ -16,7 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-public class ManageImages {
+public class ImageManager {
 
     public static void copyFileToPackageDirectory(String sourceFilePath, String fileName) {
         File sourceFile = new File(sourceFilePath);
