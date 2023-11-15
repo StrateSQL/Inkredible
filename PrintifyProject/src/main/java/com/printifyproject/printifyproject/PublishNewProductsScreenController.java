@@ -3,10 +3,8 @@ package com.printifyproject.printifyproject;
 import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.model.PrintSpecEntity;
-import com.printifyproject.orm.service.BlueprintService;
-import com.printifyproject.orm.service.DesignService;
-import com.printifyproject.orm.service.PrintSpecService;
-import com.printifyproject.orm.service.ServiceHelper;
+import com.printifyproject.orm.model.ProductEntity;
+import com.printifyproject.orm.service.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +13,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,22 +27,31 @@ public class PublishNewProductsScreenController implements Initializable {
     private ChoiceBox<String> designChoiceBox;
     @FXML
     private ChoiceBox<String> productSpecChoiceBox;
+    @FXML
+    private ListView<String> productSpecsPublishedList;
+
+    private ServiceHelper serviceHelper = new ServiceHelper();
 
     public void initialize(URL arg0, ResourceBundle arg1) {
         ServiceHelper.initContext();
-        ServiceHelper serviceHelper = new ServiceHelper();
+        serviceHelper = new ServiceHelper();
         DesignService designService = serviceHelper.getDesignService();
         PrintSpecService printSpecService = serviceHelper.getPrintSpecService();
         List<DesignEntity> designResults = designService.findAll();
-//        List<PrintSpecEntity> printSpecResults = printSpecService.findAll();
+        List<PrintSpecEntity> printSpecResults = printSpecService.findAll();
 
         List<String> designTitles = getDesignTitles(designResults);
-//        List<String> printSpecNames = getPrintSpecNames(printSpecResults);
+        List<String> printSpecNames = getPrintSpecNames(printSpecResults);
 
 //        Initialization code goes here
 
+
+
+
+
         designChoiceBox.getItems().addAll(designTitles);
-//        productSpecChoiceBox.getItems().addAll(printSpecNames);
+        productSpecChoiceBox.getItems().addAll(printSpecNames);
+        designChoiceBox.setOnAction(this::onSelectedDesignProfile);
     }
 
     public List<String> getDesignTitles(List<DesignEntity> list) {
@@ -57,6 +65,20 @@ public class PublishNewProductsScreenController implements Initializable {
         return list.stream()
                 .map(PrintSpecEntity::getName)
                 .toList();
+    }
+
+    public void onSelectedDesignProfile(ActionEvent event){
+        ProductService productService = serviceHelper.getProductService();
+        List<ProductEntity> productEntityResults = productService.findAll();
+
+        productSpecsPublishedList.getItems().removeAll();
+
+        for (ProductEntity entity : productEntityResults){
+            if (entity.getDesign().getTitle().equals(designChoiceBox.getValue())){
+                productSpecsPublishedList.getItems().add(entity.getPrintSpec().getName());
+            }
+
+        }
     }
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {

@@ -149,8 +149,7 @@ public class ProductProfilesListScreenController implements Initializable {
         Set<PrintSpecColorEntity> printSpecColorSet = new HashSet<PrintSpecColorEntity>();
 
         for (String color : colors){
-            PrintSpecColorEntity printSpecColorEntity = new PrintSpecColorEntity();
-            printSpecColorEntity.setColor(colorService.findByColor(color));
+            PrintSpecColorEntity printSpecColorEntity = new PrintSpecColorEntity(printSpecEntity,colorService.findByColor(color));
             printSpecColorSet.add(printSpecColorEntity);
         }
 

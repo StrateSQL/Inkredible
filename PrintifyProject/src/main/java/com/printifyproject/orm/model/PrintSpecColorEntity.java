@@ -6,7 +6,8 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "printspeccolors", schema = "inkcredible")
-public class PrintSpecColorEntity {
+public class
+PrintSpecColorEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "PrintSpecColorId", nullable = false)
