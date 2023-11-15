@@ -1,5 +1,6 @@
 package com.printifyproject.printifyproject;
 
+import com.printifyproject.managers.ImageManager;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.model.PrintProviderEntity;
 import com.printifyproject.orm.service.DesignService;
@@ -125,6 +126,9 @@ public class PrintDesignsListScreenController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
+
+        ImageManager.copyFileToPackageDirectory(file.getAbsolutePath(),file.getName());
+
         img_textbox.setText(file.getAbsolutePath());
 
     }
