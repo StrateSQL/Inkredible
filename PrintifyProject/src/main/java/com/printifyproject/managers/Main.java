@@ -1,4 +1,4 @@
-package com.printifyproject.utility;
+package com.printifyproject.managers;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,5 +33,7 @@ public class Main {
         //var shipping = apiCatalog.getShipping(14, 29);
         //var variants = apiCatalog.getVariants(14, 29);
     }
+
+
 
 }

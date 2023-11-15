@@ -5,8 +5,8 @@ import com.printifyproject.orm.service.DesignService;
 import com.printifyproject.orm.service.ServiceHelper;
 import javafx.util.Pair;
 
-import static com.printifyproject.images.ManageImages.copyFileToPackageDirectory;
-import static com.printifyproject.images.ManageImages.splitFilePath;
+import static com.printifyproject.managers.ImageManager.copyFileToPackageDirectory;
+import static com.printifyproject.managers.ImageManager.splitFilePath;
 
 public class DesignExample {
 
