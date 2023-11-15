@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PublicationManager {
-    public boolean UploadProductToPrintify (int productId) {
+    public static boolean UploadProductToPrintify(int productId) {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
         ProductService productService = serviceHelper.getProductService();
