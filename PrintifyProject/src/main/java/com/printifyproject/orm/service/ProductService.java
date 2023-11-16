@@ -74,7 +74,7 @@ public class ProductService {
     }
 
     public ProductEntity uploadPrintify(ProductEntity entity) {
-        entity = PublicationManager.uploadPrintify(entity);
+        entity = PublicationManager.UploadProductToPrintify(entity);
         return dao.update(entity);
         }
 

@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class   PublicationManager {
-    public static boolean UploadProductToPrintify(int productId) {
+    public static ProductEntity UploadProductToPrintify(ProductEntity entity) {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
         ProductService productService = serviceHelper.getProductService();
@@ -31,10 +31,10 @@ public class   PublicationManager {
             product.setProductKey(UUID.randomUUID().toString());
             productService.update(product);
 
-            return true;
+            return entity;
         }
         else
-            return false;
+            return entity;
     }
 
     public static ProductEntity publishPrintify (ProductEntity entity) {

@@ -1,11 +1,13 @@
 package com.printifyproject.printifyproject;
 
 import com.printifyproject.managers.PublicationManager;
-import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.model.PrintSpecEntity;
 import com.printifyproject.orm.model.ProductEntity;
-import com.printifyproject.orm.service.*;
+import com.printifyproject.orm.service.DesignService;
+import com.printifyproject.orm.service.PrintSpecService;
+import com.printifyproject.orm.service.ProductService;
+import com.printifyproject.orm.service.ServiceHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -105,7 +107,7 @@ public class PublishNewProductsScreenController implements Initializable {
 
         ProductService productService = serviceHelper.getProductService();
         ProductEntity returnedProduct =  productService.add(product);
-        PublicationManager.UploadProductToPrintify(returnedProduct.getProductId());
+        PublicationManager.UploadProductToPrintify(returnedProduct);
 
         notificationLabel.setText(product.getDesign().getTitle() +  ", " + product.getPrintSpec().getName() + " was published");
 
