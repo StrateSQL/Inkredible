@@ -8,12 +8,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class PublicationManager {
-    public static boolean UploadProductToPrintify(int productId) {
+
+
+    public static ProductEntity uploadPrintify(ProductEntity entity) {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
         ProductService productService = serviceHelper.getProductService();
 
-        Optional<ProductEntity> optProduct = productService.findById(productId);
+        Optional<ProductEntity> optProduct = productService.findById(entity.getProductId());
 
         if (optProduct.isPresent()) {
             var product = optProduct.get();
@@ -37,9 +39,20 @@ public class PublicationManager {
             return false;
     }
 
-    public void UploadImage(String image) {
+    public static ProductEntity publishPrintify (ProductEntity entity) {
+        return null;
+    }
+
+    public static void UploadImage(String image) {
         //todo: check if image has already been uploaded
 
+
         //todo: if note uploaded, then upload
+    }
+
+    public static String GetUploadImageId(String fileName) {
+
+
+        return "imageid";
     }
 }

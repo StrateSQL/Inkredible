@@ -1,5 +1,6 @@
 package com.printifyproject.orm.service;
 
+import com.printifyproject.managers.PublicationManager;
 import com.printifyproject.orm.dao.ProductDao;
 import com.printifyproject.orm.model.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +67,15 @@ public class ProductService {
     public long count() {
         return dao.count();
     }
+
+    public ProductEntity publishPrintify(ProductEntity entity) {
+        entity = PublicationManager.publishPrintify(entity);
+        return dao.update(entity);
+    }
+
+    public ProductEntity uploadPrintify(ProductEntity entity) {
+        entity = PublicationManager.uploadPrintify(entity);
+        return dao.update(entity);
+        }
+
 }

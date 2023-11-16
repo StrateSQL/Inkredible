@@ -1,6 +1,8 @@
 package com.printifyproject.printifyapi.upload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+
 import java.util.List;
 
 public class PagedImages {
@@ -19,6 +21,9 @@ public class PagedImages {
 
     @JsonProperty("last_page_url")
     private String LastPageUrl;
+
+    @JsonProperty("links")
+    private JsonNode links;
 
     @JsonProperty("next_page_url")
     private String NextPageUrl;

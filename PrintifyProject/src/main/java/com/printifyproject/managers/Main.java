@@ -1,5 +1,6 @@
 package com.printifyproject.managers;
 
+import com.printifyproject.orm.examples.PublishExample;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -8,7 +9,8 @@ public class Main {
     public static void main(String[] args) {
         //getBlueprintData();
         //PrintifyLoader.process();
-        PublicationManager.UploadProductToPrintify(2);
+        //PublicationManager.UploadProductToPrintify(2);
+        PublishExample.publishProduct();
     }
 
 
