@@ -13,12 +13,16 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
+import java.util.List;
+
 
 public class ProductProfilesListScreenController implements Initializable {
 
@@ -39,6 +43,10 @@ public class ProductProfilesListScreenController implements Initializable {
     private TextField gossMarginTextbox;
     @FXML
     private TextField titleTextBox;
+
+    @FXML
+    private Label notificationLabel;
+    @FXML
     private BlueprintService blueprintService;
     private BlueprintPrintProviderService blueprintPrintProviderService;
     private ColorService colorService;
@@ -116,17 +124,6 @@ public class ProductProfilesListScreenController implements Initializable {
         colorsList.getItems().add(color);
     }
 
-
-    public void testButton(ActionEvent event) {
-        ServiceHelper.initContext();
-        ServiceHelper serviceHelper = new ServiceHelper();
-        PrintProviderService blueprintService = serviceHelper.getPrintProviderService();
-        List<PrintProviderEntity> results = blueprintService.findAll();
-
-        System.out.println(results);
-    }
-
-
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -156,6 +153,7 @@ public class ProductProfilesListScreenController implements Initializable {
         printSpecEntity.setColors(printSpecColorSet);
 
         printSpecService.add(printSpecEntity);
+        notificationLabel.setText(printSpecEntity.getName() + " was saved");
 
     }
 

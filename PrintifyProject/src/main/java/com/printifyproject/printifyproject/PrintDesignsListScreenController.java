@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -41,24 +42,27 @@ public class PrintDesignsListScreenController implements Initializable {
     private TextArea desc_textbox;
     @FXML
     private TextField img_textbox;
+    @FXML
+    private Label notificationLabel;
     private DesignService designService;
 
     private List<Integer> index_list;
 
+    private ServiceHelper serviceHelper;
+
 
     public void initialize(URL arg0, ResourceBundle arg1) {
         ServiceHelper.initContext();
-        ServiceHelper serviceHelper = new ServiceHelper();
+        serviceHelper = new ServiceHelper();
+        loadDesignsList();
+        existing_designs_choicebox.setOnAction(this::selectExistingDesign);
+    }
+
+    private void loadDesignsList() {
         designService = serviceHelper.getDesignService();
         List<DesignEntity> results = designService.findAll();
-
         List<String> names = getNames(results);
-        index_list = getIds(results);
-
-
-//        Initialization code goes here
         existing_designs_choicebox.getItems().addAll(names);
-        existing_designs_choicebox.setOnAction(this::selectExistingDesign);
     }
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
@@ -67,7 +71,7 @@ public class PrintDesignsListScreenController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
-        scene.setFill(Color.rgb(200,200,0));
+        scene.setFill(Color.rgb(200, 200, 0));
     }
 
 
@@ -77,6 +81,8 @@ public class PrintDesignsListScreenController implements Initializable {
         newDesignEntity.setDescription(desc_textbox.getText());
         newDesignEntity.setImage(img_textbox.getText());
         designService.add(newDesignEntity);
+        loadDesignsList();
+        notificationLabel.setText(newDesignEntity.getTitle() + " has been saved");
     }
 
     public void saveExistingDesign(ActionEvent event) {
@@ -87,6 +93,8 @@ public class PrintDesignsListScreenController implements Initializable {
                     designEntity.setDescription(desc_textbox.getText());
                     designEntity.setImage(img_textbox.getText());
                     designService.update(designEntity);
+                    loadDesignsList();
+                    notificationLabel.setText(designEntity.getTitle() + " has been updated");
                 }
 
         );
@@ -122,24 +130,14 @@ public class PrintDesignsListScreenController implements Initializable {
 
     }
 
-    public void selectImage(ActionEvent event){
+    public void selectImage(ActionEvent event) {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
 
-        ImageManager.copyFileToPackageDirectory(file.getAbsolutePath(),file.getName());
+        ImageManager.copyFileToPackageDirectory(file.getAbsolutePath(), file.getName());
 
         img_textbox.setText(file.getAbsolutePath());
 
     }
-
-
-    public List<Integer> getIds(List<DesignEntity> list) {
-
-        return list.stream()
-                .map(DesignEntity::getDesignId)
-                .toList();
-
-    }
-
 }

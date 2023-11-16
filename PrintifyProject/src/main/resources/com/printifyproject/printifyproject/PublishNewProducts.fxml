@@ -14,12 +14,14 @@
             <Font name="Yu Gothic Light" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="57.0" layoutY="318.0" mnemonicParsing="false" onAction="#switchToSelectionScreen" style="-fx-background-color: skyblue;" text="Back to Selection Screen" />
+      <Button layoutX="56.0" layoutY="281.0" mnemonicParsing="false" onAction="#switchToSelectionScreen" style="-fx-background-color: skyblue;" text="Back to Selection Screen" />
       <Label layoutX="250.0" layoutY="129.0" prefHeight="18.0" prefWidth="335.0" text="For this design, these products specs have been published:" />
-      <Label layoutX="57.0" layoutY="191.0" text="Select a Product Spec:" />
+      <Label layoutX="57.0" layoutY="174.0" text="Select a Product Spec:" />
       <ChoiceBox fx:id="designChoiceBox" layoutX="54.0" layoutY="138.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="productSpecChoiceBox" layoutX="54.0" layoutY="209.0" prefWidth="150.0" />
-      <ListView fx:id="productSpecsPublishedList" layoutX="340.0" layoutY="171.0" prefHeight="200.0" prefWidth="200.0" />
+      <ChoiceBox fx:id="productSpecChoiceBox" layoutX="54.0" layoutY="192.0" prefWidth="150.0" />
+      <ListView fx:id="productSpecsPublishedList" layoutX="344.0" layoutY="183.0" prefHeight="130.0" prefWidth="200.0" />
       <Label layoutX="57.0" layoutY="119.0" text="Select a Design:" />
+      <Button fx:id="publishProductButton" layoutX="57.0" layoutY="235.0" mnemonicParsing="false" onAction="#publishProduct" text="Publish Product" />
+      <Label fx:id="notificationLabel" layoutX="49.0" layoutY="360.0" prefHeight="18.0" prefWidth="441.0" />
    </children>
 </AnchorPane>
