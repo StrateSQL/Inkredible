@@ -1,6 +1,6 @@
 package com.printifyproject.managers;
 
-import com.printifyproject.orm.examples.PublishExample;
+import com.printifyproject.printifyapi.api.ApiUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,7 +10,11 @@ public class Main {
         //getBlueprintData();
         //PrintifyLoader.process();
         //PublicationManager.UploadProductToPrintify(2);
-        PublishExample.publishProduct();
+        //PublishExample.publishProduct();
+
+        ApiUpload apiUpload = new ApiUpload(logger);
+        //PublicationManager.processImage("2023-10-26 11.36.05.png");
+        PublicationManager.processImage("Mauricio.jpg");
     }
 
 

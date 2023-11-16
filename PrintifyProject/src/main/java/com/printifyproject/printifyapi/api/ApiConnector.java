@@ -119,7 +119,7 @@ public class ApiConnector {
     }
 
     private String getAuthenticationToken() {
-        return "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjhmNzU2NWJlZjVjODk1YmU1ZWRkMGEzZDg4MjliZDM3M2YxY2IyNjEwZjdhOGZmYTJhYzc1NDNhZTQ0MWQ1N2IzNGEwOTc2MjRhOWY0NjA0IiwiaWF0IjoxNjk2MTgxNDA3LjgwMjE0LCJuYmYiOjE2OTYxODE0MDcuODAyMTQzLCJleHAiOjE3Mjc4MDM4MDcuNzk1NjY5LCJzdWIiOiIxNTM5OTUzMSIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AEe-eE9xNoS_3cvKntuIAwYNh-I8rdTXQ29gNPJFCFwvh5fKirxW2BMXwPq6MJ0iAu2CpvrnBYwm1778hpE";
+        return "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjNjZWM0NzY2YTIyZmYxOGVjZDAwMTM5M2MxMDcwYmQxY2YwOTYxMWIzYzIyNmRhZDdkYTRhNjg5OWM5YzVmNDc5YThhYzlhMzFlYzJlOTA5IiwiaWF0IjoxNzAwMTA3NjE5LjEyMTM4LCJuYmYiOjE3MDAxMDc2MTkuMTIxMzgzLCJleHAiOjE3MzE3MzAwMTkuMTEzNjc1LCJzdWIiOiIxNTM5OTUzMSIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AMG-ZgzurapmyfnrKKmpRrLoCAQMJLXWbG5f1PJBYzhAgNh7uJ8IvMOmSaIOln6D3O_-dSJ8SnF9zW6J0w4";
     }
 
     public <T> T postObject(String endpoint, Object requestObject, Class<T> responseType) {
@@ -139,6 +139,7 @@ public class ApiConnector {
                 .build();
 
         try (Response response = sendRequest(request)) {
+            System.out.println(response.body());
             if (response.isSuccessful()) {
                 String jsonResponse = response.body().string();
                 return objectMapper.readValue(jsonResponse, responseType);

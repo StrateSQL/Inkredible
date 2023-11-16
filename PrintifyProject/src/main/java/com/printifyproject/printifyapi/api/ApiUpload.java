@@ -55,7 +55,8 @@ public class ApiUpload {
 
     public Image uploadImage(UploadImageBodyRequest uploadImageBodyRequest) {
         String endpoint = "uploads/images.json";
-        return apiConnector.postObject(endpoint, uploadImageBodyRequest, Image.class);
+        var returned = apiConnector.postObject(endpoint, uploadImageBodyRequest, Image.class);
+        return returned;
     }
 
     public Image uploadImage(UploadImageQueryStringRequest uploadImageQueryStringRequest) {

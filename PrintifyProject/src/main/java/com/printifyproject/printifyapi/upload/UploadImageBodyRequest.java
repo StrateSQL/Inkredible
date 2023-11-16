@@ -3,24 +3,25 @@ package com.printifyproject.printifyapi.upload;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UploadImageBodyRequest {
-    private String Contents = "base-64-encoded-content";
+    @JsonProperty("contents")
+    private String contents = "base-64-encoded-content";
 
     @JsonProperty("file_name")
-    private String FileName;
+    private String fileName;
 
     public String getContents() {
-        return Contents;
+        return contents;
     }
 
     public void setContents(String contents) {
-        this.Contents = contents;
+        this.contents = contents;
     }
 
     public String getFileName() {
-        return FileName;
+        return fileName;
     }
 
     public void setFileName(String fileName) {
-        this.FileName = fileName;
+        this.fileName = fileName;
     }
 }

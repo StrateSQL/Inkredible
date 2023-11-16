@@ -59,6 +59,7 @@ public class DesignService {
     public Optional<DesignEntity> findDesignByTitle(String title) {
         return dao.findByTitle(title);
     }
+
     public Optional<Integer> getIdByTitle(String title) {
         Optional<DesignEntity> design = dao.findByTitle(title);
         return design.map(DesignEntity::getDesignId);
