@@ -1,5 +1,6 @@
 package com.printifyproject.printifyproject;
 
+import com.printifyproject.managers.PublicationManager;
 import com.printifyproject.orm.model.BlueprintEntity;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.model.PrintSpecEntity;
@@ -13,12 +14,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class PublishNewProductsScreenController implements Initializable {
@@ -29,14 +32,18 @@ public class PublishNewProductsScreenController implements Initializable {
     private ChoiceBox<String> productSpecChoiceBox;
     @FXML
     private ListView<String> productSpecsPublishedList;
+    @FXML
+    private Label notificationLabel;
 
     private ServiceHelper serviceHelper = new ServiceHelper();
+    private DesignService designService;
+    private PrintSpecService printSpecService;
 
     public void initialize(URL arg0, ResourceBundle arg1) {
         ServiceHelper.initContext();
         serviceHelper = new ServiceHelper();
-        DesignService designService = serviceHelper.getDesignService();
-        PrintSpecService printSpecService = serviceHelper.getPrintSpecService();
+        designService = serviceHelper.getDesignService();
+        printSpecService = serviceHelper.getPrintSpecService();
         List<DesignEntity> designResults = designService.findAll();
         List<PrintSpecEntity> printSpecResults = printSpecService.findAll();
 
@@ -87,5 +94,20 @@ public class PublishNewProductsScreenController implements Initializable {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void publishProduct(ActionEvent event){
+        ProductEntity product = new ProductEntity();
+        Optional<DesignEntity> designEntity =  designService.findDesignByTitle(designChoiceBox.getValue());
+        Optional<PrintSpecEntity> printSpecEntity = printSpecService.findBlueprintByTitle(productSpecChoiceBox.getValue());
+        printSpecEntity.ifPresent(product::setPrintSpec);
+        designEntity.ifPresent(product::setDesign);
+
+        ProductService productService = serviceHelper.getProductService();
+        ProductEntity returnedProduct =  productService.add(product);
+        PublicationManager.UploadProductToPrintify(returnedProduct.getProductId());
+
+        notificationLabel.setText(product.getDesign().getTitle() +  ", " + product.getPrintSpec().getName() + " was published");
+
     }
 }

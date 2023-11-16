@@ -7,7 +7,7 @@ import com.printifyproject.orm.service.ServiceHelper;
 import java.util.Optional;
 import java.util.UUID;
 
-public class PublicationManager {
+public class   PublicationManager {
     public static boolean UploadProductToPrintify(int productId) {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
