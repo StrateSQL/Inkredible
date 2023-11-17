@@ -5,12 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.net.URI;
 
 public class Image {
+    @JsonProperty("id")
+    private String Id;
+
     @JsonProperty("file_name")
     private String FileName;
 
+    @JsonProperty("height")
     private Integer Height;
 
-    private String Id;
+    @JsonProperty("width")
+    private Integer Width;
+
+    @JsonProperty("size")
+    private Long Size;
 
     @JsonProperty("mime_type")
     private String MimeType;
@@ -18,12 +26,9 @@ public class Image {
     @JsonProperty("preview_url")
     private URI PreviewUrl;
 
-    private Long Size;
-
     @JsonProperty("upload_time")
     private String UploadTime;
 
-    private Integer Width;
 
     public String getFileName() {
         return FileName;

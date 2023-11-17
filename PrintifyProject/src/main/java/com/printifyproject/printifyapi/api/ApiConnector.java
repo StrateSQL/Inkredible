@@ -2,9 +2,7 @@ package com.printifyproject.printifyapi.api;
 
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.*;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
@@ -36,12 +34,11 @@ public class ApiConnector {
 
     public Request createRequest(String endpoint) {
         logger.info(String.format("Creating request to %s", endpoint));
-        String authenticationToken = "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjhmNzU2NWJlZjVjODk1YmU1ZWRkMGEzZDg4MjliZDM3M2YxY2IyNjEwZjdhOGZmYTJhYzc1NDNhZTQ0MWQ1N2IzNGEwOTc2MjRhOWY0NjA0IiwiaWF0IjoxNjk2MTgxNDA3LjgwMjE0LCJuYmYiOjE2OTYxODE0MDcuODAyMTQzLCJleHAiOjE3Mjc4MDM4MDcuNzk1NjY5LCJzdWIiOiIxNTM5OTUzMSIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AEe-eE9xNoS_3cvKntuIAwYNh-I8rdTXQ29gNPJFCFwvh5fKirxW2BMXwPq6MJ0iAu2CpvrnBYwm1778hpE";
         return new Request.Builder()
                 .url(BASE_URL + endpoint)
                 .get()
                 .header("Accept", CONTENT_TYPE)
-                .header("Authorization", "Bearer " + authenticationToken)
+                .header("Authorization", "Bearer " + getAuthenticationToken())
                 .build();
     }
 
@@ -89,6 +86,70 @@ public class ApiConnector {
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void postObject(String endpoint) {
+        logger.info(String.format("POST: %s", endpoint));
+        Request request = createPostRequest(endpoint);
+        Response response = null;
+
+        try {
+            response = sendRequest(request);
+
+            logger.trace(response.message());
+
+            if (!response.isSuccessful()) {
+                logger.warn("Unsuccessful response for POST request to " + endpoint);
+            }
+        } finally {
+            if (response != null) {
+                response.close();
+            }
+        }
+    }
+
+    private Request createPostRequest(String endpoint) {
+        logger.info(String.format("Creating POST request to %s", endpoint));
+        return new Request.Builder()
+                .url(BASE_URL + endpoint)
+                .header("Accept", CONTENT_TYPE)
+                .header("Authorization", "Bearer " + getAuthenticationToken())
+                .build();
+    }
+
+    private String getAuthenticationToken() {
+        return "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjNjZWM0NzY2YTIyZmYxOGVjZDAwMTM5M2MxMDcwYmQxY2YwOTYxMWIzYzIyNmRhZDdkYTRhNjg5OWM5YzVmNDc5YThhYzlhMzFlYzJlOTA5IiwiaWF0IjoxNzAwMTA3NjE5LjEyMTM4LCJuYmYiOjE3MDAxMDc2MTkuMTIxMzgzLCJleHAiOjE3MzE3MzAwMTkuMTEzNjc1LCJzdWIiOiIxNTM5OTUzMSIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AMG-ZgzurapmyfnrKKmpRrLoCAQMJLXWbG5f1PJBYzhAgNh7uJ8IvMOmSaIOln6D3O_-dSJ8SnF9zW6J0w4";
+    }
+
+    public <T> T postObject(String endpoint, Object requestObject, Class<T> responseType) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonRequestBody;
+        try {
+            jsonRequestBody = objectMapper.writeValueAsString(requestObject);
+        } catch (IOException e) {
+            logger.error("Error serializing request object: " + e.getMessage());
+            return null;
+        }
+
+        RequestBody requestBody = RequestBody.create(jsonRequestBody, MediaType.parse("application/json"));
+        Request request = new Request.Builder()
+                .url(BASE_URL + endpoint)
+                .post(requestBody)
+                .build();
+
+        try (Response response = sendRequest(request)) {
+            System.out.println(response.body());
+            if (response.isSuccessful()) {
+                String jsonResponse = response.body().string();
+                return objectMapper.readValue(jsonResponse, responseType);
+            } else {
+                logger.error("Unsuccessful response for POST request to " + endpoint);
+                return null;
+            }
+        } catch (IOException e) {
+            logger.error("Error during POST request or response handling: " + e.getMessage());
+            return null;
         }
     }
 }

@@ -18,7 +18,7 @@
       <ListView fx:id="selectedProductsList" layoutX="327.0" layoutY="77.0" prefHeight="200.0" prefWidth="260.0" />
       <Button fx:id="addToListButton" layoutX="25.0" layoutY="292.0" mnemonicParsing="false" onAction="#addToSelectedList" text="Select product" />
       <Button fx:id="removeFromListButton" layoutX="134.0" layoutY="292.0" mnemonicParsing="false" onAction="#removeToSelectedList" text="Unselect product" />
-      <Button layoutX="370.0" layoutY="292.0" mnemonicParsing="false" text="Upload all in selection" />
-      <Button layoutX="370.0" layoutY="330.0" mnemonicParsing="false" text="Publish all in Selection" />
+      <Button layoutX="370.0" layoutY="292.0" mnemonicParsing="false" text="Upload all in selection" onAction="#uploadAllSelected"/>
+      <Button layoutX="370.0" layoutY="330.0" mnemonicParsing="false" text="Publish all in Selection" onAction="#publishAllSelected"/>
    </children>
 </AnchorPane>
