@@ -1,6 +1,9 @@
 package com.printifyproject.managers;
 
-import com.printifyproject.orm.model.ProductEntity;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.printifyproject.orm.model.*;
 import com.printifyproject.orm.service.ProductService;
 import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiUpload;
@@ -14,7 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Base64;
-import java.util.Optional;
 import java.util.UUID;
 
 public class   PublicationManager {
@@ -25,34 +27,76 @@ public class   PublicationManager {
         ServiceHelper serviceHelper = new ServiceHelper();
         ProductService productService = serviceHelper.getProductService();
 
-        Optional<ProductEntity> optProduct = productService.findById(entity.getProductId());
+        if (entity.getProductId() == 0)
+            return null;
 
-        if (optProduct.isPresent()) {
-            var product = optProduct.get();
-            product.setPublished(true);
-            product.setProductKey(UUID.randomUUID().toString());
+        String imageId = processImage(entity.getDesign().getImage());
 
-            //todo: upload image if it is not already uploaded
+        //todo: create product schema
+        String json =  buildProductJson(entity, imageId);
 
-            //todo: upload product, if it is not there
+        //todo: upload product, if it is not there
 
-            //todo: get productkey
 
-            //todo: update productkey, isPublished=1
-            product.setPublished(true);
-            product.setProductKey(UUID.randomUUID().toString());
-            productService.update(product);
+        //todo: get productkey
 
-            return entity;
-        } else
-            return entity;
+        //todo: update productkey, isPublished=1
+        entity.setPublished(true);
+        entity.setProductKey(UUID.randomUUID().toString());
+        productService.update(entity);
+
+        return entity;
+    }
+
+
+    public static String buildProductJson (ProductEntity entity,String imageId) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+        ObjectNode rootNode = factory.objectNode();
+
+        DesignEntity design = entity.getDesign();
+        PrintSpecEntity printSpec = entity.getPrintSpec();
+        BlueprintEntity blueprint = printSpec.getBlueprintPrintProvider().getBlueprint();
+        PrintProviderEntity printProvider = printSpec.getBlueprintPrintProvider().getPrintProvider();
+
+        rootNode.put("title", design.getTitle() + " - " + entity.getPrintSpec().getName());
+        rootNode.put("description", design.getDescription());
+        rootNode.put("blueprint_id", blueprint.getBlueprintKey());
+        rootNode.put("print_provider_id", printProvider.getPrintProviderKey());
+
+        ArrayNode variantsArray = factory.arrayNode();
+
+        ArrayNode printAreasArray = factory.arrayNode();
+
+        //Images for Placeholder
+        ObjectNode imageObject = factory.objectNode();
+        imageObject.put("id", imageId);
+        ArrayNode imagesArray  = factory.arrayNode();
+        imagesArray.add(imageObject);
+
+        //Placeholder
+        ObjectNode placeholdersNode = factory.objectNode();
+        placeholdersNode.put("position", "front");
+        placeholdersNode.set("images", imagesArray);
+
+        return "";
+    }
+
+
+
+    private static ProductEntity UploadProductToPrintify(ProductEntity entity, String productSchema) {
+
+        return entity;
     }
 
     public static ProductEntity publishPrintify(ProductEntity entity) {
-        return null;
+
+
+        entity.setProductKey(UUID.randomUUID().toString());
+        return entity;
     }
 
-    public static String processImage(String fileName) {
+
+    private static String processImage(String fileName) {
         String imageId = "";
 
         try {
@@ -60,7 +104,7 @@ public class   PublicationManager {
             imageId = getUploadImageId(apiUpload, fileName);
 
             if (imageId.isEmpty()) {
-                uploadImage(apiUpload, fileName);
+                imageId = uploadImage(apiUpload, fileName);
             }
         } catch(IOException e) {
             logger.error("Error while processing image: " + e.getMessage(), e);
@@ -73,7 +117,6 @@ public class   PublicationManager {
         String userDirectoryPath = System.getProperty("user.dir")+"\\src\\main\\java\\com\\printifyproject\\images\\";
         String filePath = userDirectoryPath + fileName;
 
-        filePath = "D:\\Dropbox\\T-Shirts\\00-Designs Available\\Autumn Summer\\1.png";
         if (Files.exists(Path.of(filePath))) {
             String contents = encodeFile(filePath);
 
