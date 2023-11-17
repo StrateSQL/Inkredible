@@ -1,20 +1,76 @@
 package com.printifyproject.printifyproject;
 
+import com.printifyproject.orm.model.BlueprintEntity;
+import com.printifyproject.orm.model.ProductEntity;
+import com.printifyproject.orm.service.ProductService;
+import com.printifyproject.orm.service.ServiceHelper;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
-public class PublishedProductsScreenController {
+
+
+public class PublishedProductsScreenController implements Initializable {
+    private ServiceHelper serviceHelper;
+
+    @FXML
+    private ListView<String> allProductsList;
+    @FXML
+    private ListView<String> selectedProductsList;
+
+
+
+    public void initialize(URL arg0, ResourceBundle arg1) {
+        ServiceHelper.initContext();
+        serviceHelper = new ServiceHelper();
+        ProductService productService = serviceHelper.getProductService();
+        List<ProductEntity> productEntities = productService.findAll();
+
+        for (ProductEntity pEntity : productEntities){
+            String designTitle = pEntity.getDesign().getTitle();
+            String printSpecName = pEntity.getPrintSpec().getName();
+
+            allProductsList.getItems().add(designTitle + " - " + printSpecName);
+
+        }
+
+    }
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void addToSelectedList(ActionEvent event){
+        String selectedProduct = allProductsList.getSelectionModel().getSelectedItem();
+        if (!selectedProductsList.getItems().contains(selectedProduct)) {
+            selectedProductsList.getItems().add(selectedProduct);
+        }
+    }
+
+    public void removeToSelectedList(ActionEvent event){
+        String selectedProduct = allProductsList.getSelectionModel().getSelectedItem();
+        selectedProductsList.getItems().remove(selectedProduct);
+    }
+
+    public void uploadAllSelected(ActionEvent event){
+
+    }
+
+    public void publishAllSelected(ActionEvent event){
+
     }
 }

@@ -105,7 +105,6 @@ public class PublishNewProductsScreenController implements Initializable {
 
         ProductService productService = serviceHelper.getProductService();
         ProductEntity returnedProduct =  productService.add(product);
-        PublicationManager.UploadProductToPrintify(returnedProduct.getProductId());
 
         notificationLabel.setText(product.getDesign().getTitle() +  ", " + product.getPrintSpec().getName() + " was published");
 

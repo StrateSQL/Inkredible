@@ -2,16 +2,23 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: lightyellow;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.printifyproject.printifyproject.PublishedProductsScreenController">
    <children>
-      <Label layoutX="148.0" layoutY="34.0" text="Published Products">
+      <Label layoutX="207.0" layoutY="14.0" text="Publish Products">
          <font>
             <Font name="Yu Gothic Light" size="24.0" />
          </font>
       </Label>
-      <Button layoutX="63.0" layoutY="200.0" mnemonicParsing="false" onAction="#switchToSelectionScreen" style="-fx-background-color: skyblue;" text="Back to Selection Screen" />
+      <Button layoutX="23.0" layoutY="342.0" mnemonicParsing="false" onAction="#switchToSelectionScreen" style="-fx-background-color: skyblue;" text="Back to Selection Screen" />
+      <ListView fx:id="allProductsList" layoutX="25.0" layoutY="77.0" prefHeight="200.0" prefWidth="285.0" />
+      <ListView fx:id="selectedProductsList" layoutX="327.0" layoutY="77.0" prefHeight="200.0" prefWidth="260.0" />
+      <Button fx:id="addToListButton" layoutX="25.0" layoutY="292.0" mnemonicParsing="false" onAction="#addToSelectedList" text="Select product" />
+      <Button fx:id="removeFromListButton" layoutX="134.0" layoutY="292.0" mnemonicParsing="false" onAction="#removeToSelectedList" text="Unselect product" />
+      <Button layoutX="370.0" layoutY="292.0" mnemonicParsing="false" text="Upload all in selection" />
+      <Button layoutX="370.0" layoutY="330.0" mnemonicParsing="false" text="Publish all in Selection" />
    </children>
 </AnchorPane>
