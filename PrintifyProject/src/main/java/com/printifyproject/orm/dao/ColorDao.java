@@ -76,6 +76,16 @@ public class ColorDao {
                 .getResultList());
     }
 
+    public Set<String> getColorsByPrintSpecId(int printSpecId) {
+        return new HashSet<>(entityManager.createQuery(
+                        "SELECT DISTINCT c.color " +
+                                "FROM ColorEntity c " +
+                                "JOIN c.printSpecColors psc " +
+                                "WHERE psc.printSpec.id = :printSpecId", String.class)
+                .setParameter("printSpecId", printSpecId)
+                .getResultList());
+    }
+
     public String findColorByBlueprintPrintProviderVariantId(int blueprintPrintProviderVariantId) {
         try {
             return entityManager.createQuery(

@@ -64,4 +64,8 @@ public class ColorService {
     public Set<String> getColorsByBlueprintPrintProviderId(int blueprintPrintProviderId) {
         return dao.findColorsByBlueprintPrintProviderId(blueprintPrintProviderId);
     }
+
+    public Set<String> getColorsByPrintSpecId(int printSpecId) {
+        return dao.findColorsByPrintSpecId(printSpecId);
+    }
 }

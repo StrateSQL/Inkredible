@@ -66,6 +66,7 @@ public class BlueprintPrintProviderEntity {
     }
 
     public void setBlueprintPrintProviderVariants(Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants) {
+        this.blueprintPrintProviderVariants = blueprintPrintProviderVariants;
     }
 
     @Override

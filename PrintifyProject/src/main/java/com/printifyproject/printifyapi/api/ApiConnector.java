@@ -145,7 +145,7 @@ public class ApiConnector {
                 .build();
 
         try (Response response = sendRequest(request)) {
-            System.out.println(response.body());
+            System.out.println(response.body().string());
             if (response.isSuccessful()) {
                 String jsonResponse = response.body().string();
                 return objectMapper.readValue(jsonResponse, responseType);

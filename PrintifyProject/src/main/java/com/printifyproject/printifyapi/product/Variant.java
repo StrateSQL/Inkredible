@@ -15,10 +15,10 @@ public class Variant {
     private int Cost;
 
     @JsonProperty("title")
-    private String Title;
+    private String Title = "";
 
     @JsonProperty("sku")
-    private String Sku;
+    private String Sku = "";
 
     @JsonProperty("grams")
     private int Grams;

@@ -5,6 +5,9 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.printifyproject.orm.model.*;
+import com.printifyproject.orm.service.BlueprintPrintProviderVariantService;
+import com.printifyproject.orm.service.ColorService;
+import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiProduct;
 import com.printifyproject.printifyapi.api.ApiShop;
 import com.printifyproject.printifyapi.api.ApiUpload;
@@ -15,13 +18,20 @@ import com.printifyproject.printifyapi.upload.PagedImages;
 import com.printifyproject.printifyapi.upload.UploadImageBodyRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 public class   PublicationManager {
+    private ServiceHelper serviceHelper;
     private final Logger logger;
     private final ProductEntity product;
     private JsonNodeFactory factory;
@@ -45,8 +55,11 @@ public class   PublicationManager {
         if (product.isPublished())
             throw new IllegalArgumentException("Cannot publish a published product");
 
-        if (product.getProductKey().isEmpty())
+        if ((product.getProductKey() != null && !product.getProductKey().isEmpty()))
             throw new IllegalArgumentException("Cannot publish a product that has not been uploaded");
+
+        ServiceHelper.initContext();
+        serviceHelper = new ServiceHelper();
 
         logger = LogManager.getLogger();
         apiUpload = new ApiUpload(logger);
@@ -78,7 +91,7 @@ public class   PublicationManager {
         try {
             getUploadedImageId(fileName);
 
-            if (this.imageId.isEmpty()) {
+            if (this.imageId == null || this.imageId.isEmpty()) {
                 uploadImage(fileName);
             }
         } catch (IOException e) {
@@ -106,10 +119,9 @@ public class   PublicationManager {
     }
 
     private void uploadImage(String fileName) throws IOException {
-        ClassLoader classLoader = PublicationManager.class.getClassLoader();
-        java.net.URL resourceUrl = classLoader.getResource("images/"+fileName);
-        assert resourceUrl != null;
-        String filePath = resourceUrl.getFile();
+        Resource resource = new ClassPathResource("./images/"+fileName);
+        File imageFile = resource.getFile();
+        String filePath = imageFile.getAbsolutePath();
 
         if (Files.exists(Path.of(filePath))) {
             String contents = encodeFile(filePath);
@@ -138,19 +150,28 @@ public class   PublicationManager {
         rootNode.set("variants", this.variantsArray);
         rootNode.set("print_areas", this.printAreasArray);
 
-        System.out.println(rootNode.toString());
+        json = rootNode.toString();
     }
 
     private void buildVariantArray() {
         variantsArray = factory.arrayNode();
+        BlueprintPrintProviderVariantService service = serviceHelper.getBlueprintPrintProviderVariantService();
 
-        for (BlueprintPrintProviderVariantEntity variant : blueprintPrintProviderVariants) {
+        ColorService colorsService = serviceHelper.getColorService();
+        Set<String> productColors = colorsService.getColorsByPrintSpecId(printSpec.getPrintSpecId());
+
+        for (BlueprintPrintProviderVariantEntity item : blueprintPrintProviderVariants) {
+            BlueprintPrintProviderVariantEntity variant = service.findById(item.getId()).orElse(null);
+
             ObjectNode variantNode = factory.objectNode();
             int variantId = variant.getVariantKey();
             variantNode.put("id", variantId);
+            variantNode.put("price", 40);
             String colorToCheck = variant.getColor().getColor();
-            variantNode.put("is_enabled", printSpecColors.stream()
-                .anyMatch(printSpecColor -> colorToCheck.equals(printSpecColor.getColor().getColor())));
+
+            // Check if colorToCheck exists in productColors
+            variantNode.put("is_enabled", productColors.contains(colorToCheck));
+
             variantIds.add(variantId);
             variantsArray.add(variantNode);
         }
@@ -192,6 +213,10 @@ public class   PublicationManager {
     private ArrayNode buildImagesArray() {
         ObjectNode imageNode = factory.objectNode();
         imageNode.put("id", imageId);
+        imageNode.put("x", 0.5);
+        imageNode.put("y", 0.5);
+        imageNode.put("scale", 1);
+        imageNode.put("angle", 0);
         ArrayNode imagesArray = factory.arrayNode();
         imagesArray.add(imageNode);
 

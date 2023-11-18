@@ -55,7 +55,7 @@ public class Product {
     private String PrintOnSide;
 
     @JsonProperty("external")
-    private External External;
+    private List<Option> External = new ArrayList<>();
 
     @JsonProperty("is_locked")
     private boolean IsLocked;
@@ -200,14 +200,6 @@ public class Product {
         this.PrintOnSide = printOnSide;
     }
 
-    public External getExternal() {
-        return External;
-    }
-
-    public void setExternal(External external) {
-        this.External = external;
-    }
-
     public boolean isIsLocked() {
         return IsLocked;
     }
@@ -246,5 +238,13 @@ public class Product {
 
     public void setSalesChannelProperties(List<String> salesChannelProperties) {
         this.SalesChannelProperties = salesChannelProperties;
+    }
+
+    public List<Option> getExternal() {
+        return External;
+    }
+
+    public void setExternal(List<Option> external) {
+        External = external;
     }
 }

@@ -123,7 +123,7 @@ public class PrintDesignsListScreenController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
-        ImageManager.copyFileToPackageDirectory(file.getAbsolutePath(), file.getName());
+        ImageManager.copyFileToImagesDirectory(file.getAbsolutePath(), file.getName());
         img_textbox.setText(file.getAbsolutePath());
 
     }
