@@ -15,6 +15,9 @@ public class Main {
         ApiUpload apiUpload = new ApiUpload(logger);
         //PublicationManager.processImage("2023-10-26 11.36.05.png");
         //PublicationManager
+
+
+
     }
 
 

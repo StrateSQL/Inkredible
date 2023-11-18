@@ -2,8 +2,8 @@ package com.printifyproject.printifyapi.api;
 
 import com.printifyproject.printifyapi.product.Product;
 import com.printifyproject.printifyapi.product.ProductSet;
-import org.jetbrains.annotations.Nullable;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
 
 public class ApiProduct {
 
@@ -48,5 +48,17 @@ public class ApiProduct {
 
         return apiConnector.getObject(endpoint, ProductSet.class);
     }
+
+    public Product CreateProduct(int shopId, Product product) {
+        String endpoint = String.format("shops/%d/products.json", shopId);
+        return apiConnector.postObject(endpoint, product, Product.class);
+    }
+
+    public void PublishProduct(int shopId, String productKey) {
+        String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
+        apiConnector.postObject(endpoint);
+    }
+
+
 
 }

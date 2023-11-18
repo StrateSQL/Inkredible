@@ -41,10 +41,17 @@ class BlueprintPrintProviderEntityTest {
 
     @Test
     void testColorsGetterSetter() {
-        Set<BlueprintPrintProviderVariantEntity> colors = new HashSet<>();
-        colors.add(new BlueprintPrintProviderVariantEntity());
-        entity.setColors(colors);
-        assertEquals(colors, entity.getColors());
+        Set<BlueprintPrintProviderVariantEntity> variants = new HashSet<>();
+        BlueprintPrintProviderVariantEntity variant = new BlueprintPrintProviderVariantEntity();
+        ColorEntity color = new ColorEntity();
+        color.setColor("Green");
+        variant.setColor(color);
+        variant.setVariantKey(123456);
+        variant.setSize("XXXL");
+
+        variants.add(new BlueprintPrintProviderVariantEntity());
+        entity.setBlueprintPrintProviderVariants(variants);
+        assertEquals(variants, entity.getBlueprintPrintProviderVariants());
     }
 
     @Test

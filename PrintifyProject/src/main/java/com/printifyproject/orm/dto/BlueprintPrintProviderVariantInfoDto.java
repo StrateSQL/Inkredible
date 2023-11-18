@@ -23,8 +23,6 @@ public class BlueprintPrintProviderVariantInfoDto {
         this.blueprintPrintProviderVariantId = blueprintPrintProviderVariantId;
     }
 
-
-
     public int getVariantKey() {
         return variantKey;
     }
