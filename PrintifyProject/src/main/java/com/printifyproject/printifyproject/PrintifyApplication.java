@@ -12,8 +12,8 @@ public class PrintifyApplication extends Application {
 
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(PrintifyApplication.class.getResource("SelectionScreen.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 600, 600);
-        stage.setTitle("Printify Application");
+        Scene scene = new Scene(fxmlLoader.load(), 600, 300);
+        stage.setTitle("Printify API - Desktop User Interface");
         stage.setScene(scene);
         stage.show();
         createComboBoxDataSet();
