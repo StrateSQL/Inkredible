@@ -48,7 +48,7 @@ public class   PublicationManager {
     private final ApiShop apiShop;
     private final ApiProduct apiProduct;
     private String imageId;
-    private String json ;
+    private String json;
 
     public PublicationManager(ProductEntity product) {
         this.product = product;
@@ -117,7 +117,7 @@ public class   PublicationManager {
     }
 
     private void uploadImage(String fileName) throws IOException {
-        Resource resource = new ClassPathResource("./images/"+fileName);
+        Resource resource = new ClassPathResource("./images/" + fileName);
         File imageFile = resource.getFile();
         String filePath = imageFile.getAbsolutePath();
 
@@ -129,6 +129,7 @@ public class   PublicationManager {
             imageId = this.apiUpload.uploadImage(uploadImageBodyRequest).getId();
         }
     }
+
     private static String encodeFile(String filePath) throws IOException {
         byte[] fileBytes = Files.readAllBytes(Path.of(filePath));
         return Base64.getEncoder().encodeToString(fileBytes);
@@ -141,6 +142,10 @@ public class   PublicationManager {
         buildPrintAreasArray();
 
         ObjectNode rootNode = factory.objectNode();
+
+        if (product.getProductKey() != null && !product.getProductKey().isEmpty())
+            rootNode.put("id", product.getProductKey());
+
         rootNode.put("title", design.getTitle() + " - " + printSpec.getName());
         rootNode.put("description", design.getDescription());
         rootNode.put("blueprint_id", blueprint.getBlueprintKey());
@@ -163,6 +168,7 @@ public class   PublicationManager {
             BlueprintPrintProviderVariantEntity variant = service.findById(item.getId()).orElse(null);
 
             ObjectNode variantNode = factory.objectNode();
+            assert variant != null;
             int variantId = variant.getVariantKey();
             variantNode.put("id", variantId);
             variantNode.put("price", 4000);
@@ -209,6 +215,7 @@ public class   PublicationManager {
         placeholdersArray.add(placeholderNode);
         return placeholdersArray;
     }
+
     private ArrayNode buildImagesArray() {
         ObjectNode imageNode = factory.objectNode();
         imageNode.put("id", imageId);
@@ -235,9 +242,6 @@ public class   PublicationManager {
     }
 
     public void PublishPrintify() {
-        if (product.isPublished())
-            throw new IllegalArgumentException("Cannot publish a product that has been published.");
-
         int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
         apiProduct.PublishProduct(shopId, product.getProductKey());
         product.setPublished(true);
@@ -247,4 +251,30 @@ public class   PublicationManager {
         return product;
     }
 
+    public void ModifyProductOnPrintify() {
+        if ((product.getProductKey().isEmpty()))
+            throw new IllegalArgumentException("Cannot modify a product before it has been uploaded.");
+
+        if (product.getProductId() == 0)
+            return;
+
+        buildProductJson();
+        apiModifyPrintifyProduct();
+    }
+
+    private void apiModifyPrintifyProduct() {
+        try {
+            int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Product printifyProduct = objectMapper.readValue(json, Product.class);
+            printifyProduct = apiProduct.ModifyProduct(shopId, printifyProduct);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+    }
+
 }
+
+
+
+

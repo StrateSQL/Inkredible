@@ -17,6 +17,9 @@ public class ProductEntity {
 
     @Column(name = "IsPublished")
     private boolean isPublished = false;
+
+    @Column(name = "IsModified")
+    private boolean IsModified = true;
     @ManyToOne
     @JoinColumn(name = "DesignId")
     private DesignEntity design;
@@ -72,6 +75,14 @@ public class ProductEntity {
 
     public void setPrintSpec(PrintSpecEntity printSpec) {
         this.printSpec = printSpec;
+    }
+
+    public boolean isModified() {
+        return IsModified;
+    }
+
+    public void setModified(boolean modified) {
+        IsModified = modified;
     }
 
     @Override

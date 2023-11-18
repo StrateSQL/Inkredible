@@ -3,6 +3,7 @@ package com.printifyproject.orm.service;
 import com.printifyproject.orm.dao.PrintSpecDao;
 import com.printifyproject.orm.dao.ProductDao;
 import com.printifyproject.orm.model.PrintSpecEntity;
+import com.printifyproject.orm.model.ProductEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,13 +25,12 @@ public class PrintSpecService {
     }
 
     public PrintSpecEntity add(PrintSpecEntity entity) {
+
         return dao.insert(entity);
     }
 
     public List<PrintSpecEntity> add(List<PrintSpecEntity> entities) {
-        for (PrintSpecEntity entity : entities) {
-            dao.insert(entity);
-        }
+
         return entities;
     }
 
@@ -43,6 +43,9 @@ public class PrintSpecService {
     }
 
     public PrintSpecEntity update(PrintSpecEntity entity) {
+        for (ProductEntity product : entity.getProducts()) {
+            product.setModified(true);
+        }
         return dao.update(entity);
     }
 

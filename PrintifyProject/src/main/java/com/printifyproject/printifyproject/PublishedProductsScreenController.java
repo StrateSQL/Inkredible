@@ -107,7 +107,7 @@ public class PublishedProductsScreenController implements Initializable {
         for (String productString : listOfProducts){
             int productID = getIdFromProductName(productString);
             ProductEntity productEntity = productService.findById(productID).orElse(null);
-            productService.uploadPrintify(productEntity);
+            productService.uploadPrintifyProduct(productEntity);
             productService.update(productEntity);
         }
         // Clear products in selected list and refresh non-published products

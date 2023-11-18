@@ -1,7 +1,5 @@
 package com.printifyproject.managers;
 
-import com.printifyproject.orm.model.ProductEntity;
-import com.printifyproject.orm.service.ProductService;
 import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiProduct;
 import com.printifyproject.printifyapi.api.ApiUpload;
@@ -26,12 +24,16 @@ public class Main {
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
 
-        ProductService productService = serviceHelper.getProductService();
-        ProductEntity product = productService.findById(4).orElse(null);
-        product = productService.uploadPrintify(product);
-        product = productService.publishPrintify(product);
+        //ProductService productService = serviceHelper.getProductService();
+        //ProductEntity product = productService.findById(2).orElse(null);
+        //product = productService.uploadPrintifyProduct(product);
+        //product = productService.modifyPrintifyProduct(product);
+        //product = productService.publishPrintify(product);
     }
 
+    private void testingUpdate() {
+
+    }
 
     private static final Logger logger = LogManager.getLogger(Main.class);
     

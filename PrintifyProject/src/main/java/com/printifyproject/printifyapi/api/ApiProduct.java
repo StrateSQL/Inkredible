@@ -69,4 +69,10 @@ public class ApiProduct {
 
         apiConnector.postObject(endpoint, message);
     }
+
+    public Product ModifyProduct(int shopId, Product product) {
+        String productKey = product.getProductKey();
+        String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
+        return apiConnector.postObject(endpoint, product, Product.class);
+    }
 }

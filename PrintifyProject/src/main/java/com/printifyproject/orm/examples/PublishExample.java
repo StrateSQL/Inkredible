@@ -45,7 +45,7 @@ public class PublishExample {
 
                 //send product to update on printify
                 //wait for response
-                product = productService.uploadPrintify(product);
+                product = productService.uploadPrintifyProduct(product);
 
                 //publish after updated
                 product = productService.publishPrintify(product);

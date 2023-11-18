@@ -141,7 +141,9 @@ public class ApiConnector {
                 String json = response.body().string();
                 return inboundMapper.readValue(json, type); // Deserialize to a single object
             } else {
-                System.out.println(response.message());
+                String errorMessage = response.body().string();
+                System.out.println("HTTP Status Code: " + response.code());
+                System.out.println("Error Message: " + errorMessage);
                 logger.error("Unsuccessful response for POST request to " + endpoint);
                 return null;
             }
