@@ -56,7 +56,7 @@ public class ApiProduct {
 
     public void PublishProduct(int shopId, String productKey) {
         String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
-        apiConnector.postObject(endpoint);
+        //apiConnector.postObject(endpoint, Product.class);
     }
 
 

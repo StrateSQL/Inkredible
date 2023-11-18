@@ -1,10 +1,14 @@
 package com.printifyproject.printifyapi.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JsonNode;
+import jakarta.validation.constraints.Null;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
     @JsonProperty("id")
     private String ProductKey;
@@ -53,24 +57,30 @@ public class Product {
 
     @JsonProperty("print_on_side")
     private String PrintOnSide;
-
+    @Null
     @JsonProperty("external")
     private List<Option> External = new ArrayList<>();
-
+    @Null
     @JsonProperty("is_locked")
     private boolean IsLocked;
-
+    @Null
     @JsonProperty("font_color")
     private String FontColor;
-
+    @Null
     @JsonProperty("font_family")
     private String FontFamily;
 
-    @JsonProperty("is_printify_express_eligible")
+    @Null
+    @JsonProperty("is_printify_express_enabled")
     private Boolean IsPrintifyExpressEligible;
 
+    @Null
     @JsonProperty("sales_channel_properties")
     private List<String> SalesChannelProperties;
+
+    @Null
+    @JsonProperty("print_details")
+    private List<JsonNode> PrintDetails = new ArrayList<>();
 
     public String getProductKey() {
         return ProductKey;
@@ -246,5 +256,29 @@ public class Product {
 
     public void setExternal(List<Option> external) {
         External = external;
+    }
+
+    public List<JsonNode> getPrintDetails() {
+        return PrintDetails;
+    }
+
+    public void setPrintDetails(List<JsonNode> printDetails) {
+        PrintDetails = printDetails;
+    }
+
+    public boolean isLocked() {
+        return IsLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        IsLocked = locked;
+    }
+
+    public Boolean getPrintifyExpressEligible() {
+        return IsPrintifyExpressEligible;
+    }
+
+    public void setPrintifyExpressEligible(Boolean printifyExpressEligible) {
+        IsPrintifyExpressEligible = printifyExpressEligible;
     }
 }

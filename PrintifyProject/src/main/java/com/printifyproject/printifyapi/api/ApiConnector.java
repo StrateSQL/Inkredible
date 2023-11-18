@@ -126,11 +126,11 @@ public class ApiConnector {
         return "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIzN2Q0YmQzMDM1ZmUxMWU5YTgwM2FiN2VlYjNjY2M5NyIsImp0aSI6IjNjZWM0NzY2YTIyZmYxOGVjZDAwMTM5M2MxMDcwYmQxY2YwOTYxMWIzYzIyNmRhZDdkYTRhNjg5OWM5YzVmNDc5YThhYzlhMzFlYzJlOTA5IiwiaWF0IjoxNzAwMTA3NjE5LjEyMTM4LCJuYmYiOjE3MDAxMDc2MTkuMTIxMzgzLCJleHAiOjE3MzE3MzAwMTkuMTEzNjc1LCJzdWIiOiIxNTM5OTUzMSIsInNjb3BlcyI6WyJzaG9wcy5tYW5hZ2UiLCJzaG9wcy5yZWFkIiwiY2F0YWxvZy5yZWFkIiwib3JkZXJzLnJlYWQiLCJvcmRlcnMud3JpdGUiLCJwcm9kdWN0cy5yZWFkIiwicHJvZHVjdHMud3JpdGUiLCJ3ZWJob29rcy5yZWFkIiwid2ViaG9va3Mud3JpdGUiLCJ1cGxvYWRzLnJlYWQiLCJ1cGxvYWRzLndyaXRlIiwicHJpbnRfcHJvdmlkZXJzLnJlYWQiXX0.AMG-ZgzurapmyfnrKKmpRrLoCAQMJLXWbG5f1PJBYzhAgNh7uJ8IvMOmSaIOln6D3O_-dSJ8SnF9zW6J0w4";
     }
 
-    public <T> T postObject(String endpoint, Object requestObject, Class<T> responseType) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public <T> T postObject(String endpoint, Object requestObject, Class<T> type) {
+        ObjectMapper outboundMapper = new ObjectMapper();
         String jsonRequestBody;
         try {
-            jsonRequestBody = objectMapper.writeValueAsString(requestObject);
+            jsonRequestBody = outboundMapper.writeValueAsString(requestObject);
         } catch (IOException e) {
             logger.error("Error serializing request object: " + e.getMessage());
             return null;
@@ -145,11 +145,12 @@ public class ApiConnector {
                 .build();
 
         try (Response response = sendRequest(request)) {
-            System.out.println(response.body().string());
             if (response.isSuccessful()) {
-                String jsonResponse = response.body().string();
-                return objectMapper.readValue(jsonResponse, responseType);
+                ObjectMapper inboundMapper = new ObjectMapper();
+                String json = response.body().string();
+                return inboundMapper.readValue(json, type); // Deserialize to a single object
             } else {
+                System.out.println(response.message());
                 logger.error("Unsuccessful response for POST request to " + endpoint);
                 return null;
             }
