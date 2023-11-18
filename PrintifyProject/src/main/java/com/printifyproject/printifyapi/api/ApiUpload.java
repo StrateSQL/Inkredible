@@ -15,7 +15,7 @@ public class ApiUpload {
 
     public void ArchiveUploadedImage(String id) {
         var endpoint = String.format("uploads/%s/archive.json", id);
-        apiConnector.postObject(endpoint);
+        apiConnector.postObject(endpoint, "");
     }
 
     public Image GetUploadedImage(String id) {

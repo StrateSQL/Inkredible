@@ -93,33 +93,24 @@ public class ApiConnector {
         }
     }
 
-    public void postObject(String endpoint) {
+    public void postObject(String endpoint, String jsonBody) {
         logger.info(String.format("POST: %s", endpoint));
-        Request request = createPostRequest(endpoint);
-        Response response = null;
 
-        try {
-            response = sendRequest(request);
+        RequestBody requestBody = RequestBody.create(jsonBody, MediaType.parse("application/json"));
 
-            logger.trace(response.message());
-
-            if (!response.isSuccessful()) {
-                logger.warn("Unsuccessful response for POST request to " + endpoint);
-            }
-        } finally {
-            if (response != null) {
-                response.close();
-            }
-        }
-    }
-
-    private Request createPostRequest(String endpoint) {
-        logger.info(String.format("Creating POST request to %s", endpoint));
-        return new Request.Builder()
+        Request request = new Request.Builder()
                 .url(BASE_URL + endpoint)
                 .header("Accept", CONTENT_TYPE)
                 .header("Authorization", "Bearer " + getAuthenticationToken())
+                .post(requestBody)
                 .build();
+
+        try (Response response = sendRequest(request)) {
+            logger.trace(response.message());
+            if (!response.isSuccessful()) {
+                logger.warn("Unsuccessful response for POST request to " + endpoint);
+            }
+        }
     }
 
     private String getAuthenticationToken() {

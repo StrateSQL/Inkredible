@@ -52,11 +52,6 @@ public class   PublicationManager {
 
     public PublicationManager(ProductEntity product) {
         this.product = product;
-        if (product.isPublished())
-            throw new IllegalArgumentException("Cannot publish a published product");
-
-        if ((product.getProductKey() != null && !product.getProductKey().isEmpty()))
-            throw new IllegalArgumentException("Cannot publish a product that has not been uploaded");
 
         ServiceHelper.initContext();
         serviceHelper = new ServiceHelper();
@@ -78,6 +73,9 @@ public class   PublicationManager {
     }
 
     public void UploadProductToPrintify() {
+        if ((product.getProductKey() != null && !product.getProductKey().isEmpty()))
+            throw new IllegalArgumentException("Cannot upload a product that has been uploaded.");
+
         if (product.getProductId() == 0)
             return;
 
@@ -136,7 +134,7 @@ public class   PublicationManager {
         return Base64.getEncoder().encodeToString(fileBytes);
     }
 
-    public void buildProductJson() {
+    private void buildProductJson() {
         this.factory = JsonNodeFactory.instance;
 
         buildVariantArray();
@@ -147,6 +145,7 @@ public class   PublicationManager {
         rootNode.put("description", design.getDescription());
         rootNode.put("blueprint_id", blueprint.getBlueprintKey());
         rootNode.put("print_provider_id", printProvider.getPrintProviderKey());
+        rootNode.put("visible", true);
         rootNode.set("variants", this.variantsArray);
         rootNode.set("print_areas", this.printAreasArray);
 
@@ -166,7 +165,7 @@ public class   PublicationManager {
             ObjectNode variantNode = factory.objectNode();
             int variantId = variant.getVariantKey();
             variantNode.put("id", variantId);
-            variantNode.put("price", 40);
+            variantNode.put("price", 4000);
             String colorToCheck = variant.getColor().getColor();
 
             // Check if colorToCheck exists in productColors
@@ -236,6 +235,9 @@ public class   PublicationManager {
     }
 
     public void PublishPrintify() {
+        if (product.isPublished())
+            throw new IllegalArgumentException("Cannot publish a product that has been published.");
+
         int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
         apiProduct.PublishProduct(shopId, product.getProductKey());
         product.setPublished(true);

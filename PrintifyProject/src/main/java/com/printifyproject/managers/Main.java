@@ -27,10 +27,9 @@ public class Main {
         ServiceHelper serviceHelper = new ServiceHelper();
 
         ProductService productService = serviceHelper.getProductService();
-        ProductEntity product = productService.findById(2).orElse(null);
+        ProductEntity product = productService.findById(4).orElse(null);
         product = productService.uploadPrintify(product);
-        //product = productService.update(product);
-
+        product = productService.publishPrintify(product);
     }
 
 

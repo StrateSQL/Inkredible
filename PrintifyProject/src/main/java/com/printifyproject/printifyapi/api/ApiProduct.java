@@ -56,9 +56,17 @@ public class ApiProduct {
 
     public void PublishProduct(int shopId, String productKey) {
         String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
-        //apiConnector.postObject(endpoint, Product.class);
+        String message = """
+                {
+                    "title": true,
+                    "description": true,
+                    "images": true,
+                    "variants": true,
+                    "tags": true,
+                    "keyFeatures": true,
+                    "shipping_template": true
+                }""";
+
+        apiConnector.postObject(endpoint, message);
     }
-
-
-
 }
