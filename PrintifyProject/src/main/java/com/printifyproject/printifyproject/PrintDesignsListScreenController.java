@@ -2,9 +2,7 @@ package com.printifyproject.printifyproject;
 
 import com.printifyproject.managers.ImageManager;
 import com.printifyproject.orm.model.DesignEntity;
-import com.printifyproject.orm.model.PrintProviderEntity;
 import com.printifyproject.orm.service.DesignService;
-import com.printifyproject.orm.service.PrintProviderService;
 import com.printifyproject.orm.service.ServiceHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,17 +18,13 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
-import static org.springframework.cglib.core.ReflectUtils.getNames;
 
 public class PrintDesignsListScreenController implements Initializable {
 
@@ -45,9 +39,6 @@ public class PrintDesignsListScreenController implements Initializable {
     @FXML
     private Label notificationLabel;
     private DesignService designService;
-
-    private List<Integer> index_list;
-
     private ServiceHelper serviceHelper;
 
 
@@ -59,6 +50,7 @@ public class PrintDesignsListScreenController implements Initializable {
     }
 
     private void loadDesignsList() {
+        existing_designs_choicebox.getItems().clear();
         designService = serviceHelper.getDesignService();
         List<DesignEntity> results = designService.findAll();
         List<String> names = getNames(results);
@@ -66,7 +58,7 @@ public class PrintDesignsListScreenController implements Initializable {
     }
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SelectionScreen.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
@@ -75,7 +67,7 @@ public class PrintDesignsListScreenController implements Initializable {
     }
 
 
-    public void saveNewDesign(ActionEvent event) {
+    public void saveNewDesign() {
         DesignEntity newDesignEntity = new DesignEntity();
         newDesignEntity.setTitle(title_textbox.getText());
         newDesignEntity.setDescription(desc_textbox.getText());
@@ -85,7 +77,7 @@ public class PrintDesignsListScreenController implements Initializable {
         notificationLabel.setText(newDesignEntity.getTitle() + " has been saved");
     }
 
-    public void saveExistingDesign(ActionEvent event) {
+    public void saveExistingDesign() {
         Optional<DesignEntity> newDesignEntity = designService.findDesignByTitle(title_textbox.getText());
         newDesignEntity.ifPresent(
                 designEntity -> {
@@ -111,9 +103,7 @@ public class PrintDesignsListScreenController implements Initializable {
                     desc_textbox.setText(designEntity.getDescription());
                     img_textbox.setText(designEntity.getImage());
                 }
-
         );
-
     }
 
     public void createNewDesign() {
@@ -123,7 +113,6 @@ public class PrintDesignsListScreenController implements Initializable {
     }
 
     public List<String> getNames(List<DesignEntity> list) {
-
         return list.stream()
                 .map(DesignEntity::getTitle)
                 .toList();
@@ -134,9 +123,7 @@ public class PrintDesignsListScreenController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
-
         ImageManager.copyFileToPackageDirectory(file.getAbsolutePath(), file.getName());
-
         img_textbox.setText(file.getAbsolutePath());
 
     }

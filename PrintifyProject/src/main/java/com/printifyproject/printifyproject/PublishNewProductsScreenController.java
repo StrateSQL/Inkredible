@@ -1,6 +1,5 @@
 package com.printifyproject.printifyproject;
 
-import com.printifyproject.managers.PublicationManager;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.model.PrintSpecEntity;
 import com.printifyproject.orm.model.ProductEntity;
@@ -23,6 +22,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
@@ -91,14 +91,14 @@ public class PublishNewProductsScreenController implements Initializable {
     }
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SelectionScreen.fxml")));
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
 
-    public void publishProduct(ActionEvent event){
+    public void publishProduct(){
         ProductEntity product = new ProductEntity();
         Optional<DesignEntity> designEntity =  designService.findDesignByTitle(designChoiceBox.getValue());
         Optional<PrintSpecEntity> printSpecEntity = printSpecService.findBlueprintByTitle(productSpecChoiceBox.getValue());

@@ -15,9 +15,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-import org.jetbrains.annotations.NotNull;
-
-import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
@@ -25,11 +22,6 @@ import java.util.List;
 
 
 public class ProductProfilesListScreenController implements Initializable {
-
-    private Stage stage;
-    private Scene scene;
-    private Parent root;
-
 
     @FXML
     private ChoiceBox<String> productBlueprintChoiceBox;
@@ -43,7 +35,6 @@ public class ProductProfilesListScreenController implements Initializable {
     private TextField gossMarginTextbox;
     @FXML
     private TextField titleTextBox;
-
     @FXML
     private Label notificationLabel;
     @FXML
@@ -51,11 +42,9 @@ public class ProductProfilesListScreenController implements Initializable {
     private BlueprintPrintProviderService blueprintPrintProviderService;
     private ColorService colorService;
     private ServiceHelper serviceHelper;
-
     private BlueprintEntity selectedBlueprintEntity;
     private PrintProviderEntity selectedPrintProviderEntity;
     private BlueprintPrintProviderEntity selectedBlueprintPrintProviderEntity;
-
 
 
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -63,32 +52,21 @@ public class ProductProfilesListScreenController implements Initializable {
         serviceHelper = new ServiceHelper();
         blueprintService = serviceHelper.getBlueprintService();
         List<BlueprintEntity> results = blueprintService.findAll();
-
         List<String> blueprintTitles = getTitles(results);
-
-
-//        Initialization code goes here
         productBlueprintChoiceBox.getItems().addAll(blueprintTitles);
         productBlueprintChoiceBox.setOnAction(this::onSelectedBlueprint);
         printProviderChoiceBox.setOnAction(this::onSelectedPrintProvider);
     }
 
     public List<String> getTitles(List<BlueprintEntity> list) {
-
         return list.stream()
                 .map(BlueprintEntity::getTitle)
                 .toList();
     }
 
     public void onSelectedBlueprint(ActionEvent event){
-
-
         Optional<BlueprintEntity> selectedBlueprint = blueprintService.getBlueprintByTitle(productBlueprintChoiceBox.getValue());
-
-
         blueprintPrintProviderService = serviceHelper.getBlueprintPrintProviderService();
-
-
         selectedBlueprint.ifPresent(
                 blueprintEntity -> {
                     List<String> printProviderNames = blueprintPrintProviderService.getPrintProviderNames(blueprintEntity.getBlueprintId());
@@ -102,7 +80,6 @@ public class ProductProfilesListScreenController implements Initializable {
     public void onSelectedPrintProvider(ActionEvent event){
         PrintProviderService printProviderService = serviceHelper.getPrintProviderService();
         Optional<PrintProviderEntity> selectedPrintProvider = printProviderService.getPrintProviderByName(printProviderChoiceBox.getValue());
-
         selectedPrintProvider.ifPresent(printProviderEntity -> {
             selectedPrintProviderEntity = printProviderEntity;
             Optional<BlueprintPrintProviderEntity> blueprintPrintProviderEntity =  blueprintPrintProviderService.findByKeys(selectedBlueprintEntity,selectedPrintProviderEntity);
@@ -112,22 +89,18 @@ public class ProductProfilesListScreenController implements Initializable {
                 colorsChoiceBox.getItems().addAll(colorEntitySet);
                 selectedBlueprintPrintProviderEntity = blueprintPrintProviderEntity1;
             });
-
         });
-
-
-
     }
 
-    public void addColorToColorList(ActionEvent event){
+    public void addColorToColorList(){
         String color = colorsChoiceBox.getValue();
         colorsList.getItems().add(color);
     }
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SelectionScreen.fxml")));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
@@ -143,7 +116,7 @@ public class ProductProfilesListScreenController implements Initializable {
 
         // get selected colors
         List<String> colors =  colorsList.getItems();
-        Set<PrintSpecColorEntity> printSpecColorSet = new HashSet<PrintSpecColorEntity>();
+        Set<PrintSpecColorEntity> printSpecColorSet = new HashSet<>();
 
         for (String color : colors){
             PrintSpecColorEntity printSpecColorEntity = new PrintSpecColorEntity(printSpecEntity,colorService.findByColor(color));
@@ -151,7 +124,6 @@ public class ProductProfilesListScreenController implements Initializable {
         }
 
         printSpecEntity.setColors(printSpecColorSet);
-
         printSpecService.add(printSpecEntity);
         notificationLabel.setText(printSpecEntity.getName() + " was saved");
 
