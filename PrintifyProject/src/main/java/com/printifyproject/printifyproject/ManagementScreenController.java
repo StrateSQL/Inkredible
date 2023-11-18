@@ -24,9 +24,12 @@ public class ManagementScreenController {
         stage.show();
     }
 
-    public void callPrintifyLoader(){
+    public void callPrintifyLoader() throws InterruptedException {
         loadingAPILabel.setText("Refreshing Printify API ... Please wait");
-        PrintifyLoader.process();
+        callLoaderFunction();
         loadingAPILabel.setText("Printify API has been refreshed");
     }
+
+    private void callLoaderFunction(){PrintifyLoader.process();}
+
 }

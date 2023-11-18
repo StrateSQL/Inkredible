@@ -14,6 +14,6 @@
             <Font name="Yu Gothic Light" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="loadingAPILabel" layoutX="222.0" layoutY="184.0" prefHeight="18.0" prefWidth="92.0" />
+      <Label fx:id="loadingAPILabel" layoutX="222.0" layoutY="184.0" prefHeight="18.0" prefWidth="210.0" />
    </children>
 </AnchorPane>

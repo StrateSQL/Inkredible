@@ -75,9 +75,6 @@ public class PublishedProductsScreenController implements Initializable {
 
         notificationLabel.setText("All selected products have been uploaded");
 
-
-
-
     }
 
     private void populateUnpublishedProductsList(){
@@ -115,8 +112,6 @@ public class PublishedProductsScreenController implements Initializable {
         selectedProductsList.refresh();
         populateUnpublishedProductsList();
         notificationLabel.setText("All selected products have been published");
-
-
 
     }
 }

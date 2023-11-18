@@ -1,17 +1,13 @@
 package com.printifyproject.printifyproject;
 
-import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class SelectionScreenController
 {
@@ -21,45 +17,39 @@ public class SelectionScreenController
 
 
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("SelectionScreen.fxml"));
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SelectionScreen.fxml")));
+        setStage(event,root);
     }
 
     public void switchToPrintDesignsListScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("PrintDesignsListScreen.fxml"));
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PrintDesignsListScreen.fxml")));
+        setStage(event,root);
     }
     public void switchToProductProfilesListScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("ProductProfilesListScreen.fxml"));
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ProductProfilesListScreen.fxml")));
+        setStage(event,root);
     }
 
     public void switchToPublishedProductsScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("PublishedProductsScreen.fxml"));
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
-
-
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PublishedProductsScreen.fxml")));
+        setStage(event,root);;
     }
 
     public void switchToPublishNewProductScreen(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("PublishNewProducts.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("PublishNewProducts.fxml")));
+        setStage(event,root);
+    }
+
+    public void switchToManagementScreen(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ManagementScreen.fxml")));
+        setStage(event,root);
+    }
+
+    private void setStage(ActionEvent event, Parent root){
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
     }
-
 
 }
