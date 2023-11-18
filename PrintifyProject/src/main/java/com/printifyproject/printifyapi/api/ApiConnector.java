@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class ApiConnector {
     private static final String BASE_URL = "https://api.printify.com/v1/";
@@ -16,7 +17,10 @@ public class ApiConnector {
     private final Logger logger;
 
     public ApiConnector(Logger logger) {
-        this.httpClient = new OkHttpClient();
+        this.httpClient = new OkHttpClient.Builder()
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .build();
         this.logger = logger;
     }
 
@@ -135,6 +139,8 @@ public class ApiConnector {
         RequestBody requestBody = RequestBody.create(jsonRequestBody, MediaType.parse("application/json"));
         Request request = new Request.Builder()
                 .url(BASE_URL + endpoint)
+                .header("Accept", CONTENT_TYPE)
+                .header("Authorization", "Bearer " + getAuthenticationToken())
                 .post(requestBody)
                 .build();
 
