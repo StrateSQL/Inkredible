@@ -69,13 +69,15 @@ public class ProductService {
     }
 
     public ProductEntity publishPrintify(ProductEntity entity) {
-        entity = PublicationManager.publishPrintify(entity);
-        return dao.update(entity);
+        PublicationManager publicationManager = new PublicationManager(entity);
+        publicationManager.PublishPrintify();
+        return dao.update(publicationManager.getProduct());
     }
 
     public ProductEntity uploadPrintify(ProductEntity entity) {
-        entity = PublicationManager.UploadProductToPrintify(entity);
-        return dao.update(entity);
+        PublicationManager publicationManager = new PublicationManager(entity);
+        publicationManager.UploadProductToPrintify();
+        return dao.update(publicationManager.getProduct());
         }
 
 }

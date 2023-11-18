@@ -24,7 +24,7 @@ public class BlueprintPrintProviderEntity {
     private PrintProviderEntity printProvider;
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<BlueprintPrintProviderVariantEntity> colors = new HashSet<>();
+    private Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants = new HashSet<>();
 
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "blueprintPrintProvider", cascade = CascadeType.ALL, orphanRemoval = true)
     private Collection<PrintSpecEntity> printSpecs;
@@ -61,12 +61,12 @@ public class BlueprintPrintProviderEntity {
         this.printProvider = printProvider;
     }
 
-    public Set<BlueprintPrintProviderVariantEntity> getColors() {
-        return colors;
+    public Set<BlueprintPrintProviderVariantEntity> getBlueprintPrintProviderVariants() {
+        return blueprintPrintProviderVariants;
     }
 
-    public void setColors(Set<BlueprintPrintProviderVariantEntity> colors) {
-        this.colors = colors;
+    public void setBlueprintPrintProviderVariants(Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants) {
+        this.blueprintPrintProviderVariants = blueprintPrintProviderVariants;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class BlueprintPrintProviderEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BlueprintPrintProviderEntity that = (BlueprintPrintProviderEntity) o;
-        return id == that.id && Objects.equals(blueprint, that.blueprint) && Objects.equals(printProvider, that.printProvider) && Objects.equals(colors, that.colors);
+        return id == that.id && Objects.equals(blueprint, that.blueprint) && Objects.equals(printProvider, that.printProvider) && Objects.equals(blueprintPrintProviderVariants, that.blueprintPrintProviderVariants);
     }
 
     @Override

@@ -7,18 +7,19 @@ example
 
  */
 
-import javafx.util.Pair;
-
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
 public class ImageManager {
 
-    public static void copyFileToPackageDirectory(String sourceFilePath, String fileName) {
+
+    public static void copyFileToImagesDirectory(String sourceFilePath, String fileName) {
+        String destinationDirectoryPath = "src/main/resources/images/";
+        String destinationFilePath = destinationDirectoryPath + fileName;
+
         File sourceFile = new File(sourceFilePath);
 
         if (!sourceFile.exists() || !sourceFile.isFile()) {
@@ -26,36 +27,14 @@ public class ImageManager {
             return;
         }
 
-        String destinationPackagePath = "com/printifyproject/images/";
-        String destinationDirectoryPath = "src/main/java/" + destinationPackagePath;
-
-        File destinationDirectory = new File(destinationDirectoryPath);
-        if (!destinationDirectory.exists()) {
-            if (!destinationDirectory.mkdirs()) {
-                System.err.println("Failed to create the destination directory.");
-                return;
-            }
-        }
-
-        String destinationFilePath = destinationDirectoryPath + fileName;
-
         try {
             Path source = sourceFile.toPath();
             Path destination = new File(destinationFilePath).toPath();
+            Files.createDirectories(destination.getParent()); // Ensure the destination directory exists
             Files.copy(source, destination, StandardCopyOption.REPLACE_EXISTING);
             System.out.println("File copied successfully to: " + destinationFilePath);
         } catch (IOException e) {
             System.err.println("Error copying the file: " + e.getMessage());
         }
     }
-
-    public static Pair<String, String> splitFilePath(String fullPath) {
-        Path path = FileSystems.getDefault().getPath(fullPath);
-
-        String directory = path.getParent().toString();
-        String filename = path.getFileName().toString();
-
-        return new Pair<>(directory, filename);
-    }
-
 }

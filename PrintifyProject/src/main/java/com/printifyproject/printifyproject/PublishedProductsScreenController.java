@@ -69,8 +69,10 @@ public class PublishedProductsScreenController implements Initializable {
 
         for (String productString : listOfProducts){
             int productID = getIdFromProductName(productString);
-            Optional<ProductEntity> productEntity = productService.findById(productID);
-            productEntity.ifPresent(PublicationManager::UploadProductToPrintify);
+            ProductEntity productEntity = productService.findById(productID).orElse( null);
+            assert productEntity != null;
+            PublicationManager publicationManager = new PublicationManager(productEntity);
+            publicationManager.UploadProductToPrintify();
         }
 
         notificationLabel.setText("All selected products have been uploaded");
@@ -104,8 +106,9 @@ public class PublishedProductsScreenController implements Initializable {
 
         for (String productString : listOfProducts){
             int productID = getIdFromProductName(productString);
-            Optional<ProductEntity> productEntity = productService.findById(productID);
-            productEntity.ifPresent(PublicationManager::UploadProductToPrintify);
+            ProductEntity productEntity = productService.findById(productID).orElse(null);
+            productService.uploadPrintify(productEntity);
+            productService.update(productEntity);
         }
         // Clear products in selected list and refresh non-published products
         selectedProductsList.getItems().clear();

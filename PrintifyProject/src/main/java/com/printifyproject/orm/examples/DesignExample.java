@@ -3,10 +3,11 @@ package com.printifyproject.orm.examples;
 import com.printifyproject.orm.model.DesignEntity;
 import com.printifyproject.orm.service.DesignService;
 import com.printifyproject.orm.service.ServiceHelper;
-import javafx.util.Pair;
 
-import static com.printifyproject.managers.ImageManager.copyFileToPackageDirectory;
-import static com.printifyproject.managers.ImageManager.splitFilePath;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import static com.printifyproject.managers.ImageManager.copyFileToImagesDirectory;
 
 public class DesignExample {
 
@@ -26,13 +27,14 @@ public class DesignExample {
                 "enthusiast or simply appreciate a good joke, this shirt will surely spark conversations and laughter " +
                 "wherever you go. Embrace the unexpected and let the element of surprise be your signature style!</p>\n");
 
-        design.setImage("D:\\Dropbox\\T-Shirts\\04-Produced\\Funny\\Ah The Element Of Surprise\\The Element Of Surprise.png");
+        String sourceImage = "D:\\Dropbox\\T-Shirts\\04-Produced\\Funny\\Ah The Element Of Surprise\\The Element Of Surprise.png";
+        design.setImage("The Element Of Surprise.png");
         design = designService.add(design);
 
-        String image = design.getImage();
-        Pair<String, String> file = splitFilePath(image);
-        copyFileToPackageDirectory(file.getKey(), file.getValue());
+        Path path = Paths.get(sourceImage);
+        String directoryPath = path.getParent().toString();
+        copyFileToImagesDirectory(directoryPath, design.getImage());
 
-        System.out.println(design.toString());
+        System.out.println(design);
     }
 }
