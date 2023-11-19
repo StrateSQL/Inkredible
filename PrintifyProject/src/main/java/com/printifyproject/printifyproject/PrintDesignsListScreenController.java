@@ -66,8 +66,16 @@ public class PrintDesignsListScreenController implements Initializable {
         scene.setFill(Color.rgb(200, 200, 0));
     }
 
+    public void saveDesign(){
+        Optional<Integer> id = designService.getIdByTitle(title_textbox.getText());
+        id.ifPresentOrElse(integer -> {
+                    saveExistingDesign();
+                }, this::saveNewDesign
+        );
+    }
 
-    public void saveNewDesign() {
+
+    private void saveNewDesign() {
         DesignEntity newDesignEntity = new DesignEntity();
         newDesignEntity.setTitle(title_textbox.getText());
         newDesignEntity.setDescription(desc_textbox.getText());
@@ -77,7 +85,7 @@ public class PrintDesignsListScreenController implements Initializable {
         notificationLabel.setText(newDesignEntity.getTitle() + " has been saved");
     }
 
-    public void saveExistingDesign() {
+    private void saveExistingDesign() {
         Optional<DesignEntity> newDesignEntity = designService.findDesignByTitle(title_textbox.getText());
         newDesignEntity.ifPresent(
                 designEntity -> {
@@ -85,6 +93,7 @@ public class PrintDesignsListScreenController implements Initializable {
                     designEntity.setDescription(desc_textbox.getText());
                     designEntity.setImage(img_textbox.getText());
                     designService.update(designEntity);
+                    designService.setModified(designEntity);
                     loadDesignsList();
                     notificationLabel.setText(designEntity.getTitle() + " has been updated");
                 }

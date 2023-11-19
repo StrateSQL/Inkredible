@@ -45,6 +45,11 @@ public class SelectionScreenController
         setStage(event,root);
     }
 
+    public void switchToEditProductsScreen(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("EditProductsScreen.fxml")));
+        setStage(event,root);
+    }
+
     private void setStage(ActionEvent event, Parent root){
         stage = (Stage)((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(root);

@@ -29,8 +29,7 @@
       <ChoiceBox fx:id="existing_designs_choicebox" layoutX="411.0" layoutY="91.0" prefWidth="150.0" />
       <Label layoutX="277.0" layoutY="95.0" text="Update Existing Design" />
       <Button fx:id="newDesignButton" layoutX="108.0" layoutY="91.0" mnemonicParsing="false" onAction="#createNewDesign" style="-fx-background-color: lightgreen;" text="Create New Design" />
-      <Button fx:id="saveDesignButton" layoutX="108.0" layoutY="322.0" mnemonicParsing="false" onAction="#saveNewDesign" style="-fx-background-color: lightgreen;" text="Save New Design" />
-      <Button fx:id="saveDesignButton1" layoutX="246.0" layoutY="322.0" mnemonicParsing="false" onAction="#saveExistingDesign" style="-fx-background-color: lightgreen;" text="Update Existing Design" />
+      <Button fx:id="saveDesignButton" layoutX="108.0" layoutY="322.0" mnemonicParsing="false" onAction="#saveDesign" prefHeight="26.0" prefWidth="207.0" style="-fx-background-color: lightgreen;" text="Save Design" />
       <Button fx:id="selectImageButton" layoutX="333.0" layoutY="276.0" mnemonicParsing="false" onAction="#selectImage" text="Select an Image" />
       <Label fx:id="notificationLabel" layoutX="378.0" layoutY="367.0" prefHeight="18.0" prefWidth="207.0" />
    </children>

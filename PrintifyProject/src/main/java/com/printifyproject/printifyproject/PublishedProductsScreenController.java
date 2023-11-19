@@ -35,8 +35,6 @@ public class PublishedProductsScreenController implements Initializable {
         ServiceHelper serviceHelper = new ServiceHelper();
         productService = serviceHelper.getProductService();
         populateUnpublishedProductsList();
-
-
     }
     public void switchToSelectionScreen(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("SelectionScreen.fxml")));
