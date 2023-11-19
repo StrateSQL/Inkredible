@@ -1,9 +1,6 @@
-package com.printifyproject.managers;
+package com.printifyproject.orm.examples;
 
-import com.printifyproject.orm.model.ProductEntity;
-import com.printifyproject.orm.service.ProductService;
-import com.printifyproject.orm.service.ServiceHelper;
-import com.printifyproject.printifyapi.api.ApiProduct;
+import com.printifyproject.printifyapi.loader.PrintifyLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,21 +10,17 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         //getBlueprintData();
-        //PrintifyLoader.process();
+        PrintifyLoader.process();
         //PublicationManager.UploadProductToPrintify(2);
         //PublishExample.publishProduct();
-
-
-
-        ApiProduct apiProduct = new ApiProduct(logger);
-        ServiceHelper.initContext();
-        ServiceHelper serviceHelper = new ServiceHelper();
-
-        ProductService productService = serviceHelper.getProductService();
-        ProductEntity product = productService.findById(9).orElse(null);
+        //ApiProduct apiProduct = new ApiProduct(logger);
+        //ServiceHelper.initContext();
+        //ServiceHelper serviceHelper = new ServiceHelper();
+        //ProductService productService = serviceHelper.getProductService();
+        //ProductEntity product = productService.findById(9).orElse(null);
         //product = productService.uploadPrintifyProduct(product);
         //product = productService.publishPrintify(product);
-        product = productService.modifyPrintifyProduct(product);
+        //product = productService.modifyPrintifyProduct(product);
     }
 
 
