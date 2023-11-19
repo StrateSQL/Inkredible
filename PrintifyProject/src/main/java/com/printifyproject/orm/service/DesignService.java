@@ -2,6 +2,8 @@ package com.printifyproject.orm.service;
 
 import com.printifyproject.orm.dao.DesignDao;
 import com.printifyproject.orm.model.DesignEntity;
+import com.printifyproject.orm.model.ProductEntity;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +23,7 @@ public class DesignService {
         return dao.insert(entity);
     }
 
-    public List<DesignEntity> add(List<DesignEntity> entities) {
+    public List<DesignEntity> add(@NotNull List<DesignEntity> entities) {
         entities.forEach(dao::insert);
         return entities;
     }
@@ -65,5 +67,11 @@ public class DesignService {
     public Optional<Integer> getIdByTitle(String title) {
         Optional<DesignEntity> design = dao.findByTitle(title);
         return design.map(DesignEntity::getDesignId);
+    }
+
+    public void setModified(@NotNull DesignEntity entity) {
+        for (ProductEntity product : entity.getProducts()) {
+            product.setModified(true);
+        }
     }
 }

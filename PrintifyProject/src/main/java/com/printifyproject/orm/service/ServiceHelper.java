@@ -27,7 +27,7 @@ public class ServiceHelper {
 
     public static void initContext() {
         if (applicationContext == null) {
-            applicationContext = new ClassPathXmlApplicationContext("spring.xml");;
+            applicationContext = new ClassPathXmlApplicationContext("spring.xml");
         }
     }
 

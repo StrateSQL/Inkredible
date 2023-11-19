@@ -34,7 +34,7 @@ public class Blueprint {
     @JsonProperty("images")
     private JsonNode Images;
 
-    private List<String> ImageList = new ArrayList<>();
+    private final List<String> ImageList = new ArrayList<>();
 
     public Blueprint() {
     }

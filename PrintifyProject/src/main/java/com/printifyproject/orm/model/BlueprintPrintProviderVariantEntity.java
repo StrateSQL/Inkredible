@@ -30,6 +30,11 @@ public class BlueprintPrintProviderVariantEntity {
 
     public BlueprintPrintProviderVariantEntity() {}
 
+    public BlueprintPrintProviderVariantEntity(SizeEntity size, BlueprintPrintProviderEntity blueprintPrintProvider) {
+        this.blueprintPrintProvider = blueprintPrintProvider;
+        this.size = size;
+    }
+
     public BlueprintPrintProviderVariantEntity(BlueprintPrintProviderEntity blueprintPrintProvider, int variantKey, String title, SizeEntity size, ColorEntity color) {
         this.blueprintPrintProvider = blueprintPrintProvider;
         this.variantKey = variantKey;

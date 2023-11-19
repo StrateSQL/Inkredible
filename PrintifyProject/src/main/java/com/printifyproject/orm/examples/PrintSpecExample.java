@@ -26,7 +26,7 @@ public class PrintSpecExample {
 
         if (optBlueprint.isPresent()) {
             BlueprintEntity blueprint = optBlueprint.get();
-            System.out.println(blueprint.toString());
+            System.out.println(blueprint);
 
             BlueprintPrintProviderService blueprintPrintProviderService = serviceHelper.getBlueprintPrintProviderService();
             List<String> printProviderNames = blueprintPrintProviderService.getPrintProviderNames(blueprint.getBlueprintId());
@@ -40,7 +40,7 @@ public class PrintSpecExample {
 
             if (optPrintProvider.isPresent()) {
                 PrintProviderEntity printProvider = optPrintProvider.get();
-                System.out.println(printProvider.toString());
+                System.out.println(printProvider);
 
                 Optional<BlueprintPrintProviderEntity> optBlueprintPrintProvider = blueprintPrintProviderService.findByKeys(blueprint, printProvider);
 

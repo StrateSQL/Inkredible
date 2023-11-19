@@ -23,7 +23,7 @@ public class ColorEntity {
     private Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants = new HashSet<>();
 
     @OneToMany(mappedBy = "color", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<PrintSpecColorEntity> printSpecColors = new HashSet<>();
+    private final Set<PrintSpecColorEntity> printSpecColors = new HashSet<>();
 
     public ColorEntity() {}
 
