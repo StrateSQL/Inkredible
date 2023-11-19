@@ -1,8 +1,9 @@
 package com.printifyproject.managers;
 
+import com.printifyproject.orm.model.ProductEntity;
+import com.printifyproject.orm.service.ProductService;
 import com.printifyproject.orm.service.ServiceHelper;
 import com.printifyproject.printifyapi.api.ApiProduct;
-import com.printifyproject.printifyapi.api.ApiUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,24 +17,20 @@ public class Main {
         //PublicationManager.UploadProductToPrintify(2);
         //PublishExample.publishProduct();
 
-        ApiUpload apiUpload = new ApiUpload(logger);
-        //PublicationManager.processImage("2023-10-26 11.36.05.png");
-        //PublicationManager
+
 
         ApiProduct apiProduct = new ApiProduct(logger);
         ServiceHelper.initContext();
         ServiceHelper serviceHelper = new ServiceHelper();
 
-        //ProductService productService = serviceHelper.getProductService();
-        //ProductEntity product = productService.findById(2).orElse(null);
+        ProductService productService = serviceHelper.getProductService();
+        ProductEntity product = productService.findById(9).orElse(null);
         //product = productService.uploadPrintifyProduct(product);
-        //product = productService.modifyPrintifyProduct(product);
         //product = productService.publishPrintify(product);
+        product = productService.modifyPrintifyProduct(product);
     }
 
-    private void testingUpdate() {
 
-    }
 
     private static final Logger logger = LogManager.getLogger(Main.class);
     

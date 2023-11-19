@@ -1,5 +1,7 @@
 package com.printifyproject.printifyapi.api;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.printifyproject.printifyapi.product.Product;
 import com.printifyproject.printifyapi.product.ProductSet;
 import org.apache.logging.log4j.Logger;
@@ -54,25 +56,33 @@ public class ApiProduct {
         return apiConnector.postObject(endpoint, product, Product.class);
     }
 
-    public void PublishProduct(int shopId, String productKey) {
+    public void PublishProduct(int shopId, String productKey, boolean isUpdate) {
         String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
-        String message = """
-                {
-                    "title": true,
-                    "description": true,
-                    "images": true,
-                    "variants": true,
-                    "tags": true,
-                    "keyFeatures": true,
-                    "shipping_template": true
-                }""";
-
+        String message = buildPublishCommand(isUpdate);
         apiConnector.postObject(endpoint, message);
     }
 
-    public Product ModifyProduct(int shopId, Product product) {
-        String productKey = product.getProductKey();
-        String endpoint = String.format("shops/%d/products/%s/publish.json", shopId, productKey);
-        return apiConnector.postObject(endpoint, product, Product.class);
+    private String buildPublishCommand(boolean isUpdate) {
+        JsonNodeFactory factory = JsonNodeFactory.instance;
+
+        ObjectNode rootNode = factory.objectNode();
+        rootNode.put("title", true);
+        rootNode.put("description", true);
+        rootNode.put("images", !isUpdate);
+        rootNode.put("variants", !isUpdate);
+        rootNode.put("tags", !isUpdate);
+        rootNode.put("keyFeatures", !isUpdate);
+        rootNode.put("shipping_template", !isUpdate);
+
+        return rootNode.toString();
+    }
+
+    public void ModifyProduct(int shopId, String jsonBody, String productKey) {
+        String endpoint;
+
+        endpoint = String.format("shops/%d/products/%s.json", shopId, productKey);
+        apiConnector.putObject(endpoint, jsonBody);
+
+        PublishProduct(shopId, productKey, true);
     }
 }

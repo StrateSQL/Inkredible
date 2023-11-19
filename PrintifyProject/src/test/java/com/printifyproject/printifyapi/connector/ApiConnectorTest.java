@@ -10,7 +10,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -36,27 +35,27 @@ class ApiConnectorTest {
         assertEquals(401, apiConnector.sendRequest(unauthenticatedRequest).code());
 
         /* Create & send request to Printify's base URL */
-        Request baseRequest = apiConnector.createRequest("");
+        Request baseRequest = apiConnector.createGetRequest("");
         assertEquals(404, apiConnector.sendRequest(baseRequest).code());
 
         /* Create & send request to retrieve blueprints from catalog */
-        Request blueprintsRequest = apiConnector.createRequest(BLUEPRINTS_URL);
+        Request blueprintsRequest = apiConnector.createGetRequest(BLUEPRINTS_URL);
         assertEquals(200, apiConnector.sendRequest(blueprintsRequest).code());
     }
 
     @Test
     void createRequest() {
         //Create request for shops
-        Request request = apiConnector.createRequest(SHOPS_URL);
+        Request request = apiConnector.createGetRequest(SHOPS_URL);
         assertEquals("GET", request.method());
         assertEquals(BASE_URL + SHOPS_URL, request.url().toString());
 
         //Create request for blueprints belonging to a catalog
-        Request blueprintsRequest = apiConnector.createRequest(BLUEPRINTS_URL);
+        Request blueprintsRequest = apiConnector.createGetRequest(BLUEPRINTS_URL);
         assertEquals(BASE_URL + BLUEPRINTS_URL, blueprintsRequest.url().toString());
 
         //Create request for print providers
-        Request printProvidersRequest = apiConnector.createRequest("catalog/print_providers.json");
+        Request printProvidersRequest = apiConnector.createGetRequest("catalog/print_providers.json");
         assertEquals(BASE_URL + "catalog/print_providers.json", printProvidersRequest.url().toString());
     }
 

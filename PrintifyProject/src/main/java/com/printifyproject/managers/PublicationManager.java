@@ -31,13 +31,12 @@ import java.util.Optional;
 import java.util.Set;
 
 public class   PublicationManager {
-    private ServiceHelper serviceHelper;
+    private final ServiceHelper serviceHelper;
     private final Logger logger;
     private final ProductEntity product;
     private JsonNodeFactory factory;
     private final DesignEntity design;
     private final PrintSpecEntity printSpec;
-    private final Set<PrintSpecColorEntity> printSpecColors;
     private final BlueprintEntity blueprint;
     private final PrintProviderEntity printProvider;
     private final Set<BlueprintPrintProviderVariantEntity> blueprintPrintProviderVariants;
@@ -63,7 +62,6 @@ public class   PublicationManager {
 
         this.design = product.getDesign();
         this.printSpec = product.getPrintSpec();
-        this.printSpecColors = printSpec.getColors();
         BlueprintPrintProviderEntity blueprintPrintProvider = printSpec.getBlueprintPrintProvider();
 
         this.blueprint = blueprintPrintProvider.getBlueprint();
@@ -80,7 +78,7 @@ public class   PublicationManager {
             return;
 
         processImage();
-        buildProductJson();
+        buildProductJson(false);
         apiUploadProductToPrintify();
     }
 
@@ -135,24 +133,22 @@ public class   PublicationManager {
         return Base64.getEncoder().encodeToString(fileBytes);
     }
 
-    private void buildProductJson() {
+    private void buildProductJson(boolean isUpdate) {
         this.factory = JsonNodeFactory.instance;
 
-        buildVariantArray();
-        buildPrintAreasArray();
-
         ObjectNode rootNode = factory.objectNode();
-
-        if (product.getProductKey() != null && !product.getProductKey().isEmpty())
-            rootNode.put("id", product.getProductKey());
-
         rootNode.put("title", design.getTitle() + " - " + printSpec.getName());
         rootNode.put("description", design.getDescription());
-        rootNode.put("blueprint_id", blueprint.getBlueprintKey());
-        rootNode.put("print_provider_id", printProvider.getPrintProviderKey());
         rootNode.put("visible", true);
-        rootNode.set("variants", this.variantsArray);
-        rootNode.set("print_areas", this.printAreasArray);
+
+        if (!isUpdate) {
+            buildVariantArray();
+            buildPrintAreasArray();
+            rootNode.put("blueprint_id", blueprint.getBlueprintKey());
+            rootNode.put("print_provider_id", printProvider.getPrintProviderKey());
+            rootNode.set("variants", this.variantsArray);
+            rootNode.set("print_areas", this.printAreasArray);
+        }
 
         json = rootNode.toString();
     }
@@ -243,7 +239,7 @@ public class   PublicationManager {
 
     public void PublishPrintify() {
         int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
-        apiProduct.PublishProduct(shopId, product.getProductKey());
+        apiProduct.PublishProduct(shopId, product.getProductKey(), false);
         product.setPublished(true);
     }
 
@@ -258,21 +254,14 @@ public class   PublicationManager {
         if (product.getProductId() == 0)
             return;
 
-        buildProductJson();
+        buildProductJson(true);
         apiModifyPrintifyProduct();
     }
 
     private void apiModifyPrintifyProduct() {
-        try {
-            int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
-            ObjectMapper objectMapper = new ObjectMapper();
-            Product printifyProduct = objectMapper.readValue(json, Product.class);
-            printifyProduct = apiProduct.ModifyProduct(shopId, printifyProduct);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
+        int shopId = apiShop.getShops().stream().findFirst().orElse(new Shop()).getShopId();
+        apiProduct.ModifyProduct(shopId, json, product.getProductKey());
     }
-
 }
 
 
