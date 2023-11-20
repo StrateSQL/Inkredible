@@ -61,22 +61,6 @@ public class PublishedProductsScreenController implements Initializable {
         selectedProductsList.getItems().remove(selectedProduct);
     }
 
-    public void uploadAllSelected(){
-//        get all products from selected list
-        List<String> listOfProducts =  selectedProductsList.getItems();
-
-        for (String productString : listOfProducts){
-            int productID = getIdFromProductName(productString);
-            ProductEntity productEntity = productService.findById(productID).orElse( null);
-            assert productEntity != null;
-            PublicationManager publicationManager = new PublicationManager(productEntity);
-            publicationManager.UploadProductToPrintify();
-        }
-
-        notificationLabel.setText("All selected products have been uploaded");
-
-    }
-
     private void populateUnpublishedProductsList(){
         // clear list to remove all previous entries
         allProductsList.getItems().clear();
@@ -97,22 +81,30 @@ public class PublishedProductsScreenController implements Initializable {
         allProductsList.refresh();
 
     }
-
-    public void publishAllSelected(){
-        //        get all products from selected list
+    public void uploadAllSelected(){
+//        get all products from selected list
         List<String> listOfProducts =  selectedProductsList.getItems();
 
         for (String productString : listOfProducts){
             int productID = getIdFromProductName(productString);
-            ProductEntity productEntity = productService.findById(productID).orElse(null);
-            productService.uploadPrintifyProduct(productEntity);
+            ProductEntity productEntity = productService.findById(productID).orElse( null);
+            assert productEntity != null;
+            if (productEntity.getProductKey() == null) {
+                productService.uploadPrintifyProduct(productEntity);
+            }
+            productService.update(productEntity);
+            if (!productEntity.isPublished()) {
+                productService.publishPrintify(productEntity);
+            }
             productService.update(productEntity);
         }
-        // Clear products in selected list and refresh non-published products
+
+        populateUnpublishedProductsList();
         selectedProductsList.getItems().clear();
         selectedProductsList.refresh();
         populateUnpublishedProductsList();
         notificationLabel.setText("All selected products have been published");
 
     }
+
 }

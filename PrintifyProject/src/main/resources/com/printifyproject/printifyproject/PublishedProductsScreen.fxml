@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.printifyproject.printifyproject.PublishedProductsScreenController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.printifyproject.printifyproject.PublishedProductsScreenController">
    <children>
       <Label layoutX="207.0" layoutY="14.0" text="Publish Products">
          <font>
@@ -18,8 +18,7 @@
       <ListView fx:id="selectedProductsList" layoutX="327.0" layoutY="77.0" prefHeight="200.0" prefWidth="260.0" />
       <Button fx:id="addToListButton" layoutX="25.0" layoutY="292.0" mnemonicParsing="false" onAction="#addToSelectedList" text="Select product" />
       <Button fx:id="removeFromListButton" layoutX="134.0" layoutY="292.0" mnemonicParsing="false" onAction="#removeToSelectedList" text="Unselect product" />
-      <Button layoutX="370.0" layoutY="292.0" mnemonicParsing="false" onAction="#uploadAllSelected" text="Upload all in selection" />
-      <Button layoutX="370.0" layoutY="330.0" mnemonicParsing="false" onAction="#publishAllSelected" text="Publish all in Selection" />
+      <Button layoutX="370.0" layoutY="292.0" mnemonicParsing="false" onAction="#uploadAllSelected" text="Publish all in selection" />
       <Label fx:id="notificationLabel" layoutX="327.0" layoutY="368.0" prefHeight="18.0" prefWidth="248.0" />
    </children>
 </AnchorPane>
