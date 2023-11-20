@@ -37,8 +37,24 @@ public class BlueprintPrintProviderVariantService {
     public BlueprintPrintProviderVariantService(ServiceHelper serviceHelper) {
         this.serviceHelper = serviceHelper;
     }
+
     public BlueprintPrintProviderVariantEntity add(BlueprintPrintProviderVariantEntity entity) {
-        return dao.insert(entity);
+        Optional<BlueprintPrintProviderVariantEntity> existingEntity =
+                dao.findByKeys(entity.getBlueprintPrintProvider().getId(), entity.getVariantKey());
+
+        if (existingEntity.isPresent()) {
+            copyState(entity, existingEntity.get());
+            return existingEntity.get();
+        } else {
+            dao.insert(entity);
+            return entity;
+        }
+    }
+
+    private void copyState(BlueprintPrintProviderVariantEntity source, BlueprintPrintProviderVariantEntity target) {
+        target.setTitle(source.getTitle());
+        target.setSize(source.getSize());
+        target.setColor(source.getColor());
     }
 
     public List<BlueprintPrintProviderVariantEntity> addAll(List<BlueprintPrintProviderVariantEntity> entities) throws ExecutionException, InterruptedException {
@@ -103,6 +119,7 @@ public class BlueprintPrintProviderVariantService {
     }
 
     private BlueprintPrintProviderVariantEntity convertVariantToEntity(BlueprintPrintProviderEntity blueprintPrintProviderEntity,Variant variant) {
+
         BlueprintPrintProviderVariantEntity entity = new BlueprintPrintProviderVariantEntity();
         entity.setBlueprintPrintProvider(blueprintPrintProviderEntity);
 

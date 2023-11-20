@@ -84,8 +84,17 @@ public class BlueprintService {
         List<Blueprint> blueprints = apiCatalog.getBlueprints();
 
         List<BlueprintEntity> entities = blueprints.stream()
-                .filter(blueprint -> blueprint.getTitle().toLowerCase().contains("shirt"))
+                .filter(blueprint -> blueprint.getTitle().toLowerCase().contains("tank") ||
+                                    blueprint.getTitle().toLowerCase().contains("tee") ||
+                                    blueprint.getTitle().toLowerCase().contains("shirt"))
                 .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("toy"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("aoc"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("aop"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("mug"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("bottle"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("blanket"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("tumbler"))
+                .filter(blueprint -> !blueprint.getTitle().toLowerCase().contains("stuffed animals"))
                 .map(this::transformBlueprintToEntity)
                 .collect(Collectors.toList());
 
@@ -114,6 +123,7 @@ public class BlueprintService {
     public Optional<BlueprintEntity> getBlueprintByTitle(String title) {
         return dao.findByTitle(title);
     }
+
     public Optional<Integer> getIdByTitle(String title) {
         Optional<BlueprintEntity> blueprintOptional = dao.findByTitle(title);
         return blueprintOptional.map(BlueprintEntity::getBlueprintId);

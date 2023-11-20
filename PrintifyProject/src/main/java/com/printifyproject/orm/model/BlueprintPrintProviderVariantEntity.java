@@ -1,8 +1,10 @@
 package com.printifyproject.orm.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "blueprintprintprovidervariants", schema = "inkcredible")
 public class BlueprintPrintProviderVariantEntity {
     @Id
@@ -20,11 +22,11 @@ public class BlueprintPrintProviderVariantEntity {
     @Column(name = "Title", nullable = false, length = 255)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "SizeId")
     private SizeEntity size;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ColorId")
     private ColorEntity color;
 

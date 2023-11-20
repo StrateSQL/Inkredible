@@ -23,6 +23,21 @@ public class BlueprintPrintProviderVariantDao {
         return Optional.ofNullable(entityManager.find(BlueprintPrintProviderVariantEntity.class, id));
     }
 
+    public Optional<BlueprintPrintProviderVariantEntity> findByKeys(int blueprintPrintProviderId, int variantKey) {
+        try {
+            return Optional.ofNullable(entityManager.createQuery(
+                    "FROM BlueprintPrintProviderVariantEntity " +
+                            "WHERE variantKey = :variantKey " +
+                            "AND blueprintPrintProvider.id = :blueprintPrintProviderId ",
+                            BlueprintPrintProviderVariantEntity.class)
+                    .setParameter("variantKey", variantKey)
+                    .setParameter("blueprintPrintProviderId", blueprintPrintProviderId)
+                    .getSingleResult());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public List<BlueprintPrintProviderVariantEntity> findByBlueprintPrintProvider(int blueprintPrintProviderId) {
         return entityManager.createQuery(
                         "SELECT b " +
