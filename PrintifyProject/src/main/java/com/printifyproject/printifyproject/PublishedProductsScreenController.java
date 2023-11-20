@@ -71,7 +71,6 @@ public class PublishedProductsScreenController implements Initializable {
         productIdList = new ArrayList<>();
 
         for (ProductEntity pEntity : productEntities){
-            System.out.println(pEntity.isPublished());
             String designTitle = pEntity.getDesign().getTitle();
             String printSpecName = pEntity.getPrintSpec().getName();
             allProductsList.getItems().add(designTitle + "-" + printSpecName);
