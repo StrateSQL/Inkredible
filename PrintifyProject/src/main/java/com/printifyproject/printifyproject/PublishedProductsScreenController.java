@@ -1,6 +1,5 @@
 package com.printifyproject.printifyproject;
 
-import com.printifyproject.managers.PublicationManager;
 import com.printifyproject.orm.model.ProductEntity;
 import com.printifyproject.orm.service.ProductService;
 import com.printifyproject.orm.service.ServiceHelper;
@@ -17,7 +16,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
 
 public class PublishedProductsScreenController implements Initializable {

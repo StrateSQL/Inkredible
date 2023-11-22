@@ -12,12 +12,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -133,7 +134,7 @@ public class PrintDesignsListScreenController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         File file = fileChooser.showOpenDialog(stage);
         ImageManager.copyFileToImagesDirectory(file.getAbsolutePath(), file.getName());
-        img_textbox.setText(file.getAbsolutePath());
+        img_textbox.setText(file.getName());
 
     }
 }
